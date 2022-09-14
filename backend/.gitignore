@@ -393,3 +393,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm,django,windows
+
+
+####################################################
+####################################################
+# 사용자 추가
+my_settings.py
