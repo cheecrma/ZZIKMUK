@@ -1,12 +1,10 @@
-import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import TextTest from "./src/components/atom/textTest";
 
-export default function App() {
+export default function textTest() {
   return (
     <View style={styles.container}>
-      <TextTest />
-      <StatusBar style="auto" />
+      <Text>ZZIK MUK</Text>
     </View>
   );
 }
