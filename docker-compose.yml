@@ -10,7 +10,7 @@ services:
             - ./data/certbot/conf:/etc/letsencrypt
             - ./data/certbot/www:/var/www/certbot
         ports:
-            - 8080:8080
+            - 80:80
             - 443:443
 
     certbot:
@@ -25,13 +25,13 @@ services:
             context: frontend_web/
             dockerfile: Dockerfile
         ports:
-            - "8080:8080"
+            - "80:80"
         expose:
-            - "8080"
+            - "80"
 
     backend:
         build:
             context: backend/
             dockerfile: Dockerfile
         ports:
-            - "8000:8000"
+            - "8080:8080"
