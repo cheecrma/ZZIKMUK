@@ -1,6 +1,6 @@
 ﻿FROM python:3.9.13
 
-WORKDIR /var/jenkins_home/workspace/AIProjectDeploy/backend
+WORKDIR /var/jenkins_home/workspace/AiDeploy/backend
 
 COPY requirements.txt ./
 

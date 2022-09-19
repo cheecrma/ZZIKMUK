@@ -1,11 +1,10 @@
 FROM node:16.17.0 as build-stage
-WORKDIR /var/jenkins_home/workspace/AIProjectDeploy/frontend_web
+WORKDIR /var/jenkins_home/workspace/AiDeploy/frontend_web
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-FROM nginx:stable-alpine as production-stage
 
-
-EXPOSE 80
+COPY --from=build-stage /var/jenkins_home/workspace/AiDeploy/frontend_web/dist /usr/share/nginx/html
+EXPOSE 8080
 CMD ["nginx", "-g","daemon off;"]
