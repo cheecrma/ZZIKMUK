@@ -14,7 +14,7 @@ import pandas as pd
 # print(data)
 # f.close()
 
-'''
+
 ### recipe 테이블 생성 ###
 f = open('recipe_crawl_data.csv', 'r', encoding='cp949')
 rdr = csv.reader(f)
@@ -81,7 +81,41 @@ print(recipe_detail)
 # df.to_csv('recipe_detail.csv', encoding='utf-8-sig', index=False)
 
 f.close()
-'''
+
 
 
 ### recipe_ingredient 테이블 생성 ###
+f = open('recipe_crawl_data.csv', 'r', encoding='cp949')
+f2 = open('ingredient.csv', 'r', encoding='cp949')
+rdr = csv.reader(f)
+rdr_ing = csv.reader(f2)
+data = []
+data_ing = []
+for line in rdr:
+  data.append(line)
+for line_ing in rdr_ing:
+  data_ing.append(line_ing)
+
+recipe_ingredient = []
+id = 0
+for i in range(1, len(data)):
+  recipe_id = i
+  temp_d = np.array(literal_eval(data[i][7]))
+  for j in range(len(temp_d)):
+    ingredient_name = temp_d[j][0]
+    ingredient_amount = temp_d[j][1]
+    id += 1
+    for n in range(len(data_ing)):
+      if ingredient_name == data_ing[n][1]:
+        ingredient_id = data_ing[n][0]
+        break
+
+    recipe_ingredient.append([id, recipe_id, ingredient_id, ingredient_amount])
+
+print(recipe_ingredient)
+
+# df = pd.DataFrame(recipe_ingredient, columns=['id', 'recipe_id', 'ingredient_id', 'ingredient_amount'])
+# df.to_csv('recipe_ingredient.csv', encoding='utf-8-sig', index=False)
+
+f.close()
+f2.close()
