@@ -25,9 +25,9 @@ services:
             context: frontend_web/
             dockerfile: Dockerfile
         ports:
-            - "443:443"
+            - "8181:8181"
         expose:
-            - "443"
+            - "8181"
 
     backend:
         build:
