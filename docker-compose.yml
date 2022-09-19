@@ -2,11 +2,6 @@ version: '3'
 
 services:
 
-    certbot:
-        image: certbot/certbot:latest
-        volumes:
-            - ./certbot/www/:/var/www/certbot/:rw
-
     frontend_web:
         build:
             context: frontend_web/
