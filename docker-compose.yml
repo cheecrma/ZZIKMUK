@@ -13,8 +13,8 @@ services:
             - '80:80'
             - '443:443'
         expose:
-            - '80:80'
-            - '443:443'
+            - '80'
+            - '443'
 
     certbot:
         image: certbot/certbot
