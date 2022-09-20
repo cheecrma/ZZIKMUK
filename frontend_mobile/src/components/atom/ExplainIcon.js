@@ -48,7 +48,7 @@ function getWidth(purpose) {
     case "card":
       return "75px"
     default:
-      return "35px"
+      return "44px"
   }
 }
 
