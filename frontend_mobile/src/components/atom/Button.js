@@ -66,7 +66,7 @@ function getBackgroundColor(variant) {
       return "#FDB954";
     case "SubColor":
       return "#FFE48E";
-    case "White":
+    case "white":
       return "white";
     default:
       return "black";
