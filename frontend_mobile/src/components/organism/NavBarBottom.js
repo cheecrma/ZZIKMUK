@@ -1,33 +1,29 @@
-import * as React from "react";
-import { Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import MainPage from "../page/MainPage";
+import RecipePage from "../page/RecipePage";
+import SettingPage from "../page/SettingPage";
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function Tabs() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Main"
+        options={{ headerShown: false }}
+        component={MainPage}
+      />
+      <Tab.Screen
+        name="Recipe"
+        options={{ headerShown: false }}
+        component={RecipePage}
+      />
+      <Tab.Screen
+        name="Setting"
+        options={{ headerShown: false }}
+        component={SettingPage}
+      />
+    </Tab.Navigator>
   );
 }
