@@ -4,6 +4,24 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+
+
+export default function ExplainIcon({ type, iconText, purpose, degree='easy' }) {
+
+  return (
+    <StyledContainer purpose={purpose}>
+      {
+        getIcon(type, purpose, degree)
+      }
+      <IconText purpose={purpose}>
+        {
+          getIconText(type, iconText, degree)
+        }
+      </IconText>
+    </StyledContainer>
+  );
+}
+
 const StyledContainer = styled(View)(({purpose}) => `
   width: ${ getWidth(purpose) };
   height: 7%;
@@ -11,6 +29,10 @@ const StyledContainer = styled(View)(({purpose}) => `
   background-color: ${ getBackgroundColor(purpose) };
   justify-content: center;
   align-items: center;
+`)
+
+const IconText = styled(Text)(({purpose}) => `
+  color: ${ getColor(purpose) }
 `)
 
 function getWidth(purpose) {
@@ -40,45 +62,60 @@ function getBorderRadius(purpose) {
   }
 }
 
-export default function explainIcon({ difficulty, people, time, purpose }) {
+function getColor(purpose) {
+  switch (purpose) {
+    case "card":
+      return "white"
+    default:
+      return "black"
+  }
+}
 
-  return (
-    <StyledContainer purpose={purpose}>
-      {
-        difficulty ?
-
+function getIcon(type, purpose, degree) {
+  switch (type) {
+    case "difficulty":
+      return (
         <MaterialCommunityIcons 
-          name={difficulty === 'hard' ? 'speedometer' : 
-                difficulty === 'normal' ? 'speedometer-medium' :
+          name={degree === 'hard' ? 'speedometer' : 
+                degree === 'normal' ? 'speedometer-medium' :
                 'speedometer-slow'} 
           size={24} 
-          color={purpose === 'card' ? 'white' : 'black'}
-        /> :
-
-        people ?
-
+          color={getColor(purpose)}
+        />
+      )
+    case "people":
+      return (
         <Ionicons 
           name="people-sharp" 
           size={24} 
-          color={purpose === 'card' ? 'white' : 'black'} 
-        /> :
-
+          color={getColor(purpose)} 
+        />
+      )
+    case "time":
+      return (
         <MaterialIcons 
           name="timer" 
           size={24} 
-          color={purpose === 'card' ? 'white' : 'black'} 
+          color={getColor(purpose)} 
         />
+      )
+  }
+}
+
+function getIconText(type, iconText, degree) {
+  switch (type) {
+    case "difficulty":
+      switch (degree) {
+        case "hard":
+          return '어려움'
+        case "normal":
+          return '보통'
+        case "easy":
+          return '쉬움'
       }
-      <Text style={{color: purpose === 'card' ? 'white' : 'black'}}>
-        {
-          difficulty === 'hard' ? '어려움' :
-          difficulty === 'normal' ? '보통' :
-          difficulty === 'easy' ? '쉬움' :
-          people ? `${people}명` :
-          time ? `${time}분` :
-          null
-        }
-      </Text>
-    </StyledContainer>
-  );
+    case "people":
+      return `${iconText}인분`
+    case "time":
+      return `${iconText}분`
+  }
 }
