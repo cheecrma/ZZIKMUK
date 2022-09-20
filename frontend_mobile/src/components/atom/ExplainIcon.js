@@ -5,6 +5,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
 
+/*
+아이콘은 type은 difficulty, people, time 선택 가능하며 
+difficulty에 대한 정도는 degree로 hard, normal, easy 선택 가능하고 기본은 easy입니다.
+purpose가 card인지 아닌지에 따라 크기와 배경색이 변합니다.
+iconText는 음식의 양과 조리 시간을 나타낼 때 사용되는 매개변수 입니다.
+*/
 
 export default function ExplainIcon({ type, iconText, purpose, degree='easy' }) {
 
@@ -22,6 +28,7 @@ export default function ExplainIcon({ type, iconText, purpose, degree='easy' }) 
   );
 }
 
+// 아이콘 배경
 const StyledContainer = styled(View)(({purpose}) => `
   width: ${ getWidth(purpose) };
   height: 7%;
@@ -31,6 +38,7 @@ const StyledContainer = styled(View)(({purpose}) => `
   align-items: center;
 `)
 
+// 아이콘 텍스트
 const IconText = styled(Text)(({purpose}) => `
   color: ${ getColor(purpose) }
 `)
