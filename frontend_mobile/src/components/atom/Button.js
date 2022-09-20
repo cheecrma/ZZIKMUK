@@ -3,8 +3,8 @@ import styled from "styled-components/native";
 import { Text, Pressable, StyleSheet } from "react-native";
 
 /*
-글씨, 배경 색상은 BoldColor, MainColor, SubColor, White 선택할 수 있으며 
-default 컬러는 black이다.
+글씨, 배경 색상은 BoldColor, MainColor, SubColor, White 선택할 수 있으며 default 컬러는 black이다.
+사이즈는 large, medium, small 이 있으며 default값은 미디움과 스몰사이의 사이즈이다.
 다른 컴포넌트에서 버튼안에 들어가는 내용을 기입할 수 있으며 눌렀을 경우 이벤트 발생이 가능하다.
 */
 
