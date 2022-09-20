@@ -6,7 +6,7 @@ purpose에 따라 width, heigth, 그림자 설정이 바뀐다.
 purpose는 card, recipe가 있고 card일 때를 제외하고 그림자가 들어간다.
 */
 
-export default function imageContainer({ purpose , url}) {
+export default function ImageContainer({ purpose , url}) {
 
   return (
     <StyledImageContainer 
@@ -39,7 +39,7 @@ const StyledImageContainer = styled(View)(({purpose}) => `
 function getWidth(purpose) {
   switch (purpose) {
     case "card":
-      return "50%"
+      return "250px"
     case "recipe":
       return "85%"
     default:
@@ -50,7 +50,7 @@ function getWidth(purpose) {
 function getHeight(purpose) {
   switch (purpose) {
     case "card":
-      return "15%"
+      return "132px"
     case "recipe":
       return "25%"
     default:
