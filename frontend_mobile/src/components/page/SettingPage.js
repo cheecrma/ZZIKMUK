@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function page() {
+export default function SettingPage() {
   return (
     <View style={styles.container}>
-      <Text>page</Text>
+      <Text>Setting</Text>
     </View>
   );
 }
