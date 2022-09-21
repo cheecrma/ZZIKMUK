@@ -1,4 +1,4 @@
-# :camera_flash: 찍먹: 찍어먹는 레시피 :fork_and_knife:
+# :sparkles: 찍먹: 찍어먹는 레시피 :fork_and_knife:
 
 ##### SSAFY 7기 특화 프로젝트 A102
 
@@ -7,6 +7,7 @@
 ### feature/BE/ocr branch
 
 - ocr로 영수증 인식해서 재료 추출하는 receipts app
+
 1. ocr로 영수증 글자 인식해서 구매내역 리스트 return
 2. 형태소 분석으로 1의 결과에서 재료 도출해서 client에 return
 
@@ -23,7 +24,8 @@
 4. 기본 라이브러리 install: requirements.txt 활용(버전까지 지정됨)
    `pip install -r requirements.txt`
 5. AI(GCP)를 사용하기 위한 설정
-   1. GCP용 service key를 호출(key/service.py & key.json)
+   1. GCP용 service key를 호출
+      service.py & key.json이 있는 key 폴더를 receipts 안에 복사
    2. GCP-vision 다운로드
       `pip install --upgrade google-cloud-vision`
 6. 프로젝트 실행
