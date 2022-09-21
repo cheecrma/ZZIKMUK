@@ -22,7 +22,7 @@ export default function Tabs() {
       <Tab.Screen
         name="Main"
         component={MainPage}
-        options={{ headerShown: false, tabBarIcon: ({focused}) =>(
+        options={{ headerShown: false,  tabBarIcon: ({focused}) =>(
           <View style={{alignItems: 'center', justifyContent: 'center', top: 5, left: 5}}>
             <Ionicons name="search" size={30} style={{color: focused ? '#FF8B34' : '#000000'}} />
             <Text style={{color: focused ? '#FF8B34' : '#000000', fontSize: 18, fontWeight: 'bold'}}>
@@ -34,7 +34,7 @@ export default function Tabs() {
       <Tab.Screen
         name="CameraReceipt"
         component={CameraReceipt}
-        options={{ headerShown: false, tabBarIcon: () =>(
+        options={{ headerShown: false,tabBarStyle: { display: "none" }, tabBarIcon: () =>(
           <View style={{alignItems: 'center', justifyContent: 'center', top: -25}}>
             <Image
             source={require('../../../static/LogoButton.png')}
