@@ -2,6 +2,14 @@ import React from "react";
 import { StyleSheet, View, ImageBackground } from "react-native";
 import ExplainIcon from '../atom/ExplainIcon'
 
+/*
+thumbnail: 사진 url
+difficulty: 어려움 정도, hard, normal, easy 중 선택
+amount: 음식 양
+time: 조리 시간
+*/
+
+
 export default function RecipeImage({ thumbnail, difficulty, amount, time }) {
 
   return (
