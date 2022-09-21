@@ -2,6 +2,25 @@ import React from "react";
 import { TextInput, View } from "react-native";
 import styled from 'styled-components/native'
 
+/*
+status가 modal일 때와 아닐 때 width, height, borderColor, border, borderRadius가 변합니다.
+onChange로 함수를 받습니다.
+*/
+
+export default function Input({status, onChange = () => {}}) {
+
+  return (
+    <StyledInput 
+      status={status}
+      placeholder={
+        status === 'modal' ? '검색' : '재료, 음식 검색'
+      }
+      onChange={onChange}
+    />
+  );
+}
+
+// 입력창
 const StyledInput = styled(TextInput)(({status}) => `
   border-color: ${ getBorderColor(status) };
   border: ${ getBorderWidth(status) };
@@ -54,17 +73,4 @@ function getBorderRadius(status) {
     default:
       return "0px"
   }
-}
-
-export default function Input({status, onChange = () => {}}) {
-
-  return (
-    <StyledInput 
-      status={status}
-      placeholder={
-        status === 'modal' ? '검색' : '재료, 음식 검색'
-      }
-      onChange={onChange}
-    />
-  );
 }
