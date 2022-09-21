@@ -1,9 +1,7 @@
 import os
 import io
-import uuid
-import time
-import base64
 import json
+import re
 from key import service
 
 service.connect() # service key 연결
@@ -24,16 +22,23 @@ response = client.text_detection(image=image)
 texts = response.text_annotations
 print('Receipt List:')
 
-all_list = texts[0].description.split("\n")
+# 데이터 처리(엔터->sss로 대체, 문자만 남기고 제거, ss 기준으로 나눈 후 공백 제거)
+enter = re.sub(r'[\n]', "sss", texts[0].description)
+all_str = re.sub(r'[\W\s0-9]', "", enter)
+all_list = all_str.split("sss")
+all_list = ' '.join(all_list).split()
+#print(all_list)
+print("-----")
+print("구매내역")
+s, e = 0, len(all_list)-1 # 구매내역 시작, 끝
+
 for i in range(len(all_list)):
-    if all_list[i].isdigit(): # 숫자인건 없애고 싶은데 아직 해결 안됨!
-        print(all_list[i])
-        all_list[i] = '숫자'
-    if '001' in all_list[i]:
-        print(i, "번부터 구매내역")
-        print(all_list[i:])
+    if '상품' in all_list[i]:
+        s = i
+    if '면세' in all_list[i]:
+        e = i
         break
-#print(all_list) # 영수증 글 OCR(좌표 X)
+print(all_list[s+1:e]) # 영수증 글 OCR(좌표 X)
 print("------")
 
 
