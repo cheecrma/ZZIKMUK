@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function RecipePage() {
   return (
     <View style={styles.container}>
-      <Text>Recipe</Text>
+      <Text>RecipePage</Text>
     </View>
   );
 }
