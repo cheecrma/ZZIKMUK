@@ -39,6 +39,7 @@ function RecipeStep({ number, detail }) {
 const styles = StyleSheet.create({
   recipe: {
     height: 280,
+    paddingVertical: 10,
   },
   step: {
     flexDirection: "row",

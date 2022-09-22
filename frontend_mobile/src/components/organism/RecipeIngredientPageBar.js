@@ -17,19 +17,13 @@ export default function RecipeIngredientPageBar({
 
   return (
     <View style={styles.pageBarContainer}>
-      <View style={styles.titleContainer}>
-        <TouchableOpacity style={{alignSelf: "center", padding: 3}} onPress={checkIngredient}>
-          <Text style={styles.title}>재료</Text>
-        </TouchableOpacity>
-        <View style={ index === 0 ? styles.checked : styles.unchecked }></View>
-      </View>
+      <TouchableOpacity style={index === 0 ? styles.checked : styles.unchecked} onPress={() => checkIngredient(0)}>
+        <Text style={styles.title}>재료</Text>
+      </TouchableOpacity>
 
-      <View style={styles.titleContainer}>
-        <TouchableOpacity style={{alignSelf: "center", padding: 3}} onPress={checkRecipe}>
-          <Text style={styles.title}>레시피</Text>
-        </TouchableOpacity>
-        <View style={ index === 1 ? styles.checked : styles.unchecked }></View>
-      </View>
+      <TouchableOpacity style={index === 1 ? styles.checked : styles.unchecked} onPress={() => checkRecipe(1)}>
+        <Text style={styles.title}>레시피</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -37,23 +31,28 @@ export default function RecipeIngredientPageBar({
 const styles = StyleSheet.create({
   pageBarContainer: {
     flexDirection: "row",
-  },
-  titleContainer: {
-    width: "50%",
+    marginTop: 20,
   },
   title: {
-    fontSize: 18
+    fontSize: 18,
+    color: "white",
   },
   checked: {
-    width: "100%",
+    width: "45%",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#FDB954",
-    height: 3,
-    borderRadius: 3,
+    height: 35,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   unchecked: {
-    width: "100%",
-    backgroundColor: "#A1A1A1",
-    height: 3,
-    borderRadius: 5,
+    width: "45%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#BABABA",
+    height: 35,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 })
