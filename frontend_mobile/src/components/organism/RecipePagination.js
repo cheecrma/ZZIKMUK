@@ -17,13 +17,13 @@ export default function RecipePagination({ totalSteps, checkedIndex, check }) {
   }
 
   return (
-    <View style={{flexDirection: "row", alignItems: "center", width: "100%"}}>
+    <View style={styles.container}>
       {
         curX >= 40 ?
         <HiddenPage /> :
         null
       }
-      <View style={styles.container}>
+      <View style={styles.pageContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} onScroll={(event) => handleCurX(event)}>
           {
             totalSteps.map((el, index) => (
@@ -71,14 +71,20 @@ function HiddenPage() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    width: 250,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pageContainer: {
+    flexDirection: "row",
+    width: 220,
     marginHorizontal: 8,
   },
   checkedPage: {
     justifyContent: "center",
     alignItems: "center",
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     borderRadius: 30,
     borderWidth: 2,
     backgroundColor: "#FFE48E",
@@ -88,8 +94,8 @@ const styles = StyleSheet.create({
   uncheckedPage: {
     justifyContent: "center",
     alignItems: "center",
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     borderRadius: 30,
     borderWidth: 2,
     backgroundColor: "white",
