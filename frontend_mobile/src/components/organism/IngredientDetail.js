@@ -16,7 +16,7 @@ export default function IngredientList({ ingredients=[] }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         {
           ingredients.map((detail, index) => (
-            <Ingredient key={index} name="파" amount="1 대" />
+            <Ingredient key={index} name={detail[0]} amount={detail[1]} />
           ))
         }
       </ScrollView>
@@ -53,12 +53,15 @@ function Ingredient({ name, amount }) {
 const styles = StyleSheet.create({
   ingredientList: {
     height: 280,
+    paddingVertical: 10,
   },
   ingredient: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "80%",
-    marginBottom: 12,
+    marginVertical: 6,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   name: {
     fontSize: 18,
