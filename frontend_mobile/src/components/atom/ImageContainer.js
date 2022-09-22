@@ -41,7 +41,7 @@ function getWidth(purpose) {
     case "card":
       return "250px"
     case "recipe":
-      return "85%"
+      return "80%"
     default:
       return "30%"
   }
