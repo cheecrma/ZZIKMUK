@@ -32,4 +32,4 @@ class RecipeIngredient(models.Model):
     id = models.IntegerField(primary_key=True)
     recipe_id = models.ForeignKey(Recipe, models.DO_NOTHING, db_column='recipe_id')
     ingredient_id = models.ForeignKey(Ingredient, models.DO_NOTHING, db_column='ingredient_id')
-    ingredient_ammount = models.TextField(blank=True, null=True)
+    ingredient_amount = models.TextField(blank=True, null=True)
