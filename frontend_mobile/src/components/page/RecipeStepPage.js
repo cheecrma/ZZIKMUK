@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import ImageContainer from "../atom/ImageContainer"
 import RecipePagination from "../organism/RecipePagination"
 import Button from "../atom/Button"
 
@@ -35,7 +34,14 @@ export default function RecipeStepPage({ food }) {
         <View></View>
       </View>
       <View style={styles.content}>
-        <ImageContainer purpose="recipe"/>
+      <View style={styles.imageContainer}>
+        <ImageBackground 
+          style={styles.image}
+          source={{uri: food.thumbnail}}
+          imageStyle={{borderRadius: 10}}
+        >
+        </ImageBackground>
+      </View>
         <View style={styles.step}>
           <Text style={styles.stepText}>{food.recipe[step]}</Text>
         </View>
@@ -152,5 +158,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-evenly",
-  }
+  },
+  imageContainer: {
+    width: 300, 
+    height: 160, 
+    borderRadius: 10, 
+    elevation: 10, 
+    backgroundColor: 'white', 
+    shadowColor: 'black'
+  },
+  image: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
 });

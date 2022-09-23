@@ -53,12 +53,13 @@ function Ingredient({ name, amount }) {
 const styles = StyleSheet.create({
   ingredientList: {
     height: 280,
+    width: "85%",
     paddingVertical: 10,
   },
   ingredient: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%",
+    width: "100%",
     marginVertical: 6,
     marginLeft: "auto",
     marginRight: "auto",
