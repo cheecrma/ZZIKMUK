@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import CarouselCard from "../organism/CarouselCard";
+import CarouselOrganism from "../organism/CarouselOrganism";
 
 export default function MainPage({ navigation }) {
   return (
@@ -17,9 +17,8 @@ export default function MainPage({ navigation }) {
       <Text style={styles.popularText}>
         🔥 오늘 인기 있는 <Text style={styles.RecipeText}>레시피</Text> 🔥
       </Text>
-      <View style={styles.carosel}>
-        <CarouselCard />
-        {/* carosel 받는 부분 organism 작성해서 갖고오기 */}
+      <View style={styles.carousel}>
+        <CarouselOrganism />
       </View>
       <Text style={styles.tipText}>🍯 요리 꿀팁 🍯</Text>
       <View style={styles.tipRandom}>
@@ -59,6 +58,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
   },
+  carousel: {
+    flex:10
+  },
 
   RecipeText: {
     color: "#FF8B34",
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   tipRandom: {
-    flex: 1,
+    flex: 2,
     marginTop: 10,
     width: 330,
     height: 80,
