@@ -12,6 +12,6 @@ COPY . .
 
 RUN python manage.py migrate
 
-RUN Python db_uploader.py
+RUN python db_uploader.py
 
 CMD ["gunicorn", "zzikmuk.wsgi", "--bind", "0.0.0.0:8080"]
