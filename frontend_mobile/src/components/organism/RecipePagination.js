@@ -26,15 +26,12 @@ export default function RecipePagination({ totalSteps, checkedIndex, check }) {
       <View style={styles.pageContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} onScroll={(event) => handleCurX(event)}>
           {
-            totalSteps.map((el, index) => (
-                <Page index={index} check={check} checkedIndex={checkedIndex} />
-              )
-            )
+            paging(totalSteps, checkedIndex, check)
           }
         </ScrollView>
       </View>
       {
-        curX < (totalSteps.length - 6) * 50 ?
+        curX < (totalSteps - 6) * 50 ?
         <HiddenPage /> :
         null
       }
@@ -59,6 +56,16 @@ function Page({ index, checkedIndex, check }) {
       </View>
     </Pressable>
   )
+}
+
+function paging(totalSteps, checkedIndex, check) {
+  const rlt = []
+
+  for (let i = 0; i < totalSteps; i += 1) {
+    rlt.push(<Page index={i} checkedIndex={checkedIndex} check={check} />)
+  }
+
+  return rlt
 }
 
 // 페이지네이션에 보이지 않는 페이지가 있는지 확인할 수 있도록 하는 컴포넌트
