@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
 import RecipeImage from "../organism/RecipeImage";
 import IngredientList from "../organism/IngredientDetail"
 import RecipeIngredientPageBar from "../organism/RecipeIngredientPageBar";
 import RecipeDetail from "../organism/RecipeDetail";
 import Button from "../atom/Button";
+import TopNav from "../organism/TopNav";
 
 export default function RecipePage({ food }) {
   const [index, setIndex] = useState(0)
@@ -16,13 +16,7 @@ export default function RecipePage({ food }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableWithoutFeedback>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableWithoutFeedback>
-        <Text style={styles.title}>{food.name}</Text>
-        <View></View>
-      </View>
+      <TopNav title="추천 레시피" />
       <View style={styles.content}>
         <RecipeImage 
           thumbnail={food.thumbnail} 
@@ -41,11 +35,12 @@ export default function RecipePage({ food }) {
           <RecipeDetail recipe={food.recipe} />
         }
         <Button
-          children="요리 시작"
           color="white"
           variant="MainColor"
-          size="medium" 
-        />
+          size="medium"
+        >
+          <Text>요리 시작</Text>
+        </Button>
       </View>
     </View>
   );
