@@ -4,8 +4,11 @@ import ImageContainer from "../atom/ImageContainer";
 import ExplainIcon from '../atom/ExplainIcon'
 
 /*
-status가 modal일 때와 아닐 때 width, height, borderColor, border, borderRadius가 변합니다.
-onChange로 함수를 받습니다.
+name: 음식 이름
+thumbnail: 음식 사진 url
+difficulty: 어려운 정도
+amount: 음식 양
+time: 조리 시간
 */
 
 export default function Card({ name, thumbnail, difficulty, amount, time }) {
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
     height: 230,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    elevation: 20,
+    elevation: 4,
     shadowColor: 'black',
     backgroundColor: 'white',
     padding: 5,
