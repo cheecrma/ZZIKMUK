@@ -1,62 +1,60 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import RecipePagination from "../organism/RecipePagination"
-import Button from "../atom/Button"
+import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import RecipePagination from "../organism/RecipePagination";
+import Button from "../atom/Button";
 import TopNav from "../organism/TopNav";
 
-
 export default function RecipeStepPage({ food }) {
-  const [step, setStep] = useState(0)
-  const [isPlayed, setIsPlayed] = useState(true)
-  const [isMuted, setIsMuted] = useState(false)
+  const [step, setStep] = useState(0);
+  const [isPlayed, setIsPlayed] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   function changeStep(index) {
-    setStep(index)
+    setStep(index);
   }
 
   function playPauseToggle() {
-    setIsPlayed(!isPlayed)
+    setIsPlayed(!isPlayed);
   }
 
   function muteUnmuteToggle() {
-    setIsMuted(!isMuted)
+    setIsMuted(!isMuted);
   }
 
   return (
     <View style={styles.container}>
       <TopNav title={food.name} />
       <View style={styles.content}>
-      <View style={styles.imageContainer}>
-        <ImageBackground 
-          style={styles.image}
-          source={{uri: food.thumbnail}}
-          imageStyle={{borderRadius: 10}}
-        >
-        </ImageBackground>
-      </View>
+        <View style={styles.imageContainer}>
+          <ImageBackground
+            style={styles.image}
+            source={{ uri: food.thumbnail }}
+            imageStyle={{ borderRadius: 10 }}
+          ></ImageBackground>
+        </View>
         <View style={styles.step}>
           <Text style={styles.stepText}>{food.recipe[step]}</Text>
         </View>
         <View style={styles.soundBtnContainer}>
           <TouchableWithoutFeedback onPress={playPauseToggle}>
             <View style={styles.soundBtn}>
-              {
-                isPlayed ? 
-                <AntDesign name="caretright" size={20} color="white" /> :
+              {isPlayed ? (
+                <AntDesign name="caretright" size={20} color="white" />
+              ) : (
                 <Entypo name="controller-paus" size={20} color="white" />
-              }
+              )}
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={muteUnmuteToggle}>
             <View style={styles.soundBtn}>
-              {
-                !isMuted ? 
-                <Feather name="volume-2" size={20} color="white" /> :
+              {!isMuted ? (
+                <Feather name="volume-2" size={20} color="white" />
+              ) : (
                 <Feather name="volume-x" size={20} color="white" />
-              }
+              )}
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -65,36 +63,20 @@ export default function RecipeStepPage({ food }) {
         </View>
         <RecipePagination totalSteps={food.recipe.length} checkedIndex={step} check={changeStep} />
         <View style={styles.stepBtn}>
-          {
-            step > 0 ?
-            <Button 
-              variant="white" 
-              color="black" 
-              size="small"
-            > 
+          {step > 0 ? (
+            <Button variant="white" color="black" size="small">
               <Text style={styles.btnText}>이전 단계</Text>
-            </Button>:
-
-            null
-          }
-          {
-            step === food.recipe.length - 1 ?
-            <Button 
-              variant="MainColor" 
-              color="white" 
-              size="small"
-            > 
+            </Button>
+          ) : null}
+          {step === food.recipe.length - 1 ? (
+            <Button variant="MainColor" color="white" size="small">
               <Text style={styles.btnText}>요리 끝</Text>
-            </Button>:
-
-            <Button 
-              variant="MainColor" 
-              color="white" 
-              size="small"
-            > 
+            </Button>
+          ) : (
+            <Button variant="MainColor" color="white" size="small">
               <Text style={styles.btnText}>다음 단계</Text>
             </Button>
-          }
+          )}
         </View>
       </View>
     </View>
@@ -109,7 +91,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 24,
     alignItems: "center",
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
   },
   step: {
     backgroundColor: "white",
@@ -149,21 +131,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   imageContainer: {
-    width: 300, 
-    height: 160, 
-    borderRadius: 10, 
-    elevation: 10, 
-    backgroundColor: 'white', 
-    shadowColor: 'black'
+    width: 300,
+    height: 160,
+    borderRadius: 10,
+    elevation: 10,
+    backgroundColor: "white",
+    shadowColor: "black",
   },
   image: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    width: '100%',
-    height: '100%',
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    width: "100%",
+    height: "100%",
     borderRadius: 10,
   },
   btnText: {
     fontSize: 20,
-  }
+  },
 });

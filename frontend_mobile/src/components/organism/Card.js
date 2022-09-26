@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import ImageContainer from "../atom/ImageContainer";
-import ExplainIcon from '../atom/ExplainIcon'
+import ExplainIcon from "../atom/ExplainIcon";
 
 /*
 name: 음식 이름
@@ -12,7 +12,6 @@ time: 조리 시간
 */
 
 export default function Card({ name, thumbnail, difficulty, amount, time }) {
-
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{name}</Text>
@@ -32,11 +31,11 @@ const styles = StyleSheet.create({
   card: {
     width: 350,
     height: 230,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
+    alignItems: "center",
+    justifyContent: "space-evenly",
     elevation: 4,
-    shadowColor: 'black',
-    backgroundColor: 'white',
+    shadowColor: "black",
+    backgroundColor: "white",
     padding: 5,
     borderRadius: 15,
     marginBottom: 20,
@@ -45,11 +44,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   cardContent: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   icons: {
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
-})
+});
