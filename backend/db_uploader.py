@@ -10,6 +10,7 @@ django.setup()
 from recipes.models import *  # django.setup() 이후에 임포트해야 오류가 나지 않음
 
 
+
 '''
 # ingredient table 삽입
 CSV_PATH_PRODUCTS='tables/ingredient.csv'
