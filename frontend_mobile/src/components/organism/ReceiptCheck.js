@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Alert,
-  Modal,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable, Alert, Modal, TouchableWithoutFeedback } from "react-native";
 import Button from "../atom/Button";
 import DottedLine from "../atom/DottedLine";
 import { EvilIcons } from "@expo/vector-icons";
@@ -37,9 +29,7 @@ export default function Receipt() {
                   marginBottom: 25,
                 }}
               >
-                <TouchableWithoutFeedback
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
+                <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
                   <AntDesign name="arrowleft" size={24} color="black" />
                 </TouchableWithoutFeedback>
                 <Text style={styles.title}>재료 추가 하기</Text>
@@ -64,12 +54,7 @@ export default function Receipt() {
       <DottedLine />
       <View style={styles.receiptTotal}>
         <Text style={styles.receiptTotalName}>Total: 4</Text>
-        <Button
-          size="small"
-          color="BoldColor"
-          variant="white"
-          onPress={() => setModalVisible(true)}
-        >
+        <Button size="small" color="BoldColor" variant="white" onPress={() => setModalVisible(true)}>
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>재료 추가</Text>
         </Button>
       </View>

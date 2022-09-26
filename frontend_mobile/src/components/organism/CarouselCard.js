@@ -10,21 +10,10 @@ amount: 음식 양, 숫자
 time: 조리 시간, 숫자
 */
 
-export default function CarouselCard({
-  name,
-  thumbnail,
-  difficulty,
-  amount,
-  time,
-  views,
-}) {
+export default function CarouselCard({ name, thumbnail, difficulty, amount, time, views }) {
   return (
     <View style={styles.container}>
-      <ImageBackground
-        style={styles.image}
-        source={{ uri: thumbnail }}
-        imageStyle={{ borderRadius: 10 }}
-      >
+      <ImageBackground style={styles.image} source={{ uri: thumbnail }} imageStyle={{ borderRadius: 10 }}>
         <View style={styles.contentBackground}>
           <View style={styles.contentText}>
             <Text style={styles.contentTitle}>{name}</Text>
@@ -43,8 +32,8 @@ export default function CarouselCard({
 
 const styles = StyleSheet.create({
   container: {
-    width: 330,
-    height: 330,
+    width: 300,
+    height: 300,
     borderRadius: 10,
     elevation: 10,
     backgroundColor: "white",

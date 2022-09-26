@@ -9,35 +9,22 @@ check: 보고있는 페이지를 변화시키는 함수
 
 // 단계별 레시피 조회 화면 페이지네이션 바
 export default function RecipePagination({ totalSteps, checkedIndex, check }) {
-  const [curX, setCurX] = useState(0)
+  const [curX, setCurX] = useState(0);
 
   // 현재 스크롤 좌표 설정
   function handleCurX(x) {
-    setCurX(x.nativeEvent.contentOffset.x)
+    setCurX(x.nativeEvent.contentOffset.x);
   }
 
   return (
     <View style={styles.container}>
-      {
-        curX >= 40 ?
-        <HiddenPage /> :
-        null
-      }
+      {curX >= 40 ? <HiddenPage /> : null}
       <View style={styles.pageContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} onScroll={(event) => handleCurX(event)}>
-          {
-            totalSteps.map((el, index) => (
-                <Page index={index} check={check} checkedIndex={checkedIndex} />
-              )
-            )
-          }
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} onScroll={event => handleCurX(event)}>
+          {paging(totalSteps, checkedIndex, check)}
         </ScrollView>
       </View>
-      {
-        curX < (totalSteps.length - 6) * 50 ?
-        <HiddenPage /> :
-        null
-      }
+      {curX < (totalSteps - 6) * 50 ? <HiddenPage /> : null}
     </View>
   );
 }
@@ -47,25 +34,27 @@ function Page({ index, checkedIndex, check }) {
   return (
     <Pressable onPress={() => check(index)}>
       <View style={index === checkedIndex ? styles.checkedPage : styles.uncheckedPage}>
-        <Text 
-          style={
-            index === checkedIndex ? 
-            {color: "black", fontSize: 20} : 
-            {color: "#BABABA", fontSize: 20}
-          }
-        >
-            {index + 1}
+        <Text style={index === checkedIndex ? { color: "black", fontSize: 20 } : { color: "#BABABA", fontSize: 20 }}>
+          {index + 1}
         </Text>
       </View>
     </Pressable>
-  )
+  );
+}
+
+function paging(totalSteps, checkedIndex, check) {
+  const rlt = [];
+
+  for (let i = 0; i < totalSteps; i += 1) {
+    rlt.push(<Page index={i} checkedIndex={checkedIndex} check={check} />);
+  }
+
+  return rlt;
 }
 
 // 페이지네이션에 보이지 않는 페이지가 있는지 확인할 수 있도록 하는 컴포넌트
 function HiddenPage() {
-  return (
-    <View style={styles.hiddenPage}></View>
-  )
+  return <View style={styles.hiddenPage}></View>;
 }
 
 const styles = StyleSheet.create({
@@ -108,4 +97,4 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 5,
   },
-})
+});

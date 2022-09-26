@@ -10,12 +10,7 @@ import { Text, Pressable, StyleSheet } from "react-native";
 
 export default function Button({ children, color, size, variant, onPress }) {
   return (
-    <Container
-      size={size}
-      variant={variant}
-      onPress={onPress}
-      style={styles.buttonBox}
-    >
+    <Container size={size} variant={variant} onPress={onPress} style={styles.buttonBox}>
       <Title color={color}>{children}</Title>
     </Container>
   );
@@ -46,7 +41,7 @@ const Container = styled(Pressable)(
   border-radius: 10px;
   justify-content: center;
   background-color: ${getBackgroundColor(variant)};
-`
+`,
 );
 
 // 버튼 내부에 들어갈 내용
@@ -55,7 +50,7 @@ const Title = styled(Text)(
   color: ${getColor(color)};
   text-align: center;
   font-size: 26px;
-`
+`,
 );
 
 function getBackgroundColor(variant) {

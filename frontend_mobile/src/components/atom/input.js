@@ -9,11 +9,7 @@ onChange로 함수를 받습니다.
 
 export default function Input({ status, onChange = () => {} }) {
   return (
-    <StyledInput
-      status={status}
-      placeholder={status === "modal" ? "검색" : "재료, 음식 검색"}
-      onChange={onChange}
-    />
+    <StyledInput status={status} placeholder={status === "modal" ? "검색" : "재료, 음식 검색"} onChange={onChange} />
   );
 }
 
@@ -26,7 +22,7 @@ const StyledInput = styled(TextInput)(
   height: ${getHeight(status)};
   border-radius: ${getBorderRadius(status)};
   padding: 2px;
-`
+`,
 );
 
 function getBorderWidth(status) {

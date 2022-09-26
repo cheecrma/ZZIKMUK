@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import CarouselCard from "../organism/CarouselCard";
+import CarouselOrganism from "../organism/CarouselOrganism";
 
 export default function MainPage({ navigation }) {
   return (
@@ -17,15 +17,13 @@ export default function MainPage({ navigation }) {
       <Text style={styles.popularText}>
         🔥 오늘 인기 있는 <Text style={styles.RecipeText}>레시피</Text> 🔥
       </Text>
-      <View style={styles.carosel}>
-        <CarouselCard />
-        {/* carosel 받는 부분 organism 작성해서 갖고오기 */}
+      <View style={styles.carousel}>
+        <CarouselOrganism />
       </View>
       <Text style={styles.tipText}>🍯 요리 꿀팁 🍯</Text>
       <View style={styles.tipRandom}>
         <Text style={styles.tipContent}>
-          계란을 삶을 때 소금과 식초를 넣어주면 계란이 깨지지 않고 껍질을 쉽게
-          분리하게 해줍니다.
+          계란을 삶을 때 소금과 식초를 넣어주면 계란이 깨지지 않고 껍질을 쉽게 분리하게 해줍니다.
         </Text>
       </View>
       <View style={styles.empty}></View>
@@ -59,6 +57,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
   },
+  carousel: {
+    flex: 10,
+  },
 
   RecipeText: {
     color: "#FF8B34",
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   tipRandom: {
-    flex: 1,
+    flex: 2,
     marginTop: 10,
     width: 330,
     height: 80,
