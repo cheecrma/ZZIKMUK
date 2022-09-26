@@ -4,10 +4,7 @@ import { TouchableOpacity, Image, StyleSheet } from "react-native";
 export default function App() {
   return (
     <TouchableOpacity onPress={() => alert("hello!")}>
-      <Image
-        style={styles.container}
-        source={require("../../../static/LogoButton.png")}
-      />
+      <Image style={styles.container} source={require("../../../static/LogoButton.png")} />
     </TouchableOpacity>
   );
 }

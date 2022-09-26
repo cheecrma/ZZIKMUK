@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import RecipePagination from "../organism/RecipePagination"
-import Button from "../atom/Button"
-
+import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+import RecipePagination from "../organism/RecipePagination";
+import Button from "../atom/Button";
 
 export default function ComplatePage({ food }) {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState(0);
 
   function changeStep(index) {
-    setStep(index)
+    setStep(index);
   }
 
   return (
@@ -25,26 +24,15 @@ export default function ComplatePage({ food }) {
       </View>
       <View style={styles.content}>
         <View style={styles.imageContainer}>
-          <ImageBackground 
+          <ImageBackground
             style={styles.image}
-            source={{uri: food.thumbnail}}
-            imageStyle={{borderRadius: 10}}
-          >
-          </ImageBackground>
+            source={{ uri: food.thumbnail }}
+            imageStyle={{ borderRadius: 10 }}
+          ></ImageBackground>
         </View>
         <Text style={styles.contentText}>완성!</Text>
-        <Button 
-          variant="white" 
-          color="black" 
-          children="이전 단계"
-          size="midium"
-        />
-        <Button 
-          variant="MainColor" 
-          color="white" 
-          children="메인으로"
-          size="midium"
-        />
+        <Button variant="white" color="black" children="이전 단계" size="midium" />
+        <Button variant="MainColor" color="white" children="메인으로" size="midium" />
       </View>
     </View>
   );
@@ -69,24 +57,24 @@ const styles = StyleSheet.create({
   content: {
     flex: 24,
     alignItems: "center",
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
   },
   contentText: {
     fontSize: 26,
   },
   imageContainer: {
-    width: 340, 
-    height: 200, 
-    borderRadius: 10, 
-    elevation: 10, 
-    backgroundColor: 'white', 
-    shadowColor: 'black'
+    width: 340,
+    height: 200,
+    borderRadius: 10,
+    elevation: 10,
+    backgroundColor: "white",
+    shadowColor: "black",
   },
   image: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    width: '100%',
-    height: '100%',
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    width: "100%",
+    height: "100%",
     borderRadius: 10,
   },
 });

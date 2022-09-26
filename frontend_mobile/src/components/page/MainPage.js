@@ -23,8 +23,7 @@ export default function MainPage({ navigation }) {
       <Text style={styles.tipText}>🍯 요리 꿀팁 🍯</Text>
       <View style={styles.tipRandom}>
         <Text style={styles.tipContent}>
-          계란을 삶을 때 소금과 식초를 넣어주면 계란이 깨지지 않고 껍질을 쉽게
-          분리하게 해줍니다.
+          계란을 삶을 때 소금과 식초를 넣어주면 계란이 깨지지 않고 껍질을 쉽게 분리하게 해줍니다.
         </Text>
       </View>
       <View style={styles.empty}></View>
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   carousel: {
-    flex:10
+    flex: 10,
   },
 
   RecipeText: {
