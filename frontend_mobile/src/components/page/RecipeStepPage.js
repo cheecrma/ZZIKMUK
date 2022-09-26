@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import RecipePagination from "../organism/RecipePagination"
 import Button from "../atom/Button"
+import TopNav from "../organism/TopNav";
 
 
 export default function RecipeStepPage({ food }) {
@@ -26,13 +27,7 @@ export default function RecipeStepPage({ food }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableWithoutFeedback>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableWithoutFeedback>
-        <Text style={styles.title}>{food.name}</Text>
-        <View></View>
-      </View>
+      <TopNav title={food.name} />
       <View style={styles.content}>
       <View style={styles.imageContainer}>
         <ImageBackground 
@@ -68,16 +63,18 @@ export default function RecipeStepPage({ food }) {
         <View style={styles.explain}>
           <Text>오케이 구글~ 레시피 넘겨줘</Text>
         </View>
-        <RecipePagination totalSteps={food.recipe} checkedIndex={step} check={changeStep} />
+        <RecipePagination totalSteps={food.recipe.length} checkedIndex={step} check={changeStep} />
         <View style={styles.stepBtn}>
           {
             step > 0 ?
             <Button 
               variant="white" 
               color="black" 
-              children="이전 단계"
               size="small"
-            /> :
+            > 
+              <Text style={styles.btnText}>이전 단계</Text>
+            </Button>:
+
             null
           }
           {
@@ -85,15 +82,18 @@ export default function RecipeStepPage({ food }) {
             <Button 
               variant="MainColor" 
               color="white" 
-              children="요리 끝"
               size="small"
-            /> :
+            > 
+              <Text style={styles.btnText}>요리 끝</Text>
+            </Button>:
+
             <Button 
               variant="MainColor" 
               color="white" 
-              children="다음 단계"
               size="small"
-            />
+            > 
+              <Text style={styles.btnText}>다음 단계</Text>
+            </Button>
           }
         </View>
       </View>
@@ -105,17 +105,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-    margin: 15,
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "800",
   },
   content: {
     flex: 24,
@@ -174,4 +163,7 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 10,
   },
+  btnText: {
+    fontSize: 20,
+  }
 });
