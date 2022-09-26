@@ -59,6 +59,7 @@ export default function Tabs() {
         component={SettingPage}
         options={{
           headerShown: false,
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: "center", justifyContent: "center", top: 5, right: 5 }}>
               <Ionicons name="fast-food-outline" size={30} style={{ color: focused ? "#FF8B34" : "#000000" }} />
