@@ -12,8 +12,6 @@
 
 팀원: 강승리, 권수린, 성지훈, 신재은
 
-
-
 <br>
 
 ---
@@ -33,7 +31,10 @@
       service.py & key.json이 있는 key 폴더를 receipts 안에 복사
    2. GCP-vision 다운로드
       `pip install --upgrade google-cloud-vision`
-6. 프로젝트 실행
+6. DB 확인
+   1. db.sqlite3를 opendb 해서 사용할 reciepes\_ 테이블에 데이터 있는지 확인
+   2. 없으면 `db_uploader.py` 주석 해제하고 실행
+7. 프로젝트 실행
    `python manage.py runserver`
    +) 파일 실행
    `python (실행파일.py)`
@@ -46,6 +47,10 @@
    `python manage.py startapp (app 이름)`
 2. urls, templates(필요시) 따로 생성
    `app_name = '(app 이름)'`: 양식은 recipes/apps.py 참고
+   `templates\(app이름)`: 폴더에 index.html 생성, 양식은 base.html 참고
+   1. 프로젝트 폴더의 `settings.py`에 INSTALLED_APPS에 앱 이름 추가
+   2. 프로젝트 폴더의 `urls.py`에 해당 app의 path 연결
+3. runserver해서 페이지 제대로 뜨는지 확인
 
 <br>
 
@@ -54,8 +59,6 @@
 #### :heart: frontend
 
 .
-
-
 
 #### :blue_heart: backend
 
@@ -73,3 +76,18 @@
 
 - 프로젝트 내부 app2
 - 영수증 인식과 관련된 service(ocr 등)
+
+<br>
+
+### 설명
+
+#### :heart: frontend
+
+.
+
+#### :blue_heart: backend
+
+##### Django
+
+- MTV(Model-Template-View) 패턴 프레임워크
+- View를 FBV(Function Basec View)로 작성

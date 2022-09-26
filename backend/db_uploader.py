@@ -10,7 +10,7 @@ django.setup()
 from recipes.models import *  # django.setup() 이후에 임포트해야 오류가 나지 않음
 
 
-'''
+
 # ingredient table 삽입
 CSV_PATH_PRODUCTS='tables/ingredient.csv'
 
@@ -79,4 +79,3 @@ with open(CSV_PATH_PRODUCTS, 'rt') as in_file:
         ingredient_amount_csv = row[3]
         RecipeIngredient.objects.create(id=id_csv, recipe_id=recipe_id_pk, ingredient_id=ingredient_id_pk,
                                     ingredient_amount=ingredient_amount_csv)
-'''
