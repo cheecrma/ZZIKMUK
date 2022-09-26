@@ -14,7 +14,7 @@ from recipes.models import *  # django.setup() 이후에 임포트해야 오류�
 # ingredient table 삽입
 CSV_PATH_PRODUCTS='tables/ingredient.csv'
 
-with open(CSV_PATH_PRODUCTS) as in_file:
+with open(CSV_PATH_PRODUCTS, 'rt', encoding='cp949') as in_file:
     data_reader = csv.reader(in_file)
     next(data_reader, None) # 출력시 함께 출력되는 맨첫줄을 제외하고 출력하기 위함
     for row in data_reader:
