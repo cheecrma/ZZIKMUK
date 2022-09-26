@@ -1,19 +1,28 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import SearchPage from "../page/ReceiptPage";
+import CameraReceipt from "../page/CameraReceipt";
+
+const ChatStack = createStackNavigator();
 
 export default function SettingPage() {
   return (
-    <View style={styles.container}>
-      <Text>SettingPage</Text>
-    </View>
+    <ChatStack.Navigator>
+      <ChatStack.Screen
+        name="Hello"
+        component={SearchPage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <ChatStack.Screen
+        name="ChatRoom"
+        component={CameraReceipt}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </ChatStack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
