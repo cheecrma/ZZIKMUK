@@ -3,11 +3,11 @@ import Input from "../atom/input";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function SearchPage() {
+export default function SearchPage({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate("Main")}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableWithoutFeedback>
         <View style={{ width: 300, backgroundColor: "white", borderRadius: 5 }}>

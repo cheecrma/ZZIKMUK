@@ -6,11 +6,7 @@ export default function MainPage({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.logoBoxText}>
-        <Text
-          style={styles.logoText}
-          onPress={() => navigation.navigate("Main")}
-          // 웹페이지 url 이동도 나쁘지 않을 듯
-        >
+        <Text style={styles.logoText} onPress={() => navigation.navigate("Main")}>
           ZZIKMUK
         </Text>
       </View>
