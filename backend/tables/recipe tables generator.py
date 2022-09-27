@@ -16,7 +16,7 @@ import pandas as pd
 
 
 ### recipe 테이블 생성 ###
-f = open('recipe_crawl_data.csv', 'r', encoding='cp949')
+f = open('recipe_crawl_data.csv', 'r', encoding='UTF8')
 rdr = csv.reader(f)
 data = []
 for line in rdr:
