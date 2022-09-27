@@ -6,8 +6,7 @@ from django.http import Http404
 
 from .serializers import IngredientSerializer, RecipeSerializer, RecipeDetailSerializer, RecipeIngredientSerializer
 from .models import Ingredient, Recipe, RecipeDetail, RecipeIngredient
-
-@ensure_csrf_cookie
+from recipes import serializers
 
 # Create your views here.
 def index(request):
@@ -34,8 +33,8 @@ class IngredientInfo(APIView):
         serializer = IngredientSerializer(ingredient)
         return Response(serializer.data)
 
-
-# 레시피 정보
+'''
+# 레시피 정보 POST
 class RecipeInfo(APIView):
     def get_object(self, id):
         try:
@@ -45,6 +44,14 @@ class RecipeInfo(APIView):
     
     def post(self, request, id, format=None):
         recipe = self.get_object(id)
+        serializer = RecipeSerializer(recipe)
+        return Response(serializer.data)
+'''
+
+# 레시피 정보 GET
+class RecipeInfo(APIView):
+    def get(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
         serializer = RecipeSerializer(recipe)
         return Response(serializer.data)
 
