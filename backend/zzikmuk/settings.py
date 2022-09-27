@@ -134,11 +134,14 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = (
     'localhost:8000',
     '127.0.0.1:8000',
+    'http://j7a102.p.ssafy.io:8080',
 )
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
-      '127.0.0.1:8000',
+    '127.0.0.1:8000',
+    'http://j7a102.p.ssafy.io:8080',
+
 )
 
 CORS_ALLOW_HEADERS = (
