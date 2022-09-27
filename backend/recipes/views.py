@@ -7,6 +7,8 @@ from django.http import Http404
 from .serializers import IngredientSerializer, RecipeSerializer, RecipeDetailSerializer, RecipeIngredientSerializer
 from .models import Ingredient, Recipe, RecipeDetail, RecipeIngredient
 
+@ensure_csrf_cookie
+
 # Create your views here.
 def index(request):
     ingre = Ingredient.objects.get(id=100)
