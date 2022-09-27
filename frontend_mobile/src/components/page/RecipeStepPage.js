@@ -10,7 +10,7 @@ import TopNav from "../organism/TopNav";
 
 export default function RecipeStepPage({ food }) {
   const [step, setStep] = useState(0);
-  const [isPlayed, setIsPlayed] = useState(true);
+  const [isPlayed, setIsPlayed] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
   function changeStep(index) {
