@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } fro
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import RecipePagination from "../organism/RecipePagination";
 import Button from "../atom/Button";
 import TopNav from "../organism/TopNav";
@@ -55,6 +56,11 @@ export default function RecipeStepPage({ food }) {
               ) : (
                 <Feather name="volume-x" size={20} color="white" />
               )}
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback>
+            <View style={styles.soundBtn}>
+              <FontAwesome name="microphone" size={20} color="white" />
             </View>
           </TouchableWithoutFeedback>
         </View>
