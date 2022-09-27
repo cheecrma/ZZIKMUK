@@ -28,7 +28,7 @@ with open(CSV_PATH_PRODUCTS, 'rt', encoding='cp949') as in_file:
 # recipe table 삽입
 CSV_PATH_PRODUCTS='tables/recipe.csv'
 
-with open(CSV_PATH_PRODUCTS, 'rt', encoding='cp949') as in_file:
+with open(CSV_PATH_PRODUCTS, 'rt', encoding='UTF8') as in_file:
     data_reader = csv.reader(in_file)
     next(data_reader, None) # 출력시 함께 출력되는 맨첫줄을 제외하고 출력하기 위함
     for row in data_reader:
@@ -48,7 +48,7 @@ with open(CSV_PATH_PRODUCTS, 'rt', encoding='cp949') as in_file:
 # recipe_detail table 삽입
 CSV_PATH_PRODUCTS='tables/recipe_detail.csv'
 
-with open(CSV_PATH_PRODUCTS, 'rt', encoding='cp949') as in_file:
+with open(CSV_PATH_PRODUCTS, 'rt', encoding='UTF8') as in_file:
     data_reader = csv.reader(in_file)
     next(data_reader, None) # 출력시 함께 출력되는 맨첫줄을 제외하고 출력하기 위함
     for row in data_reader:
