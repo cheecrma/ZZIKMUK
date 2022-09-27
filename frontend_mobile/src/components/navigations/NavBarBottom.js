@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import MainPage from "../page/MainPage";
 import CameraReceipt from "../page/CameraReceipt";
-import SettingPage from "../page/SettingPage";
+import SearchPage from "../page/SearchPage";
 
 const Tab = createBottomTabNavigator();
 
@@ -26,16 +26,16 @@ export default function Tabs() {
         component={MainPage}
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <View style={{ alignItems: "center", justifyContent: "center", top: 5, left: 5 }}>
-              <Ionicons name="search" size={30} style={{ color: focused ? "#FF8B34" : "#000000" }} />
-              <Text style={{ color: focused ? "#FF8B34" : "#000000", fontSize: 18, fontWeight: "bold" }}>검색</Text>
+              <Ionicons name="fast-food-outline" size={30} style={{ color: "#000000" }} />
+              <Text style={{ color: "#000000", fontSize: 18, fontWeight: "bold" }}>메인</Text>
             </View>
           ),
         }}
       />
       <Tab.Screen
-        name="CameraReceipt"
+        name="Camera"
         component={CameraReceipt}
         options={{
           headerShown: false,
@@ -55,17 +55,15 @@ export default function Tabs() {
         }}
       />
       <Tab.Screen
-        name="Setting"
-        component={SettingPage}
+        name="Search"
+        component={SearchPage}
         options={{
           headerShown: false,
           tabBarStyle: { display: "none" },
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: () => (
             <View style={{ alignItems: "center", justifyContent: "center", top: 5, right: 5 }}>
-              <Ionicons name="fast-food-outline" size={30} style={{ color: focused ? "#FF8B34" : "#000000" }} />
-              <Text style={{ color: focused ? "#FF8B34" : "#000000", fontSize: 18, fontWeight: "bold" }}>
-                이미지검색
-              </Text>
+              <Ionicons name="search" size={30} style={{ color: "#000000" }} />
+              <Text style={{ color: "#000000", fontSize: 18, fontWeight: "bold" }}>검색</Text>
             </View>
           ),
         }}
