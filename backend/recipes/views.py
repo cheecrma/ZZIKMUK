@@ -1,3 +1,4 @@
+from ast import And
 from http.client import responses
 from django.shortcuts import render
 from rest_framework import status
@@ -23,15 +24,13 @@ def index(request):
     return render(request, 'recipes/index.html', context)
 
 
-# 재료 정보
-class IngredientInfo(APIView):
 
+# 재료 정보 POST
+class IngredientInfo(APIView):
     param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['id'],
     properties={
-        'id': openapi.Schema(type=openapi.TYPE_NUMBER, description="재료 번호")
+        'id': openapi.Schema(type=openapi.TYPE_NUMBER, description="재료 번호"),
     }) 
-
-
     def get_object(self, pk):
         try:
             return Ingredient.objects.get(pk=pk)
@@ -44,27 +43,7 @@ class IngredientInfo(APIView):
         serializer = IngredientSerializer(ingredient)
         return Response(serializer.data)
 
-'''
-# 레시피 정보 POST
-class RecipeInfo(APIView):
-    def get_object(self, id):
-        try:
-            return Recipe.objects.get(pk=id)
-        except Recipe.DoesNotExist:
-            raise Http404
-    
-    def post(self, request, id, format=None):
-        recipe = self.get_object(id)
-        serializer = RecipeSerializer(recipe)
-        return Response(serializer.data)
-'''
 
-# # 레시피 정보 GET
-# class RecipeInfo(APIView):
-#     def get(self, request, id):
-#         recipe = Recipe.objects.get(pk=id)
-#         serializer = RecipeSerializer(recipe)
-#         return Response(serializer.data)
 
 # 레시피 정보 GET
 class RecipeInfo(APIView):
@@ -78,30 +57,45 @@ class RecipeInfo(APIView):
 
 
 
-# 레시피 단계별 정보
+# 레시피 단계별 정보 POST
 class RecipeDetailInfo(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['recipe_id', 'recipe_step'],
+    properties={
+        'recipe_id': openapi.Schema(type=openapi.TYPE_NUMBER, description="레시피 번호"),
+        'recipe_step': openapi.Schema(type=openapi.TYPE_NUMBER, description="요리 단계"),
+    }) 
     def get_object(self, rid, rstep):
         try:
+            print(rid)
+            print(rstep)
             return RecipeDetail.objects.get(recipe_id=rid, recipe_step=rstep)
         except RecipeDetail.DoesNotExist:
             raise Http404
     
-    def post(self, request, rid, rstep, format=None):
-        recipe_d = self.get_object(rid, rstep)
+    @swagger_auto_schema(operation_id="레시피 단계별 정보", operation_description="단계별 정보 불러오기", request_body=param)
+    def post(self, request, format=None):
+        print(request)
+        recipe_d = self.get_object(request.data['recipe_id'], request.data['recipe_step'])
         serializer = RecipeDetailSerializer(recipe_d)
         return Response(serializer.data)
 
 
-# 레시피 재료 정보
+# 레시피 재료 정보 POST
 class RecipeIngredientInfo(APIView):
-    def get_object(self, no):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['id'],
+    properties={
+        'id': openapi.Schema(type=openapi.TYPE_NUMBER, description="레시피 재료 번호"),
+    }) 
+    def get_object(self, id):
         try:
-            return RecipeIngredient.objects.get(pk=no)
+            return RecipeIngredient.objects.get(pk=id)
         except RecipeIngredient.DoesNotExist:
             raise Http404
     
-    def post(self, request, no, format=None):
-        recipe_i = self.get_object(no)
+    @swagger_auto_schema(operation_id="레시피 재료 정보", operation_description="레시피의 번호로 재료 정보 불러오기", request_body=param)
+    def post(self, request, format=None):
+        recipe_i = self.get_object(request.data['id'])
+        print(request)
         serializer = RecipeIngredientSerializer(recipe_i)
         return Response(serializer.data)
 
