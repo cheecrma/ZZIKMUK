@@ -18,6 +18,8 @@ from django.urls import path, include
 from rest_framework.permissions import AllowAny
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+# from . import settings
+# from .. import static
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -39,4 +41,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('recipes/', include('recipes.urls')),
     path('receipts/', include('receipts.urls')),
-]
+ ] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

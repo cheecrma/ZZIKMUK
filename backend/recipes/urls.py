@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:id>/', views.RecipeInfo.as_view()),
     path('detail/<int:rid>/<int:rstep>/', views.RecipeDetailInfo.as_view()),
     path('ingredient/', views.RecipeIngredientInfo.as_view()),
+    path('tips/<int:id>/', views.TipsInfo.as_view()),
 ]
