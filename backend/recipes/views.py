@@ -25,14 +25,22 @@ def index(request):
 
 # 재료 정보
 class IngredientInfo(APIView):
+
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['id'],
+    properties={
+        'id': openapi.Schema(type=openapi.TYPE_NUMBER, description="재료 번호")
+    }) 
+
+
     def get_object(self, pk):
         try:
             return Ingredient.objects.get(pk=pk)
         except Ingredient.DoesNotExist:
             raise Http404
-    
-    def post(self, request, pk, format=None):
-        ingredient = self.get_object(pk)
+
+    @swagger_auto_schema(operation_id="재료 정보", operation_description="재료 번호로 정보 불러오기", request_body=param)
+    def post(self, request, format=None):
+        ingredient = self.get_object(request.data['id'])
         serializer = IngredientSerializer(ingredient)
         return Response(serializer.data)
 
