@@ -7,11 +7,19 @@ import RecipeDetail from "../organism/RecipeDetail";
 import Button from "../atom/Button";
 import TopNav from "../organism/TopNav";
 
-export default function RecipePage({ food }) {
+export default function RecipePage({ food, navigation }) {
   const [index, setIndex] = useState(0);
 
+  /* 재료창, 레시피창 바꾸는 함수
+      0이면 재료, 1이면 레시피
+  */
   function changeIndex(value) {
     setIndex(value);
+  }
+
+  // 단계별 레시피 페이지로 가는 함수
+  function goToStep() {
+    navigation.push("RecipeStep", { food });
   }
 
   return (
@@ -21,7 +29,7 @@ export default function RecipePage({ food }) {
         <RecipeImage thumbnail={food.thumbnail} difficulty={food.difficulty} amount={food.amount} time={food.time} />
         <RecipeIngredientPageBar checkRecipe={changeIndex} checkIngredient={changeIndex} index={index} />
         {index === 0 ? <IngredientList ingredients={food.ingredients} /> : <RecipeDetail recipe={food.recipe} />}
-        <Button color="white" variant="MainColor" size="medium">
+        <Button color="white" variant="MainColor" size="medium" onPress={() => goToStep()}>
           <Text>요리 시작</Text>
         </Button>
       </View>
