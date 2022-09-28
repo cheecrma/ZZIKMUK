@@ -132,7 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
-    'http://j7a102.p.ssafy.io:8080',
+    'https://j7a102.p.ssafy.io',
 ]
 
 # CORS_ORIGIN_ALLOW_ALL = True
