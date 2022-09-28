@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CarouselOrganism from "../organism/CarouselOrganism";
+import { fetchRecipes } from "../../apis/recipes";
 
 export default function MainPage({ navigation }) {
+  // // Network Error 서버가 닫혀있어서?? 내일 다시 확인해보기!
+  // function requestTestSuccess(res) {
+  //   console.log(res.data);
+  // }
+
+  // function requestTestFail(err) {
+  //   console.log(err);
+  // }
+
+  // useEffect(() => {
+  //   fetchRecipes(requestTestSuccess, requestTestFail);
+  // }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.logoBoxText}>
