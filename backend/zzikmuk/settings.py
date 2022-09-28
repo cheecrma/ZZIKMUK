@@ -143,7 +143,7 @@ CORS_ORIGIN_WHITELIST = [
 
 # https://j7a102.p.ssafy.io/api/swagger 실행시 Django Login 화면 설정
 SWAGGER_SETTINGS = {
-   'USE_SESSION_AUTH': False
+   'USE_SESSION_AUTH': True #False
 }
 # CORS_ORIGIN_ALLOW_ALL = True
 
