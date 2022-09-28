@@ -1,7 +1,10 @@
+from http.client import responses
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from django.http import Http404
 
 from .serializers import IngredientSerializer, RecipeSerializer, RecipeDetailSerializer, RecipeIngredientSerializer
@@ -48,12 +51,23 @@ class RecipeInfo(APIView):
         return Response(serializer.data)
 '''
 
+# # 레시피 정보 GET
+# class RecipeInfo(APIView):
+#     def get(self, request, id):
+#         recipe = Recipe.objects.get(pk=id)
+#         serializer = RecipeSerializer(recipe)
+#         return Response(serializer.data)
+
 # 레시피 정보 GET
 class RecipeInfo(APIView):
+    id = openapi.Parameter('id', openapi.IN_PATH, description='recipe id', required=True, type=openapi.TYPE_NUMBER)
+    @swagger_auto_schema(operation_id="레시피 조회", operation_description="레시피 번호로 간단한 레시피 정보 조회",
+    manual_parameters=[id], responses={200: '조회 성공'})
     def get(self, request, id):
         recipe = Recipe.objects.get(pk=id)
         serializer = RecipeSerializer(recipe)
         return Response(serializer.data)
+
 
 
 # 레시피 단계별 정보

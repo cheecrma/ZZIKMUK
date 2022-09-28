@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@gvb*^zu+%ul@i@r$jthe2#_^_&6u#aaip9$i6=uhakbq=8kpg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -33,7 +33,9 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'receipts',
     'recipes',
+    'drf_yasg',
     'rest_framework',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -127,43 +130,45 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = (
-    'localhost:8000',
-    '127.0.0.1:8000',
-    'http://j7a102.p.ssafy.io:8080',
-)
+# CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8000',
-    '127.0.0.1:8000',
-    'http://j7a102.p.ssafy.io:8080',
+# CSRF_TRUSTED_ORIGINS = (
+#     'localhost:8000',
+#     '127.0.0.1:8000',
+#     'j7a102.p.ssafy.io:8080',
+# )
 
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:8000',
+#     '127.0.0.1:8000',
+#     'j7a102.p.ssafy.io:8080',
 
-CORS_ALLOW_HEADERS = (
-    'access-control-allow-credentials',
-    'access-control-allow-origin',
-    'access-control-request-method',
-    'access-control-request-headers',
-    'accept',
-    'accept-encoding',
-    'accept-language',
-    'authorization',
-    'connection',
-    'content-type',
-    'dnt',
-    'credentials',
-    'host',
-    'origin',
-    'user-agent',
-    'X-CSRFToken',
-    'csrftoken',
-    'x-requested-with',
-)
+# )
 
-CSRF_COOKIE_NAME = 'XSRF-TOKEN'
-CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
+# CORS_ALLOW_HEADERS = (
+#     'access-control-allow-credentials',
+#     'access-control-allow-origin',
+#     'access-control-request-method',
+#     'access-control-request-headers',
+#     'accept',
+#     'accept-encoding',
+#     'accept-language',
+#     'authorization',
+#     'connection',
+#     'content-type',
+#     'dnt',
+#     'credentials',
+#     'host',
+#     'origin',
+#     'user-agent',
+#     'X-CSRFToken',
+#     'csrftoken',
+#     'x-requested-with',
+# )
+
+# CSRF_COOKIE_NAME = 'XSRF-TOKEN'
+# CSRF_HEADER_NAME = 'X-XSRF-TOKEN'
