@@ -34,7 +34,7 @@ class ReceiptView(APIView):
         # print(request.data['img'])
         # list = self.receipt_ocr(request.data['img'])
         directory_path = os.path.dirname(__file__)
-        file_path = os.path.join(directory_path, 'img/test1.jpg')
+        file_path = os.path.join(directory_path, request.data['img'])
         list = ocr.receipt_ocr(file_path)
         #list = self.receipt_ocr("img/test1.jpg")
         if len(list) != 0:
