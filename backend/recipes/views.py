@@ -7,8 +7,8 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.http import Http404
 
-from .serializers import IngredientSerializer, RecipeSerializer, RecipeDetailSerializer, RecipeIngredientSerializer
-from .models import Ingredient, Recipe, RecipeDetail, RecipeIngredient
+from .serializers import IngredientSerializer, RecipeSerializer, RecipeDetailSerializer, RecipeIngredientSerializer, TipsSerializer
+from .models import Ingredient, Recipe, RecipeDetail, RecipeIngredient, Tips
 from recipes import serializers
 
 # Create your views here.
@@ -103,4 +103,14 @@ class RecipeIngredientInfo(APIView):
     def post(self, request, no, format=None):
         recipe_i = self.get_object(no)
         serializer = RecipeIngredientSerializer(recipe_i)
+        return Response(serializer.data)
+
+
+# 꿀팁s 정보 GET
+class TipsInfo(APIView):
+    id = openapi.Parameter('id', openapi.IN_PATH, description='tips id', required=True, type=openapi.TYPE_NUMBER)
+    @swagger_auto_schema(operation_id="꿀팁 조회", operation_description="꿀팁 전체 조회", manual_parameters=[id], responses={200: '조회 성공'})
+    def get(self, request, id):
+        tips = Tips.objects.get(pk=id)
+        serializer = TipsSerializer(tips)
         return Response(serializer.data)

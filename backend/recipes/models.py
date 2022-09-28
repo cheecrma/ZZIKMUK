@@ -33,3 +33,7 @@ class RecipeIngredient(models.Model):
     recipe_id = models.ForeignKey(Recipe, models.DO_NOTHING, db_column='recipe_id')
     ingredient_id = models.ForeignKey(Ingredient, models.DO_NOTHING, db_column='ingredient_id')
     ingredient_amount = models.TextField(blank=True, null=True)
+
+class Tips(models.Model):
+    id = models.IntegerField(primary_key=True)
+    tip_content = models.TextField(blank=True, null=True)
