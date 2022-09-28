@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@gvb*^zu+%ul@i@r$jthe2#_^_&6u#aaip9$i6=uhakbq=8kpg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'receipts',
     'recipes',
+    'drf_yasg',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
