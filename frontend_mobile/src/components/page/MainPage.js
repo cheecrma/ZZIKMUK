@@ -2,20 +2,22 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CarouselOrganism from "../organism/CarouselOrganism";
 import { fetchRecipes } from "../../apis/recipes";
+import axios from "axios";
 
 export default function MainPage({ navigation }) {
-  // // Network Error 서버가 닫혀있어서?? 내일 다시 확인해보기!
-  // function requestTestSuccess(res) {
-  //   console.log(res.data);
-  // }
+  ///// test api /////
+  function requestTestSuccess(response) {
+    console.log(response.data);
+  }
 
-  // function requestTestFail(err) {
-  //   console.log(err);
-  // }
+  function requestTestFail(error) {
+    console.log(error.response);
+  }
 
-  // useEffect(() => {
-  //   fetchRecipes(requestTestSuccess, requestTestFail);
-  // }, []);
+  useEffect(() => {
+    fetchRecipes(requestTestSuccess, requestTestFail);
+  }, []);
+  ///// test api /////
 
   return (
     <View style={styles.container}>
