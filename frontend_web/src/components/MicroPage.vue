@@ -1,7 +1,8 @@
 <template>
   <div class="background">
+    <div class="title"></div>
     <div class="phone">
-      <button class="camera-btn"></button>
+      <button class="camera-btn" @click="picture"></button>
     </div>
     <swiper
       :pagination="true"
@@ -11,20 +12,42 @@
       :space-between="50"
       class="swiper-wrapper"
       :speed="1000"
+      @slide-change="turnToReciept"
     >
       <swiper-slide class="swiper-slide">
         <div class="inner">
-          <p>찍먹마트</p>
-          <p><span>소세지 </span><span>2000원</span></p>
-          <p><span>옥수수 </span><span>1200원</span></p>
-          <p><span>치즈 </span><span>6000원</span></p>
+          <img
+            class="reciept-img"
+            v-if="!pictured"
+            src="../assets/reciept.svg"
+            alt=""
+          />
+          <img class="food-img" v-else src="../assets/pasta2.jpg" alt="" />
         </div>
       </swiper-slide>
       <swiper-slide class="swiper-slide">
-        <div class="inner"></div>
+        <div class="inner">
+          <img class="explain-img" src="../assets/first.svg" alt="" />
+          <img class="gif-img" src="../assets/simpson.gif" alt="" />
+        </div>
       </swiper-slide>
       <swiper-slide class="swiper-slide">
-        <div class="inner"></div>
+        <div class="inner">
+          <img class="explain-img" src="../assets/second.svg" alt="" />
+          <img class="gif-img" src="../assets/cooking.gif" alt="" />
+        </div>
+      </swiper-slide>
+      <swiper-slide class="swiper-slide">
+        <div class="inner">
+          <img class="explain-img" src="../assets/third.svg" alt="" />
+          <img class="gif-img" src="../assets/baking.gif" alt="" />
+        </div>
+      </swiper-slide>
+      <swiper-slide class="swiper-slide">
+        <div class="inner">
+          <img class="explain-img" src="../assets/last.svg" alt="" />
+          <img class="gif-img" src="" alt="" />
+        </div>
       </swiper-slide>
     </swiper>
   </div>
@@ -33,6 +56,7 @@
 <script>
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
+import { ref } from "vue";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -67,8 +91,26 @@ export default {
       },
     };
 
+    let pictured = ref(false);
+
+    async function picture() {
+      const background = document.querySelector(".background");
+      background.classList.add("flash-active");
+      await setTimeout(() => {
+        pictured.value = true;
+        background.classList.remove("flash-active");
+      }, 1000);
+    }
+
+    function turnToReciept() {
+      pictured.value = false;
+    }
+
     return {
       swiperOptions,
+      picture,
+      pictured,
+      turnToReciept,
       modules: [Navigation, Pagination, Scrollbar, A11y],
     };
   },
@@ -83,6 +125,10 @@ export default {
   position: relative;
   box-sizing: border-box;
   background: linear-gradient(36deg, #ffc061, #ffecae);
+}
+
+.flash-active {
+  animation: flash 5s;
 }
 
 .phone {
@@ -104,11 +150,18 @@ export default {
   align-self: flex-end;
   border-radius: 50%;
   margin-bottom: 24px;
+  z-index: 10;
+}
+
+.camera-btn:hover {
+  cursor: pointer;
 }
 
 .swiper-wrapper {
   width: 500px;
   height: 100%;
+  position: absolute;
+  left: 520px;
 }
 
 .swiper-wrapper .swiper-slide {
@@ -129,6 +182,10 @@ export default {
   box-sizing: border-box;
   opacity: 0.4;
   transition: 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .swiper-wrapper .swiper-slide-active .inner {
@@ -144,7 +201,7 @@ export default {
   height: 380px;
   position: absolute;
   top: 0px;
-  left: 130px;
+  left: 128px;
   opacity: 0;
   background: #fff;
 }
@@ -173,5 +230,33 @@ export default {
 }
 .swiper-wrapper .swiper-slide-active .inner::after {
   animation: ani 1s ease 0.3s 1;
+}
+
+@keyframes flash {
+  0%,
+  20%,
+  to {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0;
+  }
+}
+
+.reciept-img {
+  width: 240px;
+}
+
+.food-img {
+  height: 400px;
+}
+
+.explain-img {
+  width: 240px;
+}
+
+.gif-img {
+  position: absolute;
+  width: 240px;
 }
 </style>
