@@ -6,6 +6,7 @@ import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import Button from "../atom/Button";
 import { FontAwesome } from "@expo/vector-icons";
+import axios from "axios";
 
 export default function App() {
   let cameraRef = useRef();
@@ -47,20 +48,40 @@ export default function App() {
     };
 
     let savePhoto = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
+      MediaLibrary.saveToLibraryAsync(photo.uri)
+        .then(() => {
+          setPhoto(undefined);
+        })
+        .then(() => {
+          console.log("axios 전");
+          axios
+            .post("https://j7a102.p.ssafy.io/api/receipts/ocr", {
+              //보내고자 하는 데이터
+              img: photo.uri,
+            })
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+              console.log("에러입니다.");
+            });
+        });
+
+      {
+        console.log(photo.uri);
+      }
     };
 
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-        <Button title="Share" onPress={sharePic} color="white" variant="BoldColor">
+        {/* <Button title="Share" onPress={sharePic} color="white" variant="BoldColor">
           공유하기
-        </Button>
+        </Button> */}
         {hasMediaLibraryPermission ? (
           <Button title="Save" onPress={savePhoto} color="white" variant="BoldColor">
-            저장하기
+            재료인식
           </Button>
         ) : undefined}
         <Button title="Discard" onPress={() => setPhoto(undefined)} color="white" variant="BoldColor">
