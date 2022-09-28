@@ -79,3 +79,16 @@ with open(CSV_PATH_PRODUCTS, 'rt', encoding='cp949') as in_file:
         ingredient_amount_csv = row[3]
         RecipeIngredient.objects.create(id=id_csv, recipe_id=recipe_id_pk, ingredient_id=ingredient_id_pk,
                                     ingredient_amount=ingredient_amount_csv)
+
+
+# tips table 삽입
+CSV_PATH_PRODUCTS='tables/tips.csv'
+
+with open(CSV_PATH_PRODUCTS, 'rt', encoding='cp949') as in_file:
+    data_reader = csv.reader(in_file)
+    next(data_reader, None) # 출력시 함께 출력되는 맨첫줄을 제외하고 출력하기 위함
+    for row in data_reader:
+        print(row[0])
+        id_csv = row[0]
+        tip_content_csv = row[1]
+        Tips.objects.create(id=id_csv, tip_content=tip_content_csv)
