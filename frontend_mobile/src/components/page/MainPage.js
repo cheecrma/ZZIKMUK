@@ -1,23 +1,26 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CarouselOrganism from "../organism/CarouselOrganism";
-import { fetchRecipes } from "../../apis/recipes";
-import axios from "axios";
+import { fetchRecipesTips } from "../../apis/recipes";
 
 export default function MainPage({ navigation }) {
-  ///// test api /////
-  function requestTestSuccess(response) {
-    console.log(response.data);
+  /// 랜덤 꿀팁 추천 /////
+  const [tip, setTip] = React.useState([]);
+  const randomTip = Math.floor(Math.random() * 5 + 1);
+
+  function requestTipSuccess(res) {
+    console.log(res.data);
+    setTip(res.data);
   }
 
-  function requestTestFail(error) {
-    console.log(error.response);
+  function requestTipFail(err) {
+    console.log(err);
+    setTip([]);
   }
 
   useEffect(() => {
-    fetchRecipes(requestTestSuccess, requestTestFail);
+    fetchRecipesTips(randomTip, requestTipSuccess, requestTipFail);
   }, []);
-  ///// test api /////
 
   return (
     <View style={styles.container}>
@@ -34,9 +37,7 @@ export default function MainPage({ navigation }) {
       </View>
       <Text style={styles.tipText}>🍯 요리 꿀팁 🍯</Text>
       <View style={styles.tipRandom}>
-        <Text style={styles.tipContent}>
-          계란을 삶을 때 소금과 식초를 넣어주면 계란이 깨지지 않고 껍질을 쉽게 분리하게 해줍니다.
-        </Text>
+        <Text style={styles.tipContent}>{tip.tip_content}</Text>
       </View>
       <View style={styles.empty}></View>
     </View>
