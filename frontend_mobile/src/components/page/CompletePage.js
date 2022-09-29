@@ -1,38 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import RecipePagination from "../organism/RecipePagination";
 import Button from "../atom/Button";
+import { fetchRecipeComplete } from "../../apis/recipes";
+import TopNav from "../organism/TopNav";
 
-export default function ComplatePage({ food }) {
-  const [step, setStep] = useState(0);
+export default function CompletePage({ route, navigation }) {
+  const [food, setFood] = useState([]);
 
-  function changeStep(index) {
-    setStep(index);
+  function requestRecipeCompleteSuccess(res) {
+    console.log(res.data);
+    setFood(res.data);
+  }
+
+  function requestRecipeCompleteFail(err) {
+    console.log(err);
+    setFood([]);
+  }
+
+  useEffect(() => {
+    fetchRecipeComplete(route.params.id, requestRecipeCompleteSuccess, requestRecipeCompleteFail);
+  }, []);
+
+  function goToMain() {
+    navigation.navigate("Main");
+  }
+
+  function goToPrevStpe() {
+    navigation.push("RecipeStep", { id: route.params.id, step: route.params.totalSteps });
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableWithoutFeedback>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableWithoutFeedback>
-        <Text style={styles.title}>{food.name}</Text>
-        <View></View>
-      </View>
+      <TopNav title={food[0]} />
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <ImageBackground
             style={styles.image}
-            source={{ uri: food.thumbnail }}
+            source={{ uri: food[1] }}
             imageStyle={{ borderRadius: 10 }}
           ></ImageBackground>
         </View>
         <Text style={styles.contentText}>완성!</Text>
-        <Button variant="white" color="black" children="이전 단계" size="midium" />
-        <Button variant="MainColor" color="white" children="메인으로" size="midium" />
+        <Button onPress={() => goToPrevStpe()} variant="white" color="black" children="이전 단계" size="midium" />
+        <Button onPress={() => goToMain()} variant="MainColor" color="white" children="메인으로" size="midium" />
       </View>
     </View>
   );
