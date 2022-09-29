@@ -100,11 +100,58 @@ class RecipeIngredientInfo(APIView):
         return Response(serializer.data)
 
 
-# 꿀팁s 정보 GET
+
+
+#################################################### 여기서부터가 찐 ###
+# 레시피 리스트 GET
+class RecipeList(APIView):
+    id = openapi.Parameter('id', openapi.IN_PATH, description='recipe id', required=True, type=openapi.TYPE_NUMBER)
+    @swagger_auto_schema(operation_id="레시피 리스트 조회", operation_description="입력한 레시피 번호를 포함한 5개의 정보 조회", manual_parameters=[id], responses={200: '조회 성공'})
+    def get(self, request, id):
+        r_list = []
+        for i in range(id, id+5):
+            id = i
+            recipes = Recipe.objects.get(pk=id)
+            tmp_list = [recipes.id, recipes.food_name, recipes.level, recipes.servings, recipes.time, recipes.title_img_url]
+            r_list.append(tmp_list)
+        return Response(r_list)
+
+
+# 상세 레시피 조회 POST
+class RecipeDetailList(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['id'],
+    properties={
+        'id': openapi.Schema(type=openapi.TYPE_NUMBER, description="레시피 번호"),
+    }) 
+    def get_object(self, id):
+        try:
+            recipe = Recipe.objects.get(pk=id)
+            ingredients = RecipeIngredient.objects.filter(recipe_id = recipe.id)
+            ing_list = []
+            for i in ingredients:
+                ing_list.append([i.ingredient_id.name, i.ingredient_amount])
+            
+            steps = RecipeDetail.objects.filter(recipe_id = recipe.id)
+            step_list = []
+            for s in steps:
+                step_list.append(s.recipe_content)
+
+            detail_list = [recipe.id, recipe.food_name, recipe.level, recipe.servings, recipe.time, recipe.title_img_url, ing_list, step_list]
+            return detail_list
+
+        except Recipe.DoesNotExist:
+            raise Http404
+
+    @swagger_auto_schema(operation_id="상세 레시피 정보", operation_description="레시피 번호로 상세 정보 불러오기", request_body=param)
+    def post(self, request, format=None):
+        ingredient = self.get_object(request.data['id'])
+        return Response(ingredient)
+
+
+# 요리 꿀팁 정보 GET
 class TipsInfo(APIView):
     id = openapi.Parameter('id', openapi.IN_PATH, description='tips id', required=True, type=openapi.TYPE_NUMBER)
     @swagger_auto_schema(operation_id="꿀팁 조회", operation_description="꿀팁 전체 조회", manual_parameters=[id], responses={200: '조회 성공'})
     def get(self, request, id):
-        tips = Tips.objects.get(pk=id)
-        serializer = TipsSerializer(tips)
-        return Response(serializer.data)
+        tip = Tips.objects.get(pk=id)
+        return Response(tip.tip_content)
