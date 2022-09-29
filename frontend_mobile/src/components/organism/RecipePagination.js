@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 
 /*
@@ -10,17 +10,30 @@ check: 보고있는 페이지를 변화시키는 함수
 // 단계별 레시피 조회 화면 페이지네이션 바
 export default function RecipePagination({ totalSteps, checkedIndex, check }) {
   const [curX, setCurX] = useState(0);
+  const scrollView = useRef();
 
   // 현재 스크롤 좌표 설정
   function handleCurX(x) {
     setCurX(x.nativeEvent.contentOffset.x);
   }
 
+  // 렌더링 될 때마다 현재 스크롤을 볼 수 있도록 함
+  useEffect(() => {
+    if (checkedIndex > 3) {
+      scrollView.current.scrollTo({ x: checkedIndex * 20 });
+    }
+  }, []);
+
   return (
     <View style={styles.container}>
       {curX >= 40 ? <HiddenPage /> : null}
       <View style={styles.pageContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} onScroll={event => handleCurX(event)}>
+        <ScrollView
+          ref={scrollView}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          onScroll={event => handleCurX(event)}
+        >
           {paging(totalSteps, checkedIndex, check)}
         </ScrollView>
       </View>
@@ -35,7 +48,7 @@ function Page({ index, checkedIndex, check }) {
     <Pressable onPress={() => check(index)}>
       <View style={index === checkedIndex ? styles.checkedPage : styles.uncheckedPage}>
         <Text style={index === checkedIndex ? { color: "black", fontSize: 20 } : { color: "#BABABA", fontSize: 20 }}>
-          {index + 1}
+          {index}
         </Text>
       </View>
     </Pressable>
@@ -46,7 +59,7 @@ function paging(totalSteps, checkedIndex, check) {
   const rlt = [];
 
   for (let i = 0; i < totalSteps; i += 1) {
-    rlt.push(<Page index={i} checkedIndex={checkedIndex} check={check} />);
+    rlt.push(<Page key={i} index={i + 1} checkedIndex={checkedIndex} check={check} />);
   }
 
   return rlt;
