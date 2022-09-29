@@ -148,6 +148,58 @@ class RecipeDetailList(APIView):
         return Response(ingredient)
 
 
+# 레시피 단계별 조회 POST
+class RecipeStepList(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['recipe_id', 'recipe_step'],
+    properties={
+        'recipe_id': openapi.Schema(type=openapi.TYPE_NUMBER, description="레시피 번호"),
+        'recipe_step': openapi.Schema(type=openapi.TYPE_NUMBER, description="요리 단계"),
+    }) 
+    def get_object(self, rid, rstep):
+        try:
+            recipe = Recipe.objects.get(pk=rid)
+            step = RecipeDetail.objects.get(recipe_id=rid, recipe_step=rstep)
+            steps = RecipeDetail.objects.filter(recipe_id=rid)
+            
+            detail_list = [recipe.id, recipe.food_name, rstep, step.recipe_img_url, step.recipe_content, len(steps)]
+            return detail_list
+
+        except RecipeDetail.DoesNotExist:
+            raise Http404
+    
+    @swagger_auto_schema(operation_id="레시피 단계별 정보", operation_description="단계별 정보 불러오기", request_body=param)
+    def post(self, request, format=None):
+        print(request)
+        recipe_step = self.get_object(request.data['recipe_id'], request.data['recipe_step'])
+        return Response(recipe_step)
+
+
+# 상세 레시피 조회 POST
+class RecipeCompleteList(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['id'],
+    properties={
+        'id': openapi.Schema(type=openapi.TYPE_NUMBER, description="레시피 번호"),
+    }) 
+    def get_object(self, id):
+        try:
+            recipe = Recipe.objects.get(pk=id)
+            complete_list = [recipe.food_name, recipe.title_img_url]
+            return complete_list
+
+        except Recipe.DoesNotExist:
+            raise Http404
+
+    @swagger_auto_schema(operation_id="음식 완성 정보", operation_description="음식 완성 페이지", request_body=param)
+    def post(self, request, format=None):
+        complete = self.get_object(request.data['id'])
+        return Response(complete)
+
+
+# 인기 레시피 조회 POST -- 작성 예정
+# class RecipePopularList(APIView):
+#     pass
+
+
 # 요리 꿀팁 정보 GET
 class TipsInfo(APIView):
     id = openapi.Parameter('id', openapi.IN_PATH, description='tips id', required=True, type=openapi.TYPE_NUMBER)
