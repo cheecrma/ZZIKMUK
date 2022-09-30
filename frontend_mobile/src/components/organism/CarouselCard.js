@@ -1,9 +1,9 @@
 import React from "react";
-import { StyleSheet, View, ImageBackground, Text } from "react-native";
+import { StyleSheet, View, ImageBackground, Text, Button } from "react-native";
 import ExplainIcon from "../atom/ExplainIcon";
 import { fetchRecipesPopular } from "../../apis/recipes";
 import { useEffect } from "react";
-
+import { useNavigation } from "@react-navigation/native";
 /*
 name: 음식 이름
 thumbnail: 음식 사진 url
@@ -14,6 +14,11 @@ time: 조리 시간, 숫자
 
 export default function CarouselCard({ imageIndex }) {
   const [popular, setPopular] = React.useState([]);
+  const navigation = useNavigation();
+
+  function goRecipePage() {
+    navigation.navigate("Recipe", { id: popular?.[imageIndex]?.[0] });
+  }
 
   function requestPopularSuccess(res) {
     setPopular(res.data);
@@ -39,7 +44,9 @@ export default function CarouselCard({ imageIndex }) {
       >
         <View style={styles.contentBackground}>
           <View style={styles.contentText}>
-            <Text style={styles.contentTitle}>{popular?.[imageIndex]?.[1]}</Text>
+            <Text style={styles.contentTitle} onPress={() => goRecipePage()}>
+              {popular?.[imageIndex]?.[1]}
+            </Text>
             <Text style={styles.contentSub}>현재 {popular?.[imageIndex]?.[6]}명의 유저 관심중</Text>
           </View>
           <View style={styles.icons}>
