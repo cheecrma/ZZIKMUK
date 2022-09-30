@@ -40,6 +40,10 @@ function fetchRecipeComplete(id, success, fail) {
     .catch(fail);
 }
 
+function fetchRecipesPopular(success, fail) {
+  api.post(`recipes/popular/`).then(success).catch(fail);
+}
+
 export {
   fetchRecipes,
   fetchRecipesTips,
@@ -47,4 +51,5 @@ export {
   fetchRecipeDetail,
   fetchRecipeStep,
   fetchRecipeComplete,
+  fetchRecipesPopular,
 };
