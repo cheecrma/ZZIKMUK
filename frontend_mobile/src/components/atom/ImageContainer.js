@@ -51,7 +51,7 @@ function getWidth(purpose) {
 function getHeight(purpose) {
   switch (purpose) {
     case "card":
-      return "132px";
+      return "100%";
     case "recipe":
       return "25%";
     default:
