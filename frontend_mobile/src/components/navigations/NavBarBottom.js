@@ -39,6 +39,7 @@ export default function Tabs() {
         name="Camera"
         component={CameraReceipt}
         options={{
+          unmountOnBlur: true, //새로고침 역할 다른 페이지 이동했다가 오면 새로고침 역할 그래서 카메라 뒤로갔다와도 잘 작동함
           headerShown: false,
           tabBarStyle: { display: "none" },
           tabBarIcon: () => (

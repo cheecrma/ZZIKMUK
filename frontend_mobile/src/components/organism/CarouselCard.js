@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, View, ImageBackground, Text } from "react-native";
 import ExplainIcon from "../atom/ExplainIcon";
+import { fetchRecipesPopular } from "../../apis/recipes";
+import { useEffect } from "react";
 
 /*
 name: 음식 이름
@@ -10,19 +12,40 @@ amount: 음식 양, 숫자
 time: 조리 시간, 숫자
 */
 
-export default function CarouselCard({ name, thumbnail, difficulty, amount, time, views }) {
+export default function CarouselCard({ imageIndex }) {
+  const [popular, setPopular] = React.useState([]);
+
+  function requestPopularSuccess(res) {
+    setPopular(res.data);
+    // console.log(popular);
+  }
+
+  function requestPopularFail(err) {
+    console.log(err);
+    setPopular([]);
+  }
+
+  useEffect(() => {
+    fetchRecipesPopular(requestPopularSuccess, requestPopularFail);
+  }, []);
+
   return (
     <View style={styles.container}>
-      <ImageBackground style={styles.image} source={{ uri: thumbnail }} imageStyle={{ borderRadius: 10 }}>
+      <ImageBackground
+        style={styles.image}
+        source={{ uri: popular?.[imageIndex]?.[5] }}
+        imageStyle={{ borderRadius: 10 }}
+        key={popular?.[imageIndex]?.[0]}
+      >
         <View style={styles.contentBackground}>
           <View style={styles.contentText}>
-            <Text style={styles.contentTitle}>{name}</Text>
-            <Text style={styles.contentSub}>현재 {views}명의 유저 관심중</Text>
+            <Text style={styles.contentTitle}>{popular?.[imageIndex]?.[1]}</Text>
+            <Text style={styles.contentSub}>현재 {popular?.[imageIndex]?.[6]}명의 유저 관심중</Text>
           </View>
           <View style={styles.icons}>
-            <ExplainIcon type="difficulty" degree={difficulty} />
-            <ExplainIcon type="amount" iconText={amount} />
-            <ExplainIcon type="time" iconText={time} />
+            <ExplainIcon type="difficulty" degree={popular?.[imageIndex]?.[2]} />
+            <ExplainIcon type="amount" iconText={popular?.[imageIndex]?.[3]} />
+            <ExplainIcon type="time" iconText={popular?.[imageIndex]?.[4]} />
           </View>
         </View>
       </ImageBackground>
