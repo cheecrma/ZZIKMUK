@@ -14,7 +14,7 @@ export default function TopNav({ title }) {
 
   return (
     <View style={styles.header}>
-      <TouchableWithoutFeedback onPress={() => navigation.pop}>
+      <TouchableWithoutFeedback onPress={() => navigation.pop()}>
         <AntDesign name="arrowleft" size={24} color="black" />
       </TouchableWithoutFeedback>
       <Text style={styles.title}>{title}</Text>

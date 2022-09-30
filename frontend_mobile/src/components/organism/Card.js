@@ -41,10 +41,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   cardTitle: {
-    fontSize: 16,
+    fontSize: 20,
+    fontWeight: "500",
   },
   cardContent: {
     width: "100%",
+    height: "70%",
     flexDirection: "row",
     justifyContent: "space-around",
   },

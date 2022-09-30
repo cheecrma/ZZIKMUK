@@ -200,8 +200,8 @@ export default {
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 100px;
-  left: 618px;
+  top: 10%;
+  left: 40%;
 }
 
 .camera-btn {
@@ -219,10 +219,11 @@ export default {
 }
 
 .swiper-wrapper {
-  width: 500px;
-  height: 100%;
+  width: 300px;
+  height: 600px;
   position: absolute;
-  left: 520px;
+  top: 5%;
+  left: 40%;
 }
 
 .swiper-wrapper .swiper-slide {
@@ -262,7 +263,7 @@ export default {
   height: 380px;
   position: absolute;
   top: 0px;
-  left: 128px;
+  left: 7%;
   opacity: 0;
   background: #fff;
 }
