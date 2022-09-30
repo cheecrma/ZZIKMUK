@@ -31,7 +31,7 @@ export default function App() {
 
   let takePic = async () => {
     let options = {
-      quality: 1,
+      quality: 0.001,
       base64: true,
       exif: false,
     };
@@ -48,29 +48,24 @@ export default function App() {
     };
 
     let savePhoto = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri)
-        .then(() => {
-          setPhoto(undefined);
-        })
-        .then(() => {
-          console.log("axios 전");
-          axios
-            .post("https://j7a102.p.ssafy.io/api/receipts/ocr", {
-              //보내고자 하는 데이터
-              img: photo.uri,
-            })
-            .then(function (response) {
-              console.log(response.data);
-            })
-            .catch(function (error) {
-              console.log(error);
-              console.log("에러입니다.");
-            });
-        });
-
-      {
-        console.log(photo.uri);
-      }
+      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+        setPhoto(undefined);
+      });
+      // .then(() => {
+      //   console.log("axios 전");
+      //   axios
+      //     .post("https://j7a102.p.ssafy.io/api/receipts/ocr", {
+      //       //보내고자 하는 데이터
+      //       img: photo.uri,
+      //     })
+      //     .then(function (response) {
+      //       console.log(response.data);
+      //     })
+      //     .catch(function (error) {
+      //       console.log(error);
+      //       console.log("에러입니다.");
+      //     });
+      // });
     };
 
     return (
@@ -79,6 +74,7 @@ export default function App() {
         {/* <Button title="Share" onPress={sharePic} color="white" variant="BoldColor">
           공유하기
         </Button> */}
+        {/* {console.log(photo.uri)} */}
         {hasMediaLibraryPermission ? (
           <Button title="Save" onPress={savePhoto} color="white" variant="BoldColor">
             재료인식

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CarouselOrganism from "../organism/CarouselOrganism";
 import { fetchRecipesTips } from "../../apis/recipes";
+import axios from "axios";
 
 export default function MainPage({ navigation }) {
   /// 랜덤 꿀팁 추천 /////
@@ -9,7 +10,7 @@ export default function MainPage({ navigation }) {
   const randomTip = Math.floor(Math.random() * 5 + 1);
 
   function requestTipSuccess(res) {
-    console.log(res.data);
+    // console.log(res.data);
     setTip(res.data);
   }
 
@@ -37,7 +38,7 @@ export default function MainPage({ navigation }) {
       </View>
       <Text style={styles.tipText}>🍯 요리 꿀팁 🍯</Text>
       <View style={styles.tipRandom}>
-        <Text style={styles.tipContent}>{tip.tip_content}</Text>
+        <Text style={styles.tipContent}>{tip}</Text>
       </View>
       <View style={styles.empty}></View>
     </View>
