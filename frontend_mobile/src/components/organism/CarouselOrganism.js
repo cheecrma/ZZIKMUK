@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, View, Animated, useWindowDimensions } from "react-native";
 import CarouselCard from "./CarouselCard";
 
-const images = new Array(6).fill("https://images.unsplash.com/photo-1556740749-887f6717d7e4");
+const images = new Array(5).fill();
 
 export default function CarouselOrganism() {
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -36,7 +36,7 @@ export default function CarouselOrganism() {
                 style={{ width: windowWidth, height: 330, alignItems: "center", justifyContent: "center" }}
                 key={imageIndex}
               >
-                <CarouselCard />
+                <CarouselCard imageIndex={imageIndex} />
               </View>
             );
           })}
