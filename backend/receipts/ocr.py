@@ -28,6 +28,8 @@ def receipt_ocr(path): # ocr api로 영수증 인식해서 구매내역 리스�
     print('Receipt List:')
 
     # 데이터 처리(엔터->sss로 대체, 문자만 남기고 제거, ss 기준으로 나눈 후 공백 제거)
+    if len(texts) == 0:
+        return -1
     enter = re.sub(r'[\n]', "sss", texts[0].description)
     all_str = re.sub(r'[\W\s0-9]', "", enter)
     all_list = all_str.split("sss")
