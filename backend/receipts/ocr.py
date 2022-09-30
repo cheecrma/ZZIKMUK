@@ -2,21 +2,24 @@ import os
 import io
 import json
 import re
+import base64
 
 from .key import service
 from google.cloud import vision
 service.connect() # sservice key 연결
 
-# image_path = 'img/test2.jpg' # request에서 전달된 img 파일(base64 encoding)
+# image_path = 'img/test2.jpg' # TEST용
 
 def receipt_ocr(path): # ocr api로 영수증 인식해서 구매내역 리스트 return
 
     client = vision.ImageAnnotatorClient()
     
-
+    '''
+    # 파일 받아올 때는 이걸로 사용
     with io.open(path, 'rb') as f:
-        #content = base64.b64encode(f.read())
         content = f.read()
+    '''
+    content = path # 실제 사용(request(base64 인코딩된 사진 정보)로 받아올때)
 
     image = vision.Image(content=content)
 
@@ -62,4 +65,4 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
 
     # return # 재료리스트 return
 
-#ing_list('img/test2.jpg')
+# ing_list('img/test2.jpg') # TEST용
