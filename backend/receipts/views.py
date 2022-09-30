@@ -42,11 +42,14 @@ class ReceiptView(APIView):
             img = request.data['path']
             list = ocr.receipt_ocr(img)
             #list = self.receipt_ocr("img/test1.jpg")
+            if list == -1:
+                return Response({"message": "Text 없음"}, status=400)
             if len(list) != 0:
                 return Response(list)
             else:
                 return Response("ocr 실패")
         except KeyError:
+            print(request.data)
             return Response({"message": "KEY_ERROR"}, status=400)
         
     
