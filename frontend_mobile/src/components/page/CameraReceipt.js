@@ -31,9 +31,9 @@ export default function App() {
 
   let takePic = async () => {
     let options = {
-      quality: 0.001,
+      quality: 0.01,
       base64: true,
-      exif: false,
+      exif: true,
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
@@ -74,15 +74,17 @@ export default function App() {
         {/* <Button title="Share" onPress={sharePic} color="white" variant="BoldColor">
           공유하기
         </Button> */}
-        {/* {console.log(photo.uri)} */}
-        {hasMediaLibraryPermission ? (
-          <Button title="Save" onPress={savePhoto} color="white" variant="BoldColor">
-            재료인식
+        {/* {console.log(photo)} */}
+        <View style={styles.containerCheck}>
+          {hasMediaLibraryPermission ? (
+            <Button onPress={savePhoto} color="white" variant="BoldColor">
+              재료인식
+            </Button>
+          ) : undefined}
+          <Button onPress={() => setPhoto(undefined)} color="white" variant="BoldColor">
+            다시찍기
           </Button>
-        ) : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} color="white" variant="BoldColor">
-          다시찍기
-        </Button>
+        </View>
       </SafeAreaView>
     );
   }
@@ -106,13 +108,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  containerCheck: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
   buttonContainer: {
-    flex: 1,
+    flex: 2,
     alignItems: "center",
     justifyContent: "flex-end",
   },
   preview: {
-    alignSelf: "stretch",
-    flex: 1,
+    // alignSelf: "stretch",
+    alignItems: "center",
+    // flex: 1,
+    width: "90%",
+    height: "90%",
   },
 });
