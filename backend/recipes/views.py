@@ -140,6 +140,58 @@ class RecipePopularList(APIView):
         return Response(pop_list)
 
 
+# 레시피 검색 POST
+class RecipeSearch(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['text'],
+    properties={
+        'text': openapi.Schema(type=openapi.TYPE_STRING, description="검색할 단어"),
+    }) 
+    def get_object(self, text):
+        try:
+            r_search = Recipe.objects.filter(food_name__contains=text).order_by('-view_count')
+            if len(r_search) > 0:
+                search_list = []
+                for rlt in r_search:
+                    search_list.append([rlt.id, rlt.food_name, rlt.title_img_url, rlt.level, rlt.servings, rlt.time])
+                return search_list
+            else:
+                return("검색하신 '" + text + "'에 일치하는 메뉴가 없습니다.")
+
+        except Recipe.DoesNotExist:
+            raise Http404
+
+    @swagger_auto_schema(operation_id="레시피 검색 기능", operation_description="String 입력으로 레시피 검색", request_body=param)
+    def post(self, request, format=None):
+        search_rlt = self.get_object(request.data['text'])
+        return Response(search_rlt)
+
+
+# 재료 검색 POST
+class IngredientSearch(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['text'],
+    properties={
+        'text': openapi.Schema(type=openapi.TYPE_STRING, description="검색할 단어"),
+    }) 
+    def get_object(self, text):
+        try:
+            i_search = Ingredient.objects.filter(name__contains=text).order_by('name')
+            if len(i_search) > 0:
+                search_list = []
+                for rlt in i_search:
+                    search_list.append([rlt.id, rlt.name])
+                return search_list
+            else:
+                return("검색하신 '" + text + "'에 일치하는 재료가 없습니다.")
+
+        except Recipe.DoesNotExist:
+            raise Http404
+
+    @swagger_auto_schema(operation_id="재료 검색 기능", operation_description="String 입력으로 재료 검색", request_body=param)
+    def post(self, request, format=None):
+        search_rlt = self.get_object(request.data['text'])
+        return Response(search_rlt)
+
+
 # 요리 꿀팁 정보 GET
 class TipsInfo(APIView):
     id = openapi.Parameter('id', openapi.IN_PATH, description='tips id', required=True, type=openapi.TYPE_NUMBER)

@@ -11,5 +11,7 @@ urlpatterns = [
     path('step/', views.RecipeStepList.as_view()),
     path('complete/', views.RecipeCompleteList.as_view()),
     path('popular/', views.RecipePopularList.as_view()),
+    path('search/', views.RecipeSearch.as_view()),
+    path('search/ingr/', views.IngredientSearch.as_view()),
     path('tips/<int:id>/', views.TipsInfo.as_view()),
 ]
