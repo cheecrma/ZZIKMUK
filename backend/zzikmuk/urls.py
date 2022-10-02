@@ -43,4 +43,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('recipes/', include('recipes.urls')),
     path('receipts/', include('receipts.urls')),
+    path('langauges/', include('languages.urls')),
  ] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'receipts',
     'recipes',
+    'languages',
     'drf_yasg',
     'rest_framework',
     'corsheaders',
