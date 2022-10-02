@@ -14,7 +14,7 @@ import base64
 
 def Decode_64(data_64):
     decoded_data = base64.b64decode(data_64)
-    video_result = open('./languages/soundfile/tts.mp3', 'wb')
+    video_result = open('./languages/tts.mp3', 'wb')
     video_result.write(decoded_data)
     return
 
