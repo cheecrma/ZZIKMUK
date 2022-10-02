@@ -3179,6 +3179,13 @@ expo-keep-awake@~10.2.0:
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-10.2.0.tgz#46f04740bccd321732bbbed93491e2076d5dbbd7"
   integrity sha512-kIRtO4Hmrvxh4E45IPWG/NiUZsuRe1AQwBT09pq+kx8nm6tUS4B9TeL6+1NFy+qVBLbGKDqoQD5Ez7XYTFtBeQ==
 
+expo-media-library@^14.2.0:
+  version "14.2.0"
+  resolved "https://registry.yarnpkg.com/expo-media-library/-/expo-media-library-14.2.0.tgz#d793ba91a21661920f2f894290670a142d160143"
+  integrity sha512-Z7PFo742oCUDBXkSkz7yqveiRxYxAuxeYOWS6khnEJg0wMghJg1NeSyObFKkfOLEqItbFUJ8r6wi+B97ZGmiFA==
+  dependencies:
+    "@expo/config-plugins" "~5.0.0"
+
 expo-modules-autolinking@0.10.3:
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.10.3.tgz#31bfcf3e4b613a7c3949fb1f1e9c23eea4c14caf"
@@ -3202,6 +3209,16 @@ expo-react-native-shadow@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/expo-react-native-shadow/-/expo-react-native-shadow-1.0.3.tgz#70e40b06ae13313e88275bb98e0d5c4d800a7315"
   integrity sha512-0CnsKAzfO9cMlztyijiR2tz+D2Jilxt/3Uq4ByhQoG8HckSZG8tE+IHO5axoRkDyaK/gUefwOMB1e4fVsUAt/w==
+
+expo-sharing@^10.3.0:
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-10.3.0.tgz#4e8e2a50d1c22ea510699664bb6ce827cb06738e"
+  integrity sha512-j3kn43WCOykj7mlGTb5Q3Z56DG8raFdTk0A+rauA7lsmJ5Vakb2qGyTFZ7uwqwrML10EQIPAzNEcEYgpIzHKIw==
+
+expo-speech@~10.3.0:
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/expo-speech/-/expo-speech-10.3.0.tgz#2e1de60253ef1c261883c9885fa16218d24b4b36"
+  integrity sha512-/DCSga6fmDAzMoTwGiAkexCFjCjnxfQQU2gNY+NEI74n8b8pZiBckgsEhA1WzGuPYWy56u2xoRvbzmLGWSraMw==
 
 expo-status-bar@~1.4.0:
   version "1.4.0"

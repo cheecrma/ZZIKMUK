@@ -1,22 +1,50 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground, ScrollView } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import RecipePagination from "../organism/RecipePagination";
 import Button from "../atom/Button";
 import TopNav from "../organism/TopNav";
+import * as Speech from "expo-speech";
+import { fetchRecipeStep } from "../../apis/recipes";
 
-export default function RecipeStepPage({ food }) {
-  const [step, setStep] = useState(0);
-  const [isPlayed, setIsPlayed] = useState(true);
+export default function RecipeStepPage({ route, navigation }) {
+  const [stepInfo, setStepInfo] = useState([]);
+  const [isPlayed, setIsPlayed] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
-  function changeStep(index) {
-    setStep(index);
+  function requestRecipeStepSuccess(res) {
+    console.log(res.data);
+    setStepInfo(res.data);
   }
 
+  function requestRecipeStepFail(err) {
+    console.log(err);
+    setStepInfo([]);
+  }
+
+  useEffect(() => {
+    fetchRecipeStep(route.params.id, route.params.step, requestRecipeStepSuccess, requestRecipeStepFail);
+  }, []);
+
+  function changeStep(newStep) {
+    navigation.push("RecipeStep", { id: route.params.id, step: newStep });
+  }
+
+  function finish() {
+    navigation.push("Complete", { id: stepInfo[0], totalSteps: stepInfo[5] });
+  }
+
+  // expo tts
   function playPauseToggle() {
+    if (!isPlayed) {
+      const thingToSay = stepInfo[4];
+      Speech.speak(thingToSay);
+    } else {
+      Speech.stop();
+    }
     setIsPlayed(!isPlayed);
   }
 
@@ -26,25 +54,25 @@ export default function RecipeStepPage({ food }) {
 
   return (
     <View style={styles.container}>
-      <TopNav title={food.name} />
+      <TopNav title={stepInfo[1]} />
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <ImageBackground
             style={styles.image}
-            source={{ uri: food.thumbnail }}
+            source={{ uri: stepInfo[3] }}
             imageStyle={{ borderRadius: 10 }}
           ></ImageBackground>
         </View>
         <View style={styles.step}>
-          <Text style={styles.stepText}>{food.recipe[step]}</Text>
+          <Text style={styles.stepText}>{stepInfo[4]}</Text>
         </View>
         <View style={styles.soundBtnContainer}>
           <TouchableWithoutFeedback onPress={playPauseToggle}>
             <View style={styles.soundBtn}>
               {isPlayed ? (
-                <AntDesign name="caretright" size={20} color="white" />
+                <Entypo name="controller-stop" size={24} color="white" />
               ) : (
-                <Entypo name="controller-paus" size={20} color="white" />
+                <AntDesign name="caretright" size={20} color="white" />
               )}
             </View>
           </TouchableWithoutFeedback>
@@ -57,23 +85,28 @@ export default function RecipeStepPage({ food }) {
               )}
             </View>
           </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback>
+            <View style={styles.soundBtn}>
+              <FontAwesome name="microphone" size={20} color="white" />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
         <View style={styles.explain}>
           <Text>오케이 구글~ 레시피 넘겨줘</Text>
         </View>
-        <RecipePagination totalSteps={food.recipe.length} checkedIndex={step} check={changeStep} />
+        <RecipePagination totalSteps={stepInfo[5]} checkedIndex={route.params.step} check={changeStep} />
         <View style={styles.stepBtn}>
-          {step > 0 ? (
-            <Button variant="white" color="black" size="small">
+          {stepInfo[2] > 1 ? (
+            <Button variant="white" color="black" size="small" onPress={() => changeStep(stepInfo[2] - 1)}>
               <Text style={styles.btnText}>이전 단계</Text>
             </Button>
           ) : null}
-          {step === food.recipe.length - 1 ? (
-            <Button variant="MainColor" color="white" size="small">
+          {stepInfo[2] === stepInfo[5] ? (
+            <Button variant="MainColor" color="white" size="small" onPress={() => finish()}>
               <Text style={styles.btnText}>요리 끝</Text>
             </Button>
           ) : (
-            <Button variant="MainColor" color="white" size="small">
+            <Button variant="MainColor" color="white" size="small" onPress={() => changeStep(stepInfo[2] + 1)}>
               <Text style={styles.btnText}>다음 단계</Text>
             </Button>
           )}
