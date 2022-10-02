@@ -12,6 +12,7 @@ import os
 
 import base64
 from . import STT
+from .key import service
 
 
 def decode_64(data_64):
@@ -24,9 +25,7 @@ def decode_64(data_64):
 @api_view(['POST'])
 def sound_to_text(request):
     if request.method == 'POST':
-        print(request.data)
         data_64 = request.data['base_64']
-        print(data_64)
 
         decode_64(data_64)
 
