@@ -22,7 +22,7 @@ def speech_to_text(audio_path):
     print("Waiting for operation to complete...")
     response = operation.result(timeout=90)
 
-    print(response.results.alternatives[0].transcript)
+    print(response)
     send_text = response.results.alternatives[0].transcript
 
     return send_text
