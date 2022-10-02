@@ -31,7 +31,7 @@ def sound_to_text(request):
         decode_64(data_64)
 
         service.connect()
-        audio_path = "./languages/tts.mp3"
+        audio_path = "tts.mp3"
         time.sleep(1)
         print('mp3 create success')
 
