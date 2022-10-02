@@ -9,8 +9,8 @@ from rest_framework.decorators import api_view
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django.http import Http404
-import os
 
+import time
 import base64
 from . import STT
 from .key import service
@@ -30,10 +30,9 @@ def sound_to_text(request):
 
         decode_64(data_64)
 
-        file_list = os.listdir(os.getcwd())
-
         service.connect()
         audio_path = "./languages/tts.mp3"
+        time.sleep(1000)
         print('mp3 create success')
 
         return_text = STT.speech_to_text(audio_path=audio_path)
