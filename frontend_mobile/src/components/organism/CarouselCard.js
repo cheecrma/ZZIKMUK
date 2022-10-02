@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ImageBackground, Text, Button } from "react-native";
+import { StyleSheet, View, ImageBackground, Text, Button, TouchableOpacity } from "react-native";
 import ExplainIcon from "../atom/ExplainIcon";
 import { fetchRecipesPopular } from "../../apis/recipes";
 import { useEffect } from "react";
@@ -36,26 +36,26 @@ export default function CarouselCard({ imageIndex }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        style={styles.image}
-        source={{ uri: popular?.[imageIndex]?.[5] }}
-        imageStyle={{ borderRadius: 10 }}
-        key={popular?.[imageIndex]?.[0]}
-      >
-        <View style={styles.contentBackground}>
-          <View style={styles.contentText}>
-            <Text style={styles.contentTitle} onPress={() => goRecipePage()}>
-              {popular?.[imageIndex]?.[1]}
-            </Text>
-            <Text style={styles.contentSub}>현재 {popular?.[imageIndex]?.[6]}명의 유저 관심중</Text>
+      <TouchableOpacity onPress={() => goRecipePage()} activeOpacity={0.8}>
+        <ImageBackground
+          style={styles.image}
+          source={{ uri: popular?.[imageIndex]?.[5] }}
+          imageStyle={{ borderRadius: 10 }}
+          key={popular?.[imageIndex]?.[0]}
+        >
+          <View style={styles.contentBackground}>
+            <View style={styles.contentText}>
+              <Text style={styles.contentTitle}>{popular?.[imageIndex]?.[1]}</Text>
+              <Text style={styles.contentSub}>현재 {popular?.[imageIndex]?.[6]}명의 유저 관심중</Text>
+            </View>
+            <View style={styles.icons}>
+              <ExplainIcon type="difficulty" degree={popular?.[imageIndex]?.[2]} />
+              <ExplainIcon type="amount" iconText={popular?.[imageIndex]?.[3]} />
+              <ExplainIcon type="time" iconText={popular?.[imageIndex]?.[4]} />
+            </View>
           </View>
-          <View style={styles.icons}>
-            <ExplainIcon type="difficulty" degree={popular?.[imageIndex]?.[2]} />
-            <ExplainIcon type="amount" iconText={popular?.[imageIndex]?.[3]} />
-            <ExplainIcon type="time" iconText={popular?.[imageIndex]?.[4]} />
-          </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Pressable, Alert, Modal, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View, Pressable, Alert, Modal, TouchableWithoutFeedback, ScrollView } from "react-native";
 import Button from "../atom/Button";
 import DottedLine from "../atom/DottedLine";
 import { EvilIcons } from "@expo/vector-icons";
 import Input from "../atom/input";
 
-export default function Receipt() {
+export default function Receipt({ receipt }) {
   const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.receipt}>
       <Modal
@@ -48,12 +49,20 @@ export default function Receipt() {
       </View>
       <DottedLine />
       <View style={styles.receiptIngredient}>
-        <Text style={styles.receiptBoxName}>대파</Text>
-        <EvilIcons name="trash" size={33} color="black" />
+        <ScrollView style={styles.receiptScrollIngredient}>
+          {receipt[0].map((re, i) => {
+            return (
+              <View style={styles.receiptBoxNameIngredient} key={i}>
+                <Text style={styles.receiptScrollIngredient}>{re}</Text>
+                <EvilIcons name="trash" size={33} color="black" />
+              </View>
+            );
+          })}
+        </ScrollView>
       </View>
       <DottedLine />
       <View style={styles.receiptTotal}>
-        <Text style={styles.receiptTotalName}>Total: 4</Text>
+        <Text style={styles.receiptTotalName}>Total: {receipt[0].length}</Text>
         <Button size="small" color="BoldColor" variant="white" onPress={() => setModalVisible(true)}>
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>재료 추가</Text>
         </Button>
@@ -96,12 +105,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
   },
+  receiptBoxNameIngredient: {
+    width: 300,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
   receiptBoxNameDelete: {
     fontSize: 18,
   },
+  receiptScrollIngredient: {
+    fontSize: 18,
+  },
   receiptIngredient: {
+    fontSize: 18,
     flex: 10,
-    flexDirection: "row",
+    justifyContent: "space-between",
     paddingRight: 15,
     paddingLeft: 15,
   },
