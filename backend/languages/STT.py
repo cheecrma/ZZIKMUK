@@ -30,7 +30,7 @@ def speech_to_text(audio_path):
         print(u"Transcript: {}".format(result.alternatives[0].transcript))
         print("Confidence: {}".format(result.alternatives[0].confidence))
 
-    if response:
+    if len(response.results) >= 2:
         return response.results.alternatives[0].transcript
     else:
         return 'failed'
