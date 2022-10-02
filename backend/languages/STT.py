@@ -1,4 +1,4 @@
-from key import service
+from .key import service
 from google.cloud import speech
 
 
