@@ -23,7 +23,4 @@ def speech_to_text(audio_path):
     response = operation.result(timeout=90)
     
     for result in response.results:
-        print(u"Transcript: {}".format(result.alternatives[0].transcript))
-        print("Confidence: {}".format(result.alternatives[0].confidence))
-        print(result)
-    return response.results
+        return result.alternatives[0].transcript
