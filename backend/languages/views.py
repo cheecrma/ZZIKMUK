@@ -11,7 +11,7 @@ from django.http import Http404
 import os
 
 import base64
-import STT
+from . import STT
 
 def Decode_64(data_64):
     decoded_data = base64.b64decode(data_64)
