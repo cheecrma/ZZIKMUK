@@ -27,12 +27,3 @@ def speech_to_text(audio_path):
         print("Confidence: {}".format(result.alternatives[0].confidence))
 
     return response.results.alternatives[0].transcript
-
-# 구글 인증 및 클라이언트 등록
-service.connect()
-
-# 경로 설정
-audio_path = "tts"
-
-# 프로세스 실행
-speech_to_text(audio_path=audio_path)

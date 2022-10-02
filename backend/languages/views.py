@@ -13,7 +13,8 @@ import os
 import base64
 from . import STT
 
-def Decode_64(data_64):
+
+def decode_64(data_64):
     decoded_data = base64.b64decode(data_64)
     video_result = open('./languages/tts.mp3', 'wb')
     video_result.write(decoded_data)
@@ -21,7 +22,7 @@ def Decode_64(data_64):
 
 
 @api_view(['POST'])
-def SoundToText(request):
+def sound_to_text(request):
     if request.method == 'POST':
         print(request.data)
         data_64 = request.data.get('data')
@@ -32,6 +33,6 @@ def SoundToText(request):
         file_list = os.listdir(os.getcwd())
 
         service.connect()
-        audio_path = "tts"
+        audio_path = "tts.mp3"
         return STT.speech_to_text(audio_path=audio_path)
 
