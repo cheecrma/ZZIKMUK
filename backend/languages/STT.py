@@ -26,6 +26,8 @@ def speech_to_text(audio_path):
     print("Waiting for operation to complete...")
     response = operation.result(timeout=90)
 
+    print(response)
+
     for result in response.results:
         print(u"Transcript: {}".format(result.alternatives[0].transcript))
         print("Confidence: {}".format(result.alternatives[0].confidence))
