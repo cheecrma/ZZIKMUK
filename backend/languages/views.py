@@ -32,6 +32,7 @@ def sound_to_text(request):
         file_list = os.listdir(os.getcwd())
 
         service.connect()
-        audio_path = "tts.mp3"
+        audio_path = "./languages/tts.mp3"
+        print('mp3 create success')
         return STT.speech_to_text(audio_path=audio_path)
 
