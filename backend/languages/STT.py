@@ -9,11 +9,7 @@ def speech_to_text(audio_path):
     with open(audio_path, "rb") as audio_file:
         content = audio_file.read()
 
-    print(content)
-
     audio = speech.RecognitionAudio(content=content)
-
-    print(audio)
 
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
@@ -26,13 +22,11 @@ def speech_to_text(audio_path):
     print("Waiting for operation to complete...")
     response = operation.result(timeout=90)
 
-    print(response)
-
     for result in response.results:
         print(u"Transcript: {}".format(result.alternatives[0].transcript))
         print("Confidence: {}".format(result.alternatives[0].confidence))
 
-    if len(response.results) >= 2:
+    if 'alternatives' in response.results.keys():
         return response.results.alternatives[0].transcript
     else:
         return 'failed'
