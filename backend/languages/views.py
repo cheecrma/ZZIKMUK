@@ -29,11 +29,10 @@ def sound_to_text(request):
         data_64 = request.data['base_64']
 
         decode_64(data_64)
+        print('mp3 create success')
 
         service.connect()
-        audio_path = "tts.mp3"
-        time.sleep(1)
-        print('mp3 create success')
+        audio_path = "./tts.mp3"
 
         return_text = STT.speech_to_text(audio_path=audio_path)
         return_json = {
