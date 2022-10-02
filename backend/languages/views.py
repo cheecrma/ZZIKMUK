@@ -21,7 +21,7 @@ def Decode_64(data_64):
 
 
 @api_view(['POST'])
-def STT(request):
+def SoundToText(request):
     if request.method == 'POST':
         print(request.data)
         data_64 = request.data.get('data')

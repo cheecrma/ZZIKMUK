@@ -5,5 +5,5 @@ from . import views
 app_name = 'languages'
 
 urlpatterns = [
-    path('stt/', views.STT, name='STT'),
+    path('stt/', views.SoundToText, name='STT'),
 ]
