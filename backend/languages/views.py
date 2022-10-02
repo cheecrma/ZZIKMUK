@@ -32,7 +32,7 @@ def sound_to_text(request):
         print('mp3 create success')
 
         service.connect()
-        audio_path = "./tts.mp3"
+        audio_path = "./languages/tts.mp3"
 
         return_text = STT.speech_to_text(audio_path=audio_path)
         return_json = {

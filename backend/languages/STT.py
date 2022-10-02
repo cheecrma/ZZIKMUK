@@ -9,7 +9,11 @@ def speech_to_text(audio_path):
     with open(audio_path, "rb") as audio_file:
         content = audio_file.read()
 
+    print(content)
+
     audio = speech.RecognitionAudio(content=content)
+
+    print(audio)
 
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
