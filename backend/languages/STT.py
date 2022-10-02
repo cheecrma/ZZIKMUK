@@ -26,3 +26,4 @@ def speech_to_text(audio_path):
         print(u"Transcript: {}".format(result.alternatives[0].transcript))
         print("Confidence: {}".format(result.alternatives[0].confidence))
         print(result)
+    return response.results
