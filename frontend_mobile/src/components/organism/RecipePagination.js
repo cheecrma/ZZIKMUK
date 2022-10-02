@@ -20,7 +20,7 @@ export default function RecipePagination({ totalSteps, checkedIndex, check }) {
   // 렌더링 될 때마다 현재 스크롤을 볼 수 있도록 함
   useEffect(() => {
     if (checkedIndex > 3) {
-      scrollView.current.scrollTo({ x: checkedIndex * 20 });
+      scrollView.current.scrollTo({ x: checkedIndex > 7 ? checkedIndex * 30 : checkedIndex * 20 });
     }
   }, []);
 
