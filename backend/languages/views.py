@@ -1,5 +1,6 @@
 from http.client import responses
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -10,7 +11,7 @@ from django.http import Http404
 import os
 
 import base64
-
+from .STT import speech_to_text
 
 def Decode_64(data_64):
     decoded_data = base64.b64decode(data_64)
@@ -30,4 +31,7 @@ def STT(request):
 
         file_list = os.listdir(os.getcwd())
 
-        return Response(file_list)
+        service.connect()
+        audio_path = "tts"
+        return speech_to_text(audio_path=audio_path)
+
