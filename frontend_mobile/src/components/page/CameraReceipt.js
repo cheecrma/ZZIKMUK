@@ -7,12 +7,14 @@ import * as MediaLibrary from "expo-media-library";
 import Button from "../atom/Button";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
-export default function App() {
+export default function CameraReceipt() {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -23,6 +25,10 @@ export default function App() {
     })();
   }, []);
 
+  function goReceiptPage() {
+    navigation.navigate("Receipt");
+  }
+
   if (hasCameraPermission === undefined) {
     return <Text>Requesting permissions...</Text>;
   } else if (!hasCameraPermission) {
@@ -31,9 +37,9 @@ export default function App() {
 
   let takePic = async () => {
     let options = {
-      quality: 0.01,
+      quality: 0.1,
       base64: true,
-      exif: true,
+      exif: false,
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
@@ -41,31 +47,38 @@ export default function App() {
   };
 
   if (photo) {
-    let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
+    // let sharePic = () => {
+    //   shareAsync(photo.uri).then(() => {
+    //     setPhoto(undefined);
+    //   });
+    // };
+
+    {
+      axios
+        .post(
+          "https://j7a102.p.ssafy.io/api/receipts/ocr/",
+          {
+            //보내고자 하는 데이터
+            path: photo.base64,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          },
+        )
+
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error.response.headers);
+          console.log(error);
+        });
+    }
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
         setPhoto(undefined);
       });
-      // .then(() => {
-      //   console.log("axios 전");
-      //   axios
-      //     .post("https://j7a102.p.ssafy.io/api/receipts/ocr", {
-      //       //보내고자 하는 데이터
-      //       img: photo.uri,
-      //     })
-      //     .then(function (response) {
-      //       console.log(response.data);
-      //     })
-      //     .catch(function (error) {
-      //       console.log(error);
-      //       console.log("에러입니다.");
-      //     });
-      // });
     };
 
     return (
@@ -74,10 +87,18 @@ export default function App() {
         {/* <Button title="Share" onPress={sharePic} color="white" variant="BoldColor">
           공유하기
         </Button> */}
-        {/* {console.log(photo)} */}
+        {/* {console.log(photo.base64)} */}
+
         <View style={styles.containerCheck}>
           {hasMediaLibraryPermission ? (
-            <Button onPress={savePhoto} color="white" variant="BoldColor">
+            <Button
+              onPress={() => {
+                savePhoto;
+                goReceiptPage();
+              }}
+              color="white"
+              variant="BoldColor"
+            >
               재료인식
             </Button>
           ) : undefined}
