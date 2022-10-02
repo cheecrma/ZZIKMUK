@@ -80,18 +80,19 @@ const styles = StyleSheet.create({
   },
   tipText: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 20,
     fontSize: 22,
     fontWeight: "bold",
   },
   tipRandom: {
-    flex: 2,
+    flex: 3,
     marginTop: 10,
     width: 330,
     height: 80,
   },
   tipContent: {
     fontSize: 16,
+    padding: 8,
     backgroundColor: "#FFE48E",
     borderRadius: 10,
     elevation: 2,
