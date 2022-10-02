@@ -20,13 +20,12 @@ def speech_to_text(audio_path):
     operation = client.long_running_recognize(config=config, audio=audio)
 
     print("Waiting for operation to complete...")
+
     response = operation.result(timeout=90)
 
-    for result in response.results:
-        print(u"Transcript: {}".format(result.alternatives[0].transcript))
-        print("Confidence: {}".format(result.alternatives[0].confidence))
+    print(response)
 
-    if 'alternatives' in response.results.keys():
+    try:
         return response.results.alternatives[0].transcript
-    else:
+    except:
         return 'failed'
