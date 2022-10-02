@@ -1,6 +1,7 @@
 from http.client import responses
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -36,5 +37,8 @@ def sound_to_text(request):
         print('mp3 create success')
 
         return_text = STT.speech_to_text(audio_path=audio_path)
-        return Response(return_text)
+        return_json = {
+            'text': return_text
+        }
+        return JsonResponse(return_json)
 
