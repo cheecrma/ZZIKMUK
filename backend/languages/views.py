@@ -15,20 +15,18 @@ import base64
 from . import STT
 from .key import service
 
+class sound_to_text(APIView):
+    def decode_64(self, data_64):
+        decoded_data = base64.b64decode(data_64)
+        video_result = open('./languages/tts.mp3', 'wb')
+        video_result.write(decoded_data)
+        return
 
-def decode_64(data_64):
-    decoded_data = base64.b64decode(data_64)
-    video_result = open('./languages/tts.mp3', 'wb')
-    video_result.write(decoded_data)
-    return
+    def post(self, request, format=None):
 
-
-@api_view(['POST'])
-def sound_to_text(request):
-    if request.method == 'POST':
         data_64 = request.data['base_64']
 
-        decode_64(data_64)
+        self.decode_64(data_64)
         print('mp3 create success')
 
         service.connect()
