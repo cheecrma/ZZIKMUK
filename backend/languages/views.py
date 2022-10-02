@@ -11,7 +11,7 @@ from django.http import Http404
 import os
 
 import base64
-from .STT import speech_to_text
+import STT
 
 def Decode_64(data_64):
     decoded_data = base64.b64decode(data_64)
@@ -33,5 +33,5 @@ def STT(request):
 
         service.connect()
         audio_path = "tts"
-        return speech_to_text(audio_path=audio_path)
+        return STT.speech_to_text(audio_path=audio_path)
 
