@@ -25,7 +25,7 @@ def decode_64(data_64):
 def sound_to_text(request):
     if request.method == 'POST':
         print(request.data)
-        data_64 = request.data.get('data')
+        data_64 = request.data.get('data_64')
         print(data_64)
 
         decode_64(data_64)
