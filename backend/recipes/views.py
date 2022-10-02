@@ -199,3 +199,24 @@ class TipsInfo(APIView):
     def get(self, request, id):
         tip = Tips.objects.get(pk=id)
         return Response(tip.tip_content)
+
+
+# 레시피 추천 POST
+class RecipeSuggestion(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['ingredients'],
+    properties={
+        'ingredients': openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING), description="재료 리스트"),
+    }) 
+    def get_object(self, ingredients):
+        try:
+            print(ingredients) # 재료 리스트
+
+            # return("입력한 재료는 '" + i_list + "'입니다.")
+
+        except Recipe.DoesNotExist:
+            raise Http404
+
+    @swagger_auto_schema(operation_id="레시피 추천 기능", operation_description="재료 리스트 입력으로 최적의 레시피 추천", request_body=param)
+    def post(self, request, format=None):
+        suggestion_rlt = self.get_object(request.data['ingredients'])
+        return Response(suggestion_rlt)
