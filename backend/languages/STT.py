@@ -26,6 +26,8 @@ def speech_to_text(audio_path):
     print(response)
 
     try:
+        print(response.results.alternatives[0].transcript)
         return response.results.alternatives[0].transcript
     except:
+        print(response)
         return 'failed'
