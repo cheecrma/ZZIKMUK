@@ -28,7 +28,7 @@ def sound_to_text(request):
         data_64 = request.data.get('data')
         print(data_64)
 
-        Decode_64(data_64)
+        decode_64(data_64)
 
         file_list = os.listdir(os.getcwd())
 
