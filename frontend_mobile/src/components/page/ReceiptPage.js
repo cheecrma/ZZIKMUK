@@ -4,11 +4,12 @@ import { AntDesign } from "@expo/vector-icons";
 import ReceiptCheck from "../organism/ReceiptCheck";
 import Button from "../atom/Button";
 import CameraReceipt from "./CameraReceipt";
+import TopNav from "../organism/TopNav";
 
 export default function ReceiptPage({ navigation, route }) {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <TouchableWithoutFeedback onPress={() => navigation.pop()}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableWithoutFeedback>
@@ -16,7 +17,8 @@ export default function ReceiptPage({ navigation, route }) {
           📷 영수증 <Text style={{ color: "#FF8B34" }}>인식</Text> 📷
         </Text>
         <View></View>
-      </View>
+      </View> */}
+      <TopNav title={"📷 영수증 인식 📷"} />
       <View style={styles.receipt}>
         <ReceiptCheck receipt={route.params.receipt} navigation={navigation} />
       </View>
@@ -43,6 +45,6 @@ const styles = StyleSheet.create({
   },
   receipt: {
     alignItems: "center",
-    flex: 6,
+    flex: 10,
   },
 });
