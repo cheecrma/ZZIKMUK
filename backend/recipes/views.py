@@ -287,7 +287,7 @@ class RecipeSuggestion(APIView):
             
             sorted_list = sorted(cs_list, key=itemgetter(1), reverse=True)  # 전체 코사인 유사도를 내림차순으로 정렬
             rlt_list = []       # 코사인 유사도가 높은순으로 레시피 번호를 담을 rlt_list 생성
-            for rlt in sorted_list[:20]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기
+            for rlt in sorted_list[:10]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기
                 recipe = Recipe.objects.get(pk=rlt[0])
                 rlt_list.append([recipe.id, recipe.food_name, recipe.title_img_url, recipe.level, recipe.servings, recipe.time, recipe.view_count])
             
