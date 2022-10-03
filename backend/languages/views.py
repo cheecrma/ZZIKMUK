@@ -32,9 +32,9 @@ class sound_to_text(APIView):
         service.connect()
         audio_path = "./languages/tts.mp3"
 
-        return_text = STT.speech_to_text(audio_path=audio_path)
+        status_code = STT.speech_to_text(audio_path=audio_path)
         return_json = {
-            'text': return_text
+            'status_code': status_code
         }
         return JsonResponse(return_json)
 
