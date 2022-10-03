@@ -145,7 +145,7 @@ class RecipePopularList(APIView):
         return Response(pop_list)
 
 
-# 레시피 검색 POST
+# 레시피 검색 POST (음식 이름으로 검색)
 class RecipeSearch(APIView):
     param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['text'],
     properties={
@@ -157,7 +157,9 @@ class RecipeSearch(APIView):
             if len(r_search) > 0:
                 search_list = []
                 for rlt in r_search:
-                    search_list.append([rlt.id, rlt.food_name, rlt.title_img_url, rlt.level, rlt.servings, rlt.time])
+                    num_ing = RecipeIngredient.objects.filter(recipe_id=rlt.id)     # 레시피별 재료 개수를 구하기 위한 ORM
+                    num_ing = len(num_ing)
+                    search_list.append([rlt.id, rlt.food_name, rlt.title_img_url, rlt.level, rlt.servings, rlt.time, rlt.view_count, num_ing])
                 return search_list
             else:
                 return("검색하신 '" + text + "'에 일치하는 메뉴가 없습니다.")
@@ -165,7 +167,39 @@ class RecipeSearch(APIView):
         except Recipe.DoesNotExist:
             raise Http404
 
-    @swagger_auto_schema(operation_id="레시피 검색 기능", operation_description="String 입력으로 레시피 검색", request_body=param)
+    @swagger_auto_schema(operation_id="레시피 검색 기능 (음식이름)", operation_description="String 입력으로 레시피 검색", request_body=param)
+    def post(self, request, format=None):
+        search_rlt = self.get_object(request.data['text'])
+        return Response(search_rlt)
+
+
+# 레시피 검색 POST (재료를 포함한 레시피 검색)
+class RecipeSearchByIng(APIView):
+    param = openapi.Schema(type=openapi.TYPE_OBJECT, required=['text'],
+    properties={
+        'text': openapi.Schema(type=openapi.TYPE_STRING, description="검색할 단어"),
+    }) 
+    def get_object(self, text):
+        try:
+            ingred = Ingredient.objects.filter(name=text)
+            if ingred:
+                for ing in ingred:
+                    ing_id = int(ing.id)
+                    search_list = []
+                    ri_list = RecipeIngredient.objects.filter(ingredient_id=ing_id)
+                    for rlt in ri_list:
+                        num_ing = RecipeIngredient.objects.filter(recipe_id=rlt.recipe_id.id)   # 레시피별 재료 개수를 구하기 위한 ORM
+                        num_ing = len(num_ing)
+                        search_list.append([rlt.recipe_id.id, rlt.recipe_id.food_name, rlt.recipe_id.title_img_url, rlt.recipe_id.level, rlt.recipe_id.servings, rlt.recipe_id.time, rlt.recipe_id.view_count, num_ing])
+                    search_list = sorted(search_list, key=itemgetter(6), reverse=True)
+                    return search_list
+            else:
+                return("검색하신 '" + text + "'를 포함하는 레시피가 없습니다.")
+
+        except Ingredient.DoesNotExist:
+            raise Http404
+
+    @swagger_auto_schema(operation_id="레시피 검색 기능 (재료)", operation_description="String 입력으로 해당 재료를 포함하는 레시피 검색", request_body=param)
     def post(self, request, format=None):
         search_rlt = self.get_object(request.data['text'])
         return Response(search_rlt)
@@ -253,8 +287,9 @@ class RecipeSuggestion(APIView):
             
             sorted_list = sorted(cs_list, key=itemgetter(1), reverse=True)  # 전체 코사인 유사도를 내림차순으로 정렬
             rlt_list = []       # 코사인 유사도가 높은순으로 레시피 번호를 담을 rlt_list 생성
-            for rlt in sorted_list[:20]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기 
-                rlt_list.append(rlt[0])
+            for rlt in sorted_list[:20]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기
+                recipe = Recipe.objects.get(pk=rlt[0])
+                rlt_list.append([recipe.id, recipe.food_name, recipe.title_img_url, recipe.level, recipe.servings, recipe.time, recipe.view_count])
             
             return(rlt_list)
 
