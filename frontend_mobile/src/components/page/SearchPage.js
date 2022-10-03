@@ -69,21 +69,25 @@ export default function SearchPage({ navigation }) {
     <View>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              setSearchText("");
-              setTag(0);
-              navigation.navigate("Main");
-            }}
-          >
-            <AntDesign name="arrowleft" size={24} color="black" />
-          </TouchableWithoutFeedback>
-          <View style={{ width: 300, backgroundColor: "white", borderRadius: 5 }}>
+          <View style={{ flex: 1, alignItems: "center" }}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                setSearchText("");
+                setTag(0);
+                navigation.navigate("Main");
+              }}
+            >
+              <AntDesign name="arrowleft" size={24} color="black" />
+            </TouchableWithoutFeedback>
+          </View>
+          <View style={{ width: 300, backgroundColor: "white", borderRadius: 5, flex: 6 }}>
             <Input onChangeText={text => setSearchText(text)} />
           </View>
-          <Pressable onPress={() => search()}>
-            <AntDesign name="search1" size={24} color="black" />
-          </Pressable>
+          <View style={{ flex: 1, alignItems: "center" }}>
+            <Pressable onPress={() => search()}>
+              <AntDesign name="search1" size={24} color="black" />
+            </Pressable>
+          </View>
         </View>
       </View>
       <View style={styles.tagContainer}>

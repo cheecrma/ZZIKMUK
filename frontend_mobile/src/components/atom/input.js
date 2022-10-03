@@ -11,7 +11,7 @@ export default function Input({ status, onChangeText }) {
   return (
     <StyledInput
       status={status}
-      placeholder={status === "modal" ? "검색" : "재료, 음식 검색"}
+      placeholder={status === "modal" ? " 검색" : " 재료, 음식 검색"}
       onChangeText={onChangeText}
     />
   );
@@ -50,7 +50,7 @@ function getBorderColor(status) {
 function getWidth(status) {
   switch (status) {
     case "modal":
-      return "90%";
+      return "100%";
     default:
       return "80%";
   }
