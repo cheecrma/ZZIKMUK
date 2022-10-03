@@ -20,7 +20,11 @@ export default function RecipeRecommendPage({ route, navigation }) {
   }
 
   useEffect(() => {
-    fetchRecommendRecipeList(route.params.number, requestRecommendRecipeListSuccess, requestRecommendRecipeListFail);
+    fetchRecommendRecipeList(
+      route.params.newIngredient,
+      requestRecommendRecipeListSuccess,
+      requestRecommendRecipeListFail,
+    );
   }, []);
 
   function goToRecipe(id) {
