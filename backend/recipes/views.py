@@ -157,7 +157,9 @@ class RecipeSearch(APIView):
             if len(r_search) > 0:
                 search_list = []
                 for rlt in r_search:
-                    search_list.append([rlt.id, rlt.food_name, rlt.title_img_url, rlt.level, rlt.servings, rlt.time, rlt.view_count])
+                    num_ing = RecipeIngredient.objects.filter(recipe_id=rlt.id)     # 레시피별 재료 개수를 구하기 위한 ORM
+                    num_ing = len(num_ing)
+                    search_list.append([rlt.id, rlt.food_name, rlt.title_img_url, rlt.level, rlt.servings, rlt.time, rlt.view_count, num_ing])
                 return search_list
             else:
                 return("검색하신 '" + text + "'에 일치하는 메뉴가 없습니다.")
@@ -186,7 +188,9 @@ class RecipeSearchByIng(APIView):
                     search_list = []
                     ri_list = RecipeIngredient.objects.filter(ingredient_id=ing_id)
                     for rlt in ri_list:
-                        search_list.append([rlt.recipe_id.id, rlt.recipe_id.food_name, rlt.recipe_id.title_img_url, rlt.recipe_id.level, rlt.recipe_id.servings, rlt.recipe_id.time, rlt.recipe_id.view_count])
+                        num_ing = RecipeIngredient.objects.filter(recipe_id=rlt.recipe_id.id)   # 레시피별 재료 개수를 구하기 위한 ORM
+                        num_ing = len(num_ing)
+                        search_list.append([rlt.recipe_id.id, rlt.recipe_id.food_name, rlt.recipe_id.title_img_url, rlt.recipe_id.level, rlt.recipe_id.servings, rlt.recipe_id.time, rlt.recipe_id.view_count, num_ing])
                     search_list = sorted(search_list, key=itemgetter(6), reverse=True)
                     return search_list
             else:
