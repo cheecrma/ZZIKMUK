@@ -11,10 +11,19 @@ def speech_to_text(audio_path):
 
     audio = speech.RecognitionAudio(content=content)
 
+    sample_speech_contexts=[
+            '다음',
+            '이전',
+            '다시', '한번 더',
+            '넘겨', '이동'
+            '읽어', '재생'
+        ]
+
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
         sample_rate_hertz=16000,
         language_code="ko-KR",
+        speech_contexts=sample_speech_contexts
     )
 
     operation = client.long_running_recognize(config=config, audio=audio)
@@ -27,6 +36,19 @@ def speech_to_text(audio_path):
 
     try:
         for result in response.results:
-            return result.alternatives[0].transcript
+            result_text = result.alternatives[0].transcript
+            print(result_text)
+
+            for context in sample_speech_contexts:
+                if context in result_text:
+                    if context == '다음':
+                        return 3
+                    elif context == '이전':
+                        return 1
+                    elif context in ['다시', '한번 더']:
+                        return 2
+
+            return -1
+
     except:
         return 'failed'
