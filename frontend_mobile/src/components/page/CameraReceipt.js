@@ -74,7 +74,7 @@ export default function CameraReceipt() {
         .catch(function (error) {
           // console.log(error.response.headers);
           // console.log(error);
-          setReceipt([["재료를 인식하지 못했습니다."]]);
+          setReceipt([[]]);
         });
     }
 
@@ -96,8 +96,12 @@ export default function CameraReceipt() {
           {hasMediaLibraryPermission ? (
             <Button
               onPress={() => {
-                savePhoto;
+                // savePhoto;
                 goReceiptPage();
+                // setTimeout(() => {
+                //   goReceiptPage(), 5000;
+                // });
+                // 시간 설정하기 2초후 넘어가도록
               }}
               color="white"
               variant="BoldColor"

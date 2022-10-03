@@ -79,11 +79,6 @@ export default function Receipt({ receipt, navigation }) {
                 <View></View>
               </View>
               <Input status="modal" onChangeText={ingList} />
-              {/* <Pressable onPress={""}>
-                <Text>
-                  <AntDesign name="pluscircleo" size={24} color="black" />
-                </Text>
-              </Pressable> */}
               <ScrollView>
                 {Array.isArray(ing) ? (
                   ing?.map((ing, a) => {
