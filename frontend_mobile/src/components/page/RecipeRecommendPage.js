@@ -37,15 +37,8 @@ export default function RecipeRecommendPage({ route, navigation }) {
       <View style={styles.content}>
         <ScrollView ref={scrollView} showsVerticalScrollIndicator={false}>
           {recommendList.map((recipe, index) => (
-            <Pressable onPress={() => goToRecipe(recipe[0])}>
-              <Card
-                name={recipe[1]}
-                thumbnail={recipe[5]}
-                difficulty={recipe[2]}
-                amount={recipe[3]}
-                time={recipe[4]}
-                key={index}
-              />
+            <Pressable onPress={() => goToRecipe(recipe[0])} key={index}>
+              <Card name={recipe[1]} thumbnail={recipe[2]} difficulty={recipe[3]} amount={recipe[4]} time={recipe[5]} />
             </Pressable>
           ))}
         </ScrollView>
