@@ -87,6 +87,8 @@ function getSizeWidth(size) {
   switch (size) {
     case "large":
       return "370px";
+    case "mediumer":
+      return "330px";
     case "medium":
       return "200px";
     case "small":
@@ -100,6 +102,8 @@ function getSizeHeight(size) {
   switch (size) {
     case "large":
       return "70px";
+    case "mediumer":
+      return "60px";
     case "medium":
       return "70px";
     case "small":
