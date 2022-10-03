@@ -73,8 +73,8 @@ export default function CameraReceipt() {
         })
         .catch(function (error) {
           // console.log(error.response.headers);
-          console.log(error);
-          setReceipt([]);
+          // console.log(error);
+          setReceipt([["재료를 인식하지 못했습니다."]]);
         });
     }
 
