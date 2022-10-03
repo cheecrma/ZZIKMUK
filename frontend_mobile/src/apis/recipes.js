@@ -8,8 +8,13 @@ function fetchRecipesTips(id, success, fail) {
   api.get(`recipes/tips/${id}/`).then(success).catch(fail);
 }
 
-function fetchRecommendRecipeList(id, success, fail) {
-  api.get(`recipes/list/${id}/`).then(success).catch(fail);
+function fetchRecommendRecipeList(user_ingredients, success, fail) {
+  api
+    .post(`recipes/suggestion/`, {
+      user_ingredients,
+    })
+    .then(success)
+    .catch(fail);
 }
 
 function fetchRecipeDetail(id, success, fail) {

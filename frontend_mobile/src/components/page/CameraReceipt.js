@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
@@ -15,6 +15,7 @@ export default function CameraReceipt() {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const navigation = useNavigation();
+  const [receipt, setReceipt] = React.useState([]);
 
   useEffect(() => {
     (async () => {
@@ -26,7 +27,7 @@ export default function CameraReceipt() {
   }, []);
 
   function goReceiptPage() {
-    navigation.navigate("Receipt");
+    navigation.navigate("Receipt", { receipt });
   }
 
   if (hasCameraPermission === undefined) {
@@ -67,11 +68,13 @@ export default function CameraReceipt() {
         )
 
         .then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
+          setReceipt([response.data]);
         })
         .catch(function (error) {
-          console.log(error.response.headers);
-          console.log(error);
+          // console.log(error.response.headers);
+          // console.log(error);
+          setReceipt([["재료를 인식하지 못했습니다."]]);
         });
     }
 

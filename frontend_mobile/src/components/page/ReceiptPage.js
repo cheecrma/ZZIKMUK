@@ -3,12 +3,13 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import ReceiptCheck from "../organism/ReceiptCheck";
 import Button from "../atom/Button";
+import CameraReceipt from "./CameraReceipt";
 
-export default function ReceiptPage() {
+export default function ReceiptPage({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => navigation.pop()}>
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableWithoutFeedback>
         <Text style={styles.title}>
@@ -17,13 +18,7 @@ export default function ReceiptPage() {
         <View></View>
       </View>
       <View style={styles.receipt}>
-        <ReceiptCheck />
-        <Text>원하는 재료를 추가해서 다양한 레시피를 제공 받아 보세요.</Text>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Button color="white" variant="BoldColor" size="large">
-          추천 레시피 확인하러 가기
-        </Button>
+        <ReceiptCheck receipt={route.params.receipt} navigation={navigation} />
       </View>
     </View>
   );
