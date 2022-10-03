@@ -17,7 +17,6 @@ import axios from "axios";
 export default function RecipeStepPage({ route, navigation }) {
   const [stepInfo, setStepInfo] = useState([]);
   const [isPlayed, setIsPlayed] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [recording, setRecording] = useState();
 
   function requestRecipeStepSuccess(res) {
@@ -92,14 +91,16 @@ export default function RecipeStepPage({ route, navigation }) {
           base_64: file,
         })
         .then(res => {
-          rlt = res.data.text;
+          rlt = res.data.status_code;
 
-          if (route.params.step < stepInfo[5] && rlt.includes("다음")) {
+          if (route.params.step < stepInfo[5] && rlt == 3) {
             navigation.push("RecipeStep", { id: route.params.id, step: route.params.step + 1 });
-          } else if (route.params.step > 1 && rlt.includes("이전")) {
+          } else if (route.params.step > 1 && rlt == 1) {
             navigation.push("RecipeStep", { id: route.params.id, step: route.params.step - 1 });
-          } else if (rlt.includes("다시")) {
+          } else if (rlt == 2) {
             playPauseToggle();
+          } else {
+            console.log(rlt);
           }
         })
         .catch(err => {
@@ -112,10 +113,6 @@ export default function RecipeStepPage({ route, navigation }) {
 
   function wait(delay) {
     return new Promise(resolve => setTimeout(resolve, delay));
-  }
-
-  function muteUnmuteToggle() {
-    setIsMuted(!isMuted);
   }
 
   return (
@@ -142,15 +139,6 @@ export default function RecipeStepPage({ route, navigation }) {
               )}
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={muteUnmuteToggle}>
-            <View style={styles.soundBtn}>
-              {!isMuted ? (
-                <Feather name="volume-2" size={20} color="white" />
-              ) : (
-                <Feather name="volume-x" size={20} color="white" />
-              )}
-            </View>
-          </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={recording ? null : startRecording}>
             <View style={styles.soundBtn}>
               <FontAwesome name="microphone" size={20} color="white" />
@@ -159,7 +147,7 @@ export default function RecipeStepPage({ route, navigation }) {
         </View>
         <View style={styles.explain}>
           <Text>마이크 버튼을 누르고 말해보세요</Text>
-          <Text>다음으로 넘겨줘, 이전으로 넘겨줘, 다시 재생해줘</Text>
+          <Text>다음으로 넘겨줘, 이전으로 이동해줘, 다시 읽어줘</Text>
         </View>
         <RecipePagination totalSteps={stepInfo[5]} checkedIndex={route.params.step} check={changeStep} />
         <View style={styles.stepBtn}>
