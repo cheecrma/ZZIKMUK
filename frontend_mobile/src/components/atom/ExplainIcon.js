@@ -11,7 +11,7 @@ purpose가 card인지 아닌지에 따라 크기와 배경색이 변합니다.
 iconText는 음식의 양과 조리 시간을 나타낼 때 사용되는 매개변수 입니다.
 */
 
-export default function ExplainIcon({ type, iconText, purpose, degree = 1 }) {
+export default function ExplainIcon({ type, iconText = 0, purpose, degree = 1 }) {
   return (
     <StyledContainer purpose={purpose}>
       {getIcon(type, purpose, degree)}

@@ -140,8 +140,9 @@ export default function RecipeStepPage({ route, navigation }) {
           ></ImageBackground>
         </View>
         <View style={styles.step}>
-          <Text style={styles.stepText}>{stepInfo[4]}</Text>
-          <Text>{can}</Text>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={styles.stepText}>{stepInfo[4]}</Text>
+          </ScrollView>
         </View>
         <View style={styles.soundBtnContainer}>
           <TouchableWithoutFeedback onPress={playPauseToggle}>
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
   step: {
     backgroundColor: "white",
     width: "90%",
-    height: 160,
+    height: "28%",
     borderRadius: 15,
     justifyContent: "center",
     padding: 5,

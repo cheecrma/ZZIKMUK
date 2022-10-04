@@ -40,7 +40,7 @@ function Ingredient({ name, amount }) {
 
 const styles = StyleSheet.create({
   ingredientList: {
-    height: 280,
+    height: "48%",
     width: "85%",
     paddingVertical: 10,
   },
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   checkbox: {
     width: 25,
     height: 25,
-    backgroundColor: "white",
+    backgroundColor: "#FFE48E",
     borderRadius: 5,
     marginLeft: 5,
     justifyContent: "center",
