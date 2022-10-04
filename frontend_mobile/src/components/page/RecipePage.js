@@ -7,6 +7,7 @@ import RecipeDetail from "../organism/RecipeDetail";
 import Button from "../atom/Button";
 import TopNav from "../organism/TopNav";
 import { fetchRecipeDetail } from "../../apis/recipes";
+import Loading from "../atom/Loading";
 
 export default function RecipePage({ route, navigation }) {
   const [index, setIndex] = useState(0);
@@ -38,7 +39,9 @@ export default function RecipePage({ route, navigation }) {
     navigation.push("RecipeStep", { id: route.params.id, step: 1 });
   }
 
-  return (
+  return recipe.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
       <TopNav title={recipe[1]} />
       <View style={styles.content}>
@@ -56,7 +59,7 @@ export default function RecipePage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F4F4F4",
   },
   header: {
     flexDirection: "row",

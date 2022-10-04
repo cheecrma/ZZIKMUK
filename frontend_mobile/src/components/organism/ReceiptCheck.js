@@ -6,6 +6,7 @@ import DottedLine from "../atom/DottedLine";
 import { EvilIcons } from "@expo/vector-icons";
 import Input from "../atom/input";
 import axios from "axios";
+import TopNav from "./TopNav";
 
 export default function Receipt({ receipt, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,17 +39,17 @@ export default function Receipt({ receipt, navigation }) {
   function onDelete(i) {
     newIngredient.splice(i, 1);
 
-    console.log("<<<<<<<<삭제된 newIngredient");
-    console.log(newIngredient);
+    // console.log("<<<<<<<<삭제된 newIngredient");
+    // console.log(newIngredient);
   }
 
-  console.log("<<<<<<<<기존&바뀐최종 newIngredient");
+  // console.log("<<<<<<<<기존&바뀐최종 newIngredient");
   console.log(newIngredient);
 
   function onAdd(element) {
     newIngredient.push(element);
-    console.log("<<<<<<<<추가된 newIngredient");
-    console.log(newIngredient);
+    // console.log("<<<<<<<<추가된 newIngredient");
+    // console.log(newIngredient);
   }
 
   return (
@@ -64,7 +65,7 @@ export default function Receipt({ receipt, navigation }) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <View style={{ width: 300, height: 200 }}>
+            <View style={{ width: 300, height: 300 }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -72,18 +73,15 @@ export default function Receipt({ receipt, navigation }) {
                   marginBottom: 25,
                 }}
               >
-                <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
-                  <AntDesign name="arrowleft" size={24} color="black" />
-                </TouchableWithoutFeedback>
+                <View style={{ flex: 1 }}>
+                  <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
+                    <AntDesign name="arrowleft" size={24} color="black" />
+                  </TouchableWithoutFeedback>
+                </View>
                 <Text style={styles.title}>재료 추가 하기</Text>
-                <View></View>
+                <View style={{ flex: 1 }}></View>
               </View>
               <Input status="modal" onChangeText={ingList} />
-              {/* <Pressable onPress={""}>
-                <Text>
-                  <AntDesign name="pluscircleo" size={24} color="black" />
-                </Text>
-              </Pressable> */}
               <ScrollView>
                 {Array.isArray(ing) ? (
                   ing?.map((ing, a) => {
@@ -95,7 +93,7 @@ export default function Receipt({ receipt, navigation }) {
                             reload();
                           }}
                         >
-                          <Text>{ing?.[1]}</Text>
+                          <Text style={{ fontSize: 18, marginTop: 5, marginBottom: 5 }}>{ing?.[1]}</Text>
                         </Pressable>
                       </View>
                     );
@@ -144,13 +142,14 @@ export default function Receipt({ receipt, navigation }) {
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>재료 추가</Text>
         </Button>
       </View>
+      <DottedLine />
       {/* 영수증 하단 레시피 이동 부분 */}
-      <Text>원하는 재료를 추가해서 다양한 레시피를 제공 받아 보세요.</Text>
-      <View style={{ flex: 1 }}>
+      <Text style={{ flex: 2 }}>원하는 재료를 추가해서 다양한 레시피를 제공 받아 보세요.</Text>
+      <View style={{ flex: 3 }}>
         <Button
           color="white"
           variant="BoldColor"
-          size="large"
+          size="mediumer"
           onPress={() => {
             goReceiptRecommendPage();
           }}
@@ -165,7 +164,7 @@ export default function Receipt({ receipt, navigation }) {
 const styles = StyleSheet.create({
   receipt: {
     width: 350,
-    height: 480,
+    height: 620,
     alignItems: "center",
     justifyContent: "space-evenly",
     elevation: 4,
@@ -177,6 +176,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "800",
+    flex: 2,
   },
   receiptName: {
     flex: 1,

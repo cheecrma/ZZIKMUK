@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground, ScrollView } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 import RecipePagination from "../organism/RecipePagination";
 import Button from "../atom/Button";
 import TopNav from "../organism/TopNav";
 import * as Speech from "expo-speech";
 import { fetchRecipeStep } from "../../apis/recipes";
+import { Audio } from "expo-av";
+import * as FileSystem from "expo-file-system";
+import { EncodingType } from "expo-file-system";
+import axios from "axios";
+import Loading from "../atom/Loading";
 
 export default function RecipeStepPage({ route, navigation }) {
   const [stepInfo, setStepInfo] = useState([]);
   const [isPlayed, setIsPlayed] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [recording, setRecording] = useState();
+  const [can, setCan] = useState("");
 
-  function requestRecipeStepSuccess(res) {
+  async function requestRecipeStepSuccess(res) {
     console.log(res.data);
     setStepInfo(res.data);
   }
@@ -29,7 +32,20 @@ export default function RecipeStepPage({ route, navigation }) {
     fetchRecipeStep(route.params.id, route.params.step, requestRecipeStepSuccess, requestRecipeStepFail);
   }, []);
 
+  useEffect(() => {
+    if (stepInfo.length > 0) {
+      playPauseToggle();
+    }
+  }, [stepInfo]);
+
   function changeStep(newStep) {
+    if (recording) {
+      setRecording(undefined);
+      recording.stopAndUnloadAsync();
+    }
+    if (isPlayed) {
+      Speech.stop();
+    }
     navigation.push("RecipeStep", { id: route.params.id, step: newStep });
   }
 
@@ -39,20 +55,80 @@ export default function RecipeStepPage({ route, navigation }) {
 
   // expo tts
   function playPauseToggle() {
+    setIsPlayed(!isPlayed);
     if (!isPlayed) {
-      const thingToSay = stepInfo[4];
+      const thingToSay = stepInfo[4].replace(" ", "").length > 7 ? stepInfo[4] : stepInfo[4] + " ".repeat(14);
       Speech.speak(thingToSay);
+      setTimeout(() => {
+        setIsPlayed(false);
+      }, (stepInfo[4].replace(" ", "").length / 5.7) * 1000);
     } else {
       Speech.stop();
     }
-    setIsPlayed(!isPlayed);
   }
 
-  function muteUnmuteToggle() {
-    setIsMuted(!isMuted);
+  // 음성 녹음 시작
+  async function startRecording() {
+    try {
+      console.log("Requesting permissions..");
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      console.log("Starting recording..");
+      const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
+      setRecording(recording);
+      console.log("Recording started");
+
+      await wait(4000);
+
+      // 음성녹음 정지
+      console.log("Stopping recording..");
+      setRecording(undefined);
+      await recording.stopAndUnloadAsync();
+      const uri = recording.getURI();
+      let file = "";
+      await FileSystem.readAsStringAsync(uri, { encoding: EncodingType.Base64 }).then(content => {
+        file = content;
+      });
+      let rlt = "";
+      await axios
+        .post(`https://j7a102.p.ssafy.io/api/languages/stt/`, {
+          base_64: file,
+        })
+        .then(res => {
+          rlt = res.data.status_code;
+          setCan(rlt);
+
+          if (route.params.step < stepInfo[5] && rlt == 3) {
+            navigation.push("RecipeStep", { id: route.params.id, step: route.params.step + 1 });
+          } else if (route.params.step > 1 && rlt == 1) {
+            navigation.push("RecipeStep", { id: route.params.id, step: route.params.step - 1 });
+          } else if (rlt == 2) {
+            playPauseToggle();
+          } else {
+            console.log(rlt);
+            setCan("없음");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          setCan(err);
+        });
+    } catch (err) {
+      console.error("Failed to start recording", err);
+    }
   }
 
-  return (
+  function wait(delay) {
+    return new Promise(resolve => setTimeout(resolve, delay));
+  }
+
+  return stepInfo.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
       <TopNav title={stepInfo[1]} />
       <View style={styles.content}>
@@ -65,6 +141,7 @@ export default function RecipeStepPage({ route, navigation }) {
         </View>
         <View style={styles.step}>
           <Text style={styles.stepText}>{stepInfo[4]}</Text>
+          <Text>{can}</Text>
         </View>
         <View style={styles.soundBtnContainer}>
           <TouchableWithoutFeedback onPress={playPauseToggle}>
@@ -76,23 +153,21 @@ export default function RecipeStepPage({ route, navigation }) {
               )}
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={muteUnmuteToggle}>
-            <View style={styles.soundBtn}>
-              {!isMuted ? (
-                <Feather name="volume-2" size={20} color="white" />
-              ) : (
-                <Feather name="volume-x" size={20} color="white" />
-              )}
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
-            <View style={styles.soundBtn}>
-              <FontAwesome name="microphone" size={20} color="white" />
-            </View>
+          <TouchableWithoutFeedback onPress={recording ? null : startRecording}>
+            {recording ? (
+              <View style={{ ...styles.soundBtn, backgroundColor: "#FFE48E" }}>
+                <MaterialIcons name="hearing" size={20} color="black" />
+              </View>
+            ) : (
+              <View style={styles.soundBtn}>
+                <FontAwesome name="microphone" size={20} color="white" />
+              </View>
+            )}
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.explain}>
-          <Text>오케이 구글~ 레시피 넘겨줘</Text>
+          <Text>마이크 버튼을 누르고 말해보세요</Text>
+          <Text>다음으로 넘겨줘, 이전으로 이동해줘, 다시 읽어줘</Text>
         </View>
         <RecipePagination totalSteps={stepInfo[5]} checkedIndex={route.params.step} check={changeStep} />
         <View style={styles.stepBtn}>
