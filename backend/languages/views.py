@@ -18,7 +18,7 @@ from .key import service
 class sound_to_text(APIView):
     def decode_64(self, data_64):
         decoded_data = base64.b64decode(data_64)
-        video_result = open('./languages/tts.flac', 'wb')
+        video_result = open('./languages/tts.wav', 'wb')
         video_result.write(decoded_data)
         video_result.close()
         return
@@ -28,10 +28,10 @@ class sound_to_text(APIView):
         data_64 = request.data['base_64']
 
         self.decode_64(data_64)
-        print('mp3 create success')
+        print('wav create success')
 
         service.connect()
-        audio_path = "./languages/tts.flac"
+        audio_path = "./languages/tts.wav"
 
         status_code = STT.speech_to_text(audio_path=audio_path)
         return_json = {
