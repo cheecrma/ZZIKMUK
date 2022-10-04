@@ -34,11 +34,12 @@ def speech_to_text(audio_path):
         speech_contexts=[speech_context],
     )
 
-    operation = client.long_running_recognize(config=config, audio=audio)
+    # operation = client.long_running_recognize(config=config, audio=audio)
 
     print("Waiting for operation to complete...")
 
-    response = operation.recognize(timeout=90)
+    # response = operation.result(timeout=90)
+    response = operation.recognize(config=config, audio=audio)
 
     print(response)
 
