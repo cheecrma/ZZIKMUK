@@ -20,12 +20,13 @@ class sound_to_text(APIView):
         decoded_data = base64.b64decode(data_64)
         video_result = open('./languages/tts.mp3', 'wb')
         video_result.write(decoded_data)
+        video_result.close()
         return
 
     def post(self, request, format=None):
 
         data_64 = request.data['base_64']
-        print(data_64)
+
         self.decode_64(data_64)
         print('mp3 create success')
 

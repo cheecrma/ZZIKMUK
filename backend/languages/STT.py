@@ -11,13 +11,13 @@ def speech_to_text(audio_path):
 
     audio = speech.RecognitionAudio(content=content)
 
-    # speech_context = speech.SpeechContext(phrases=[
-    #         '다음',
-    #         '이전',
-    #         '다시', '한번 더',
-    #         '넘겨', '이동',
-    #         '읽어', '재생'
-    #     ])
+    speech_context = speech.SpeechContext(phrases=[
+            '다음',
+            '이전',
+            '다시', '한번 더',
+            '넘겨', '이동',
+            '읽어', '재생'
+        ])
 
     sample_speech_contexts = [
             '다음',
@@ -31,7 +31,7 @@ def speech_to_text(audio_path):
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
         sample_rate_hertz=16000,
         language_code="ko-KR",
-        # speech_contexts=[speech_context],
+        speech_contexts=[speech_context],
     )
 
     # operation = client.long_running_recognize(config=config, audio=audio)
@@ -39,7 +39,7 @@ def speech_to_text(audio_path):
     print("Waiting for operation to complete...")
 
     # response = operation.result(timeout=90)
-    response = client.recognize(config=config, audio=audio)
+    response = client.recognize(config, audio)
 
     print(response)
 
