@@ -30,7 +30,7 @@ def speech_to_text(audio_path):
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
         sample_rate_hertz=16000,
         language_code="ko-KR",
-        # speech_contexts=[speech_context],
+        speech_contexts=[speech_context],
     )
 
     operation = client.long_running_recognize(config=config, audio=audio)
