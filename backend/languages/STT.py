@@ -17,8 +17,6 @@ def speech_to_text(audio_path):
     #     speech.StreamingRecognizeRequest(audio_content=chunk) for chunk in stream
     # )
 
-    print(request)
-
     speech_context = speech.SpeechContext(phrases=[
             '다음',
             '이전',
