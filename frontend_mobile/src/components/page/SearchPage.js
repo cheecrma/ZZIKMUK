@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Input from "../atom/input";
-import { StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView, Pressable } from "react-native";
+import { Keyboard, StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../organism/Card";
 import axios from "axios";
@@ -17,13 +17,13 @@ export default function SearchPage({ navigation }) {
   }
 
   function search() {
-    console.log("검색");
     if (tag === 0) {
       axios
         .post(`https://j7a102.p.ssafy.io/api/recipes/search/r_ingr/`, {
           text: searchText,
         })
         .then(res => {
+          console.log("재료로");
           console.log(res.data);
           setFoodList(res.data);
         })
@@ -36,6 +36,7 @@ export default function SearchPage({ navigation }) {
           text: searchText,
         })
         .then(res => {
+          console.log("이름으로");
           console.log(res.data);
           setFoodList(res.data);
         })
@@ -44,7 +45,17 @@ export default function SearchPage({ navigation }) {
         });
     }
     setSortTheme("조회");
+    Keyboard.dismiss();
   }
+
+  useEffect(() => {
+    if (searchText) {
+      console.log(searchText);
+      console.log(tag);
+      search();
+      scrollView.current.scrollTo({ y: 0 });
+    }
+  }, [tag]);
 
   function sort(theme) {
     let newFoodList = [...foodList];
@@ -63,6 +74,7 @@ export default function SearchPage({ navigation }) {
     }
     setFoodList(newFoodList);
     setSortTheme(theme);
+    scrollView.current.scrollTo({ y: 0 });
   }
 
   return (
@@ -93,7 +105,11 @@ export default function SearchPage({ navigation }) {
         </View>
       </View>
       <View style={styles.tagContainer}>
-        <TouchableWithoutFeedback onPress={() => setTag(0)}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setTag(0);
+          }}
+        >
           <View
             style={
               tag === 0
@@ -104,7 +120,11 @@ export default function SearchPage({ navigation }) {
             <Text style={styles.tagTitleText}>재료로 검색</Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => setTag(1)}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setTag(1);
+          }}
+        >
           <View
             style={
               tag === 1
@@ -229,11 +249,11 @@ const styles = StyleSheet.create({
   },
   topBtn: {
     position: "absolute",
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     backgroundColor: "#ADADAD",
-    bottom: 10,
-    right: 10,
+    bottom: 20,
+    right: 20,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,
