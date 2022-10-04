@@ -26,6 +26,7 @@ def speech_to_text(audio_path):
             '넘겨', '이동'
             '읽어', '재생'
         ]
+
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
         sample_rate_hertz=16000,
@@ -37,7 +38,7 @@ def speech_to_text(audio_path):
 
     print("Waiting for operation to complete...")
 
-    response = operation.result(timeout=90)
+    response = operation.recognize(timeout=90)
 
     print(response)
 
