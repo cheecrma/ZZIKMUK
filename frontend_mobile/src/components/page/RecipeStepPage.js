@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground, ScrollView } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 import RecipePagination from "../organism/RecipePagination";
 import Button from "../atom/Button";
 import TopNav from "../organism/TopNav";
@@ -18,8 +15,9 @@ export default function RecipeStepPage({ route, navigation }) {
   const [stepInfo, setStepInfo] = useState([]);
   const [isPlayed, setIsPlayed] = useState(false);
   const [recording, setRecording] = useState();
+  const [can, setCan] = useState("");
 
-  function requestRecipeStepSuccess(res) {
+  async function requestRecipeStepSuccess(res) {
     console.log(res.data);
     setStepInfo(res.data);
   }
@@ -33,10 +31,19 @@ export default function RecipeStepPage({ route, navigation }) {
     fetchRecipeStep(route.params.id, route.params.step, requestRecipeStepSuccess, requestRecipeStepFail);
   }, []);
 
+  useEffect(() => {
+    if (stepInfo.length > 0) {
+      playPauseToggle();
+    }
+  }, [stepInfo]);
+
   function changeStep(newStep) {
     if (recording) {
       setRecording(undefined);
       recording.stopAndUnloadAsync();
+    }
+    if (isPlayed) {
+      Speech.stop();
     }
     navigation.push("RecipeStep", { id: route.params.id, step: newStep });
   }
@@ -92,6 +99,7 @@ export default function RecipeStepPage({ route, navigation }) {
         })
         .then(res => {
           rlt = res.data.status_code;
+          setCan(rlt);
 
           if (route.params.step < stepInfo[5] && rlt == 3) {
             navigation.push("RecipeStep", { id: route.params.id, step: route.params.step + 1 });
@@ -101,10 +109,12 @@ export default function RecipeStepPage({ route, navigation }) {
             playPauseToggle();
           } else {
             console.log(rlt);
+            setCan("없음");
           }
         })
         .catch(err => {
           console.log(err);
+          setCan(err);
         });
     } catch (err) {
       console.error("Failed to start recording", err);
@@ -128,6 +138,7 @@ export default function RecipeStepPage({ route, navigation }) {
         </View>
         <View style={styles.step}>
           <Text style={styles.stepText}>{stepInfo[4]}</Text>
+          <Text>{can}</Text>
         </View>
         <View style={styles.soundBtnContainer}>
           <TouchableWithoutFeedback onPress={playPauseToggle}>
@@ -140,9 +151,15 @@ export default function RecipeStepPage({ route, navigation }) {
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={recording ? null : startRecording}>
-            <View style={styles.soundBtn}>
-              <FontAwesome name="microphone" size={20} color="white" />
-            </View>
+            {recording ? (
+              <View style={{ ...styles.soundBtn, backgroundColor: "#FFE48E" }}>
+                <MaterialIcons name="hearing" size={20} color="black" />
+              </View>
+            ) : (
+              <View style={styles.soundBtn}>
+                <FontAwesome name="microphone" size={20} color="white" />
+              </View>
+            )}
           </TouchableWithoutFeedback>
         </View>
         <View style={styles.explain}>
