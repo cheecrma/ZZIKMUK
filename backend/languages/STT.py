@@ -2,6 +2,7 @@ from .key import service
 from google.cloud import speech
 import io
 
+
 def speech_to_text(audio_path):
 
     client = speech.SpeechClient()
@@ -18,6 +19,8 @@ def speech_to_text(audio_path):
     requests = (
         speech.StreamingRecognizeRequest(audio_content=chunk) for chunk in stream
     )
+
+    print(requests)
 
     speech_context = speech.SpeechContext(phrases=[
             '다음',
@@ -55,21 +58,33 @@ def speech_to_text(audio_path):
     )
     print(responses)
 
-    try:
+    # try:
+    #     for result in response.results:
+    #         result_text = result.alternatives[0].transcript
+    #         print(result_text)
+    #
+    #         for context in sample_speech_contexts:
+    #             if context in result_text:
+    #                 if context == '다음':
+    #                     return 3
+    #                 elif context == '이전':
+    #                     return 1
+    #                 elif context in ['다시', '한번 더']:
+    #                     return 2
+    #
+    #         return -1
+    #
+    # except:
+    #     return 'failed'
+    for response in responses:
+        # Once the transcription has settled, the first result will contain the
+        # is_final result. The other results will be for subsequent portions of
+        # the audio.
         for result in response.results:
-            result_text = result.alternatives[0].transcript
-            print(result_text)
-
-            for context in sample_speech_contexts:
-                if context in result_text:
-                    if context == '다음':
-                        return 3
-                    elif context == '이전':
-                        return 1
-                    elif context in ['다시', '한번 더']:
-                        return 2
-
-            return -1
-
-    except:
-        return 'failed'
+            print("Finished: {}".format(result.is_final))
+            print("Stability: {}".format(result.stability))
+            alternatives = result.alternatives
+            # The alternatives are ordered from most likely to least.
+            for alternative in alternatives:
+                print("Confidence: {}".format(alternative.confidence))
+                print(u"Transcript: {}".format(alternative.transcript))
