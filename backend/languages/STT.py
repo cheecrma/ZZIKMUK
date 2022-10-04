@@ -1,15 +1,23 @@
 from .key import service
 from google.cloud import speech
-
+import io
 
 def speech_to_text(audio_path):
 
     client = speech.SpeechClient()
 
-    with open(audio_path, "rb") as audio_file:
+    # with open(audio_path, "rb") as audio_file:
+    #     content = audio_file.read()
+
+    with io.open(audio_path, "rb") as audio_file:
         content = audio_file.read()
 
-    audio = speech.RecognitionAudio(content=content)
+    stream = [content]
+    # audio = speech.RecognitionAudio(content=content)
+
+    requests = (
+        speech.StreamingRecognizeRequest(audio_content=chunk) for chunk in stream
+    )
 
     speech_context = speech.SpeechContext(phrases=[
             '다음',
@@ -33,15 +41,19 @@ def speech_to_text(audio_path):
         language_code="ko-KR",
         speech_contexts=[speech_context],
     )
+    streaming_config = speech.StreamingRecognitionConfig(config=config)
 
     # operation = client.long_running_recognize(config=config, audio=audio)
 
     print("Waiting for operation to complete...")
 
     # response = operation.result(timeout=90)
-    response = client.recognize(config=config, audio=audio)
-
-    print(response)
+    # response = client.recognize(config=config, audio=audio)
+    responses = client.streaming_recognize(
+        config=streaming_config,
+        requests=requests,
+    )
+    print(responses)
 
     try:
         for result in response.results:
