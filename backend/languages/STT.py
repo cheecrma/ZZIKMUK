@@ -34,7 +34,7 @@ def speech_to_text(audio_path):
         ]
 
     config = speech.RecognitionConfig(
-        encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
+        encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
         sample_rate_hertz=16000,
         language_code="ko-KR",
         speech_contexts=[speech_context],
