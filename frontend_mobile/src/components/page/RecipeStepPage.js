@@ -10,6 +10,7 @@ import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import { EncodingType } from "expo-file-system";
 import axios from "axios";
+import Loading from "../atom/Loading";
 
 export default function RecipeStepPage({ route, navigation }) {
   const [stepInfo, setStepInfo] = useState([]);
@@ -125,7 +126,9 @@ export default function RecipeStepPage({ route, navigation }) {
     return new Promise(resolve => setTimeout(resolve, delay));
   }
 
-  return (
+  return stepInfo.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
       <TopNav title={stepInfo[1]} />
       <View style={styles.content}>
