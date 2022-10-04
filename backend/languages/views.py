@@ -25,7 +25,7 @@ class sound_to_text(APIView):
     def post(self, request, format=None):
 
         data_64 = request.data['base_64']
-
+        print(data_64)
         self.decode_64(data_64)
         print('mp3 create success')
 
