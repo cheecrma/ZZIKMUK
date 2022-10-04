@@ -56,7 +56,7 @@ export default function RecipePage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F4F4F4",
   },
   header: {
     flexDirection: "row",

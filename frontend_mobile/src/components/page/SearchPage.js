@@ -67,26 +67,28 @@ export default function SearchPage({ navigation }) {
 
   return (
     <View>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                setSearchText("");
-                setTag(0);
-                navigation.navigate("Main");
-              }}
-            >
-              <AntDesign name="arrowleft" size={24} color="black" />
-            </TouchableWithoutFeedback>
-          </View>
-          <View style={{ width: 300, backgroundColor: "white", borderRadius: 5, flex: 6 }}>
-            <Input onChangeText={text => setSearchText(text)} />
-          </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Pressable onPress={() => search()}>
-              <AntDesign name="search1" size={24} color="black" />
-            </Pressable>
+      <View style={{ marginTop: 10, marginBottom: 20 }}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  setSearchText("");
+                  setTag(0);
+                  navigation.navigate("Main");
+                }}
+              >
+                <AntDesign name="arrowleft" size={24} color="black" />
+              </TouchableWithoutFeedback>
+            </View>
+            <View style={{ width: 300, backgroundColor: "white", borderRadius: 5, flex: 8 }}>
+              <Input onChangeText={text => setSearchText(text)} />
+            </View>
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <Pressable onPress={() => search()}>
+                <AntDesign name="search1" size={24} color="black" />
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
@@ -206,11 +208,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   container: {
-    backgroundColor: "gray",
-    padding: 10,
-    margin: 10,
+    backgroundColor: "#FFE48E",
+    padding: 5,
+    margin: 5,
     borderRadius: 10,
-    height: 70,
+    height: 60,
   },
   header: {
     flexDirection: "row",

@@ -11,7 +11,7 @@ export default function Input({ status, onChangeText }) {
   return (
     <StyledInput
       status={status}
-      placeholder={status === "modal" ? " 검색" : " 재료, 음식 검색"}
+      placeholder={status === "modal" ? " 검색" : "  재료, 음식 검색 "}
       onChangeText={onChangeText}
     />
   );
@@ -34,7 +34,7 @@ function getBorderWidth(status) {
     case "modal":
       return "2px";
     default:
-      return "0px";
+      return "1px";
   }
 }
 
@@ -52,7 +52,7 @@ function getWidth(status) {
     case "modal":
       return "100%";
     default:
-      return "80%";
+      return "100%";
   }
 }
 
