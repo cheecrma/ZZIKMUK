@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import CarouselOrganism from "../organism/CarouselOrganism";
 import { fetchRecipesTips } from "../../apis/recipes";
 import axios from "axios";
+import Loading from "../atom/Loading";
 
 export default function MainPage({ navigation }) {
   /// 랜덤 꿀팁 추천 /////
@@ -23,7 +24,17 @@ export default function MainPage({ navigation }) {
     fetchRecipesTips(randomTip, requestTipSuccess, requestTipFail);
   }, []);
 
-  return (
+  // const [ready, setReady] = useState(true);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setReady(false);
+  //   }, 3000);
+  // }, []);
+  // return ready ? (
+
+  return tip.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
       <View style={styles.logoBoxText}>
         <Text style={styles.logoText} onPress={() => navigation.navigate("Main")}>

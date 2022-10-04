@@ -8,6 +8,7 @@ import Button from "../atom/Button";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import Loading from "../atom/Loading";
 
 export default function CameraReceipt() {
   let cameraRef = useRef();
@@ -84,7 +85,9 @@ export default function CameraReceipt() {
     //   });
     // };
 
-    return (
+    return receipt.length === 0 ? (
+      <Loading />
+    ) : (
       <SafeAreaView style={styles.container}>
         <View style={styles.logoBoxText}>
           <Text style={styles.logoText} onPress={() => navigation.navigate("Main")}>

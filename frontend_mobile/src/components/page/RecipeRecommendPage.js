@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import Card from "../organism/Card";
 import TopNav from "../organism/TopNav";
 import { fetchRecommendRecipeList } from "../../apis/recipes";
+import Loading from "../atom/Loading";
 
 export default function RecipeRecommendPage({ route, navigation }) {
   const [recommendList, setRecommendList] = useState([]);
@@ -31,7 +32,9 @@ export default function RecipeRecommendPage({ route, navigation }) {
     navigation.push("Recipe", { id });
   }
 
-  return (
+  return recommendList.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
       <TopNav title="추천 레시피" />
       <View style={styles.content}>

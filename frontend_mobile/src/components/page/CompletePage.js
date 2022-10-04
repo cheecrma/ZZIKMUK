@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } fro
 import Button from "../atom/Button";
 import { fetchRecipeComplete } from "../../apis/recipes";
 import TopNav from "../organism/TopNav";
+import Loading from "../atom/Loading";
 
 export default function CompletePage({ route, navigation }) {
   const [food, setFood] = useState([]);
@@ -29,7 +30,9 @@ export default function CompletePage({ route, navigation }) {
     navigation.push("RecipeStep", { id: route.params.id, step: route.params.totalSteps });
   }
 
-  return (
+  return food.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
       {/* <TopNav title={food[0]} /> */}
       <View style={styles.logoBoxText}>
