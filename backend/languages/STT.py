@@ -39,7 +39,7 @@ def speech_to_text(audio_path):
     print("Waiting for operation to complete...")
 
     # response = operation.result(timeout=90)
-    response = client.recognize(config, audio)
+    response = client.recognize(config=config, audio=audio)
 
     print(response)
 
