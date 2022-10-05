@@ -4,6 +4,7 @@ import { Keyboard, StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView,
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../organism/Card";
 import axios from "axios";
+import { searchRecipesByName, searchRecipesByIngredient } from "../../apis/recipes";
 
 export default function SearchPage({ navigation }) {
   const [foodList, setFoodList] = useState([]);
@@ -16,33 +17,29 @@ export default function SearchPage({ navigation }) {
     navigation.push("Recipe", { id });
   }
 
+  function searchByNameSuccess(res) {
+    console.log(res.data);
+    setFoodList(res.data);
+  }
+
+  function searchByNameFail(err) {
+    console.log(err);
+  }
+
+  function searchByIngredientSuccess(res) {
+    console.log(res.data);
+    setFoodList(res.data);
+  }
+
+  function searchByIngredientFail(err) {
+    console.log(err);
+  }
+
   function search() {
     if (tag === 0) {
-      axios
-        .post(`https://j7a102.p.ssafy.io/api/recipes/search/r_ingr/`, {
-          text: searchText,
-        })
-        .then(res => {
-          console.log("재료로");
-          console.log(res.data);
-          setFoodList(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      searchRecipesByIngredient(searchText, searchByIngredientSuccess, searchByIngredientFail);
     } else {
-      axios
-        .post(`https://j7a102.p.ssafy.io/api/recipes/search/r_name/`, {
-          text: searchText,
-        })
-        .then(res => {
-          console.log("이름으로");
-          console.log(res.data);
-          setFoodList(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      searchRecipesByName(searchText, searchByNameSuccess, searchByNameFail);
     }
     setSortTheme("조회");
     Keyboard.dismiss();
