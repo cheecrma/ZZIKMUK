@@ -28,8 +28,8 @@ class ReceiptView(APIView):
             img64 = request.data['path']
             list = ocr.ing_list(img64)
             #list = self.receipt_ocr("img/test1.jpg")
-            if list == -1: # 분석 결과가 없음
-                return Response({"message": "Text 없음"}, status=400)
+            if list == -1: # 분석 결과가 없음(OCR 인식 X or 인식된 재료 X)
+                return Response(-1, status=400)
             if len(list) != 0:
                 return Response(list)
             else:
