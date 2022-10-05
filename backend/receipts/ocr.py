@@ -66,7 +66,7 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     ocr_list = ['면세', '강릉심층수', '하선정까나리액젓G', '매일저지방우유기획ml', '오뚜기델리케찹g', '코드다발무우다발', '새우깡',
     '코드대파단', '세척당근', '동원참치마일드', '미나리', '허니버터칩', '히말라야소금', '할인액']
     print("ocr_list:", ocr_list)
-    if ocr_list==-1 or len(ocr_list)<1: # 분석된 글자 X -> 사진 다시 찍어야함
+    if ocr_list==-1: # 분석된 글자 없으면 에러
         return -1
     
     remove = os.path.join(now, 'check/notIng.txt')
@@ -78,7 +78,7 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
             line = line.strip('\n')
             for i in range(len(ocr_list)):
                 if line in ocr_list[i]:
-                    print("line과 temp: ", ocr_list[i])
+                    #print("line과 temp: ", ocr_list[i])
                     ocr_list[i] = ''
     ocr_list = list(filter(lambda ing: ing is not '', ocr_list))
     print("remove: ", ocr_list)
@@ -91,9 +91,9 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
             for i in range(len(ocr_list)):
                 for j in range(1, len(line)):
                     if line[j] in ocr_list[i]:
-                        print("기존 단어: ", ocr_list[i])
+                        #print("기존 단어: ", ocr_list[i])
                         ocr_list[i] = ocr_list[i].replace(line[j], line[0])
-                        print("바뀐 단어: ", ocr_list[i])
+                        #print("바뀐 단어: ", ocr_list[i])
     print("change: ", ocr_list)
     
     # Ingredient를 돌며 ocr_list에 재료가 있으면 해당 재료의 id와 재료를 리스트에 저장[id, name]
@@ -102,11 +102,15 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     for ing in ing_all:
         for x in ocr_list:
             if ing.name in x:
-                ings.append([ing.id, ing.name])
+                ings.append(ing.name)
+
+    if len(ings) < 1: # 재료 리스트에 들어간 재료 없을 때 에러
+        return -1
     
     print("재료 리스트 출력")
     print("ings: ", ings)
     return ings
+    
     '''
     현재 문제점: 포함관계인 DB도 같이 나옴
     ex) 참치캔 -> 참치, 참치캔 모두 데이터에 들어감
