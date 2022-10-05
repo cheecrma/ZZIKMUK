@@ -4,6 +4,7 @@ import { Keyboard, StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView,
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../organism/Card";
 import axios from "axios";
+import { searchRecipesByName, searchRecipesByIngredient } from "../../apis/recipes";
 
 export default function SearchPage({ navigation }) {
   const [foodList, setFoodList] = useState([]);
@@ -16,33 +17,29 @@ export default function SearchPage({ navigation }) {
     navigation.push("Recipe", { id });
   }
 
+  function searchByNameSuccess(res) {
+    console.log(res.data);
+    setFoodList(res.data);
+  }
+
+  function searchByNameFail(err) {
+    console.log(err);
+  }
+
+  function searchByIngredientSuccess(res) {
+    console.log(res.data);
+    setFoodList(res.data);
+  }
+
+  function searchByIngredientFail(err) {
+    console.log(err);
+  }
+
   function search() {
     if (tag === 0) {
-      axios
-        .post(`https://j7a102.p.ssafy.io/api/recipes/search/r_ingr/`, {
-          text: searchText,
-        })
-        .then(res => {
-          console.log("재료로");
-          console.log(res.data);
-          setFoodList(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      searchRecipesByIngredient(searchText, searchByIngredientSuccess, searchByIngredientFail);
     } else {
-      axios
-        .post(`https://j7a102.p.ssafy.io/api/recipes/search/r_name/`, {
-          text: searchText,
-        })
-        .then(res => {
-          console.log("이름으로");
-          console.log(res.data);
-          setFoodList(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      searchRecipesByName(searchText, searchByNameSuccess, searchByNameFail);
     }
     setSortTheme("조회");
     Keyboard.dismiss();
@@ -57,22 +54,23 @@ export default function SearchPage({ navigation }) {
     }
   }, [tag]);
 
+  // 시간순 추가, 재료 많은 순, 가나다순 삭제
   function sort(theme) {
     let newFoodList = [...foodList];
     if (theme === "조회") {
       newFoodList.sort((foodA, foodB) => foodB[6] - foodA[6]);
+    } else if (theme === "시간") {
+      newFoodList.sort((foodA, foodB) => foodA[5] - foodB[5]);
     } else if (theme === "높음") {
       newFoodList.sort((foodA, foodB) => foodB[3] - foodA[3]);
     } else if (theme === "낮음") {
       newFoodList.sort((foodA, foodB) => foodA[3] - foodB[3]);
-    } else if (theme === "가나다") {
-      newFoodList.sort((foodA, foodB) => foodA[1] > foodB[1]);
-    } else if (theme === "많음") {
-      newFoodList.sort((foodA, foodB) => foodB[7] - foodA[7]);
     } else if (theme === "적음") {
       newFoodList.sort((foodA, foodB) => foodA[7] - foodB[7]);
     }
-    setFoodList(newFoodList);
+    if (Array.isArray(foodList)) {
+      setFoodList(newFoodList);
+    }
     setSortTheme(theme);
     scrollView.current.scrollTo({ y: 0 });
   }
@@ -145,6 +143,12 @@ export default function SearchPage({ navigation }) {
             <Text style={sortTheme === "조회" ? styles.checkedText : {}}>조회순</Text>
           </Pressable>
           <Pressable
+            style={sortTheme === "시간" ? { ...styles.checkedBtn, ...styles.sortBtn } : { ...styles.sortBtn }}
+            onPress={() => sort("시간")}
+          >
+            <Text style={sortTheme === "시간" ? styles.checkedText : {}}>조리 시간순</Text>
+          </Pressable>
+          <Pressable
             style={sortTheme === "높음" ? { ...styles.checkedBtn, ...styles.sortBtn } : { ...styles.sortBtn }}
             onPress={() => sort("높음")}
           >
@@ -155,18 +159,6 @@ export default function SearchPage({ navigation }) {
             onPress={() => sort("낮음")}
           >
             <Text style={sortTheme === "낮음" ? styles.checkedText : {}}>난이도 낮은순</Text>
-          </Pressable>
-          <Pressable
-            style={sortTheme === "가나다" ? { ...styles.checkedBtn, ...styles.sortBtn } : { ...styles.sortBtn }}
-            onPress={() => sort("가나다")}
-          >
-            <Text style={sortTheme === "가나다" ? styles.checkedText : {}}>가나다순</Text>
-          </Pressable>
-          <Pressable
-            style={sortTheme === "많음" ? { ...styles.checkedBtn, ...styles.sortBtn } : { ...styles.sortBtn }}
-            onPress={() => sort("많음")}
-          >
-            <Text style={sortTheme === "많음" ? styles.checkedText : {}}>재료 많은순</Text>
           </Pressable>
           <Pressable
             style={sortTheme === "적음" ? { ...styles.checkedBtn, ...styles.sortBtn } : { ...styles.sortBtn }}
@@ -197,7 +189,7 @@ export default function SearchPage({ navigation }) {
             )}
           </ScrollView>
         </View>
-        {foodList.length > 2 ? (
+        {Array.isArray(foodList) && foodList.length > 2 ? (
           <Pressable onPress={() => scrollView.current.scrollTo({ y: 0 })}>
             <View style={styles.topBtn}>
               <AntDesign name="caretup" size={18} color="white" />
