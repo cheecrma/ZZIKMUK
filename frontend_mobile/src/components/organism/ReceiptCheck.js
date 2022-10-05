@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Keyboard,
+  ToastAndroid,
 } from "react-native";
 import Button from "../atom/Button";
 import DottedLine from "../atom/DottedLine";
@@ -20,6 +21,10 @@ import TopNav from "./TopNav";
 
 export default function Receipt({ receipt, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  function gravityToast() {
+    ToastAndroid.showWithGravity("재료가 추가되었습니다.", ToastAndroid.SHORT, ToastAndroid.CENTER);
+  }
 
   const newIngredient = receipt[0];
   const [key, setKey] = React.useState(0);
@@ -70,7 +75,6 @@ export default function Receipt({ receipt, navigation }) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >
@@ -102,6 +106,7 @@ export default function Receipt({ receipt, navigation }) {
                           onPress={() => {
                             onAdd(ing?.[1]);
                             reload();
+                            gravityToast();
                           }}
                         >
                           <Text style={{ fontSize: 18, marginTop: 5, marginBottom: 5 }}>{ing?.[1]}</Text>
