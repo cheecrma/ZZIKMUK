@@ -8,9 +8,9 @@ import { Text, Pressable, StyleSheet } from "react-native";
 다른 컴포넌트에서 버튼안에 들어가는 내용을 기입할 수 있으며 눌렀을 경우 이벤트 발생이 가능하다.
 */
 
-export default function Button({ children, color, size, variant, onPress }) {
+export default function Button({ children, color, size, variant, onPress, disabled }) {
   return (
-    <Container size={size} variant={variant} onPress={onPress} style={styles.buttonBox}>
+    <Container size={size} variant={variant} onPress={onPress} style={styles.buttonBox} disabled={disabled}>
       <Title color={color}>{children}</Title>
     </Container>
   );
