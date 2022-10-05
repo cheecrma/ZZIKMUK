@@ -65,7 +65,7 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     ocr_list = ['동원DHA참치g', 'CJ스팸클래식', '재사용봉투L', '오뚜기옛날소', '미니파프리카통', '양상추', '깐양파g',
     '오뚜기참깨라면', '인큐애호박기', '순두부g']
     '''
-    
+    ocr_list = list(map(lambda ing: re.sub('[^가-힣]', "", ing), ocr_list))
     print("ocr_list:", ocr_list)
     if ocr_list==-1: # 분석된 글자 없으면 에러
         return -1
@@ -79,7 +79,6 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
             line = line.strip('\n')
             for i in range(len(ocr_list)):
                 if line in ocr_list[i]:
-                    #print("line과 temp: ", ocr_list[i])
                     ocr_list[i] = ''
     ocr_list = list(filter(lambda ing: ing != '', ocr_list))
     print("remove: ", ocr_list)
@@ -92,9 +91,7 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
             for i in range(len(ocr_list)):
                 for j in range(1, len(line)):
                     if line[j] in ocr_list[i]:
-                        #print("기존 단어: ", ocr_list[i])
                         ocr_list[i] = ocr_list[i].replace(line[j], line[0])
-                        #print("바뀐 단어: ", ocr_list[i])
     print("change: ", ocr_list)
     
     # Ingredient를 돌며 ocr_list에 재료가 있으면 해당 재료의 id와 재료를 리스트에 저장[id, name]
@@ -106,18 +103,16 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
             if ing.name in ocr_list[o]:
                 if checks[o] > 0: # 한 글자인 경우 checks[위치]=위치 -> 더 많이 겹치는 재료가 있으면 해당 재료로 변경
                     #print("이전 ings: ", ings)
-                    #print("현재 위치: ", checks[o], ", 기존 재료: ", ings[o], ", 새로운 재료: ", ing.name)
                     ings[checks[o]] = ing.name
                     checks[o] = 0 # 한 글자 이상의 재료로 바꿨으니 다시 0으로 변경
-                    #print("현재 ings: ", ings)
-                    #print("-----")
+                    #print("현재 ings: ", ings, "\n------")
                 elif checks[o] < 0:
                     if len(ing.name) != 1: # 1글자 이상의 유사한 재료일 경우 추가
                         ings.append(ing.name)
                 else: # checks[0] == 0
                     ings.append(ing.name)
                     if len(ing.name) == 1: # 재료명이 한 글자면 check++
-                        checks[o] = ings.index(ing.name)
+                        checks[o] = len(ings)-1
 
     if len(ings) < 1: # 재료 리스트에 들어간 재료 없을 때 에러
         return -1
@@ -125,15 +120,9 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     print("재료 리스트 출력")
     print("ings: ", list(ings))
     return list(ings)
-    
-    '''
-    현재 문제점: 포함관계인 DB도 같이 나옴
-    ex) 참치캔 -> 참치, 참치캔 모두 데이터에 들어감 -> 비슷한 재료는 둘 다 넣을 수 있게 놔두기
-    문제: 파프리카, 양파에도 파가 들어가서 파가 계속 나옴
-    -> boolean[] 만들어서 이미 검색해서 나온 결과 있을 경우 더 긴 쪽을 넣어줌
-        -> 여러글자가 겹치면 상관없는데 한 글자가 겹치면 아예 다른 경우도 있으므로 한 글자일때만 체크해서 넣어줌 
-    추가로 해야할 것: 예외처리 디테일, 리드미에 재료 추출방법 작성
-    '''
+
+'''    
 # TEST용
-#path = os.path.join(now, 'img/test2.jpg')
-#ing_list(path)
+path = os.path.join(now, 'img/test2.jpg')
+ing_list(path)
+'''
