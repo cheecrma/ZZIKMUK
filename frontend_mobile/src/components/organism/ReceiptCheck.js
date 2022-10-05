@@ -1,13 +1,57 @@
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Pressable, Alert, Modal, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View, Pressable, Alert, Modal, TouchableWithoutFeedback, ScrollView } from "react-native";
 import Button from "../atom/Button";
 import DottedLine from "../atom/DottedLine";
 import { EvilIcons } from "@expo/vector-icons";
 import Input from "../atom/input";
+import axios from "axios";
+import TopNav from "./TopNav";
 
-export default function Receipt() {
+export default function Receipt({ receipt, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const newIngredient = receipt[0];
+  const [key, setKey] = React.useState(0);
+  const reload = React.useCallback(() => setKey(prevKey => prevKey + 1), []);
+
+  const [ing, setIng] = useState([]);
+
+  function goReceiptRecommendPage() {
+    navigation.navigate("Recommend", { newIngredient });
+  }
+
+  function ingList(data) {
+    axios
+      .post("https://j7a102.p.ssafy.io/api/recipes/search/ingr/", {
+        text: data,
+      })
+      .then(function (res) {
+        // console.log(res);
+        console.log(res.data);
+        setIng(res.data);
+      })
+      .catch(function (err) {
+        console.log(err.data);
+      });
+  }
+
+  function onDelete(i) {
+    newIngredient.splice(i, 1);
+
+    // console.log("<<<<<<<<삭제된 newIngredient");
+    // console.log(newIngredient);
+  }
+
+  // console.log("<<<<<<<<기존&바뀐최종 newIngredient");
+  console.log(newIngredient);
+
+  function onAdd(element) {
+    newIngredient.push(element);
+    // console.log("<<<<<<<<추가된 newIngredient");
+    // console.log(newIngredient);
+  }
+
   return (
     <View style={styles.receipt}>
       <Modal
@@ -21,7 +65,7 @@ export default function Receipt() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <View style={{ width: 300, height: 200 }}>
+            <View style={{ width: 300, height: 300 }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -29,13 +73,35 @@ export default function Receipt() {
                   marginBottom: 25,
                 }}
               >
-                <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
-                  <AntDesign name="arrowleft" size={24} color="black" />
-                </TouchableWithoutFeedback>
+                <View style={{ flex: 1 }}>
+                  <TouchableWithoutFeedback onPress={() => setModalVisible(!modalVisible)}>
+                    <AntDesign name="arrowleft" size={24} color="black" />
+                  </TouchableWithoutFeedback>
+                </View>
                 <Text style={styles.title}>재료 추가 하기</Text>
-                <View></View>
+                <View style={{ flex: 1 }}></View>
               </View>
-              <Input status="modal" />
+              <Input status="modal" onChangeText={ingList} />
+              <ScrollView>
+                {Array.isArray(ing) ? (
+                  ing?.map((ing, a) => {
+                    return (
+                      <View key={a}>
+                        <Pressable
+                          onPress={() => {
+                            onAdd(ing?.[1]);
+                            reload();
+                          }}
+                        >
+                          <Text style={{ fontSize: 18, marginTop: 5, marginBottom: 5 }}>{ing?.[1]}</Text>
+                        </Pressable>
+                      </View>
+                    );
+                  })
+                ) : (
+                  <Text>{ing}</Text>
+                )}
+              </ScrollView>
             </View>
           </View>
         </View>
@@ -48,14 +114,47 @@ export default function Receipt() {
       </View>
       <DottedLine />
       <View style={styles.receiptIngredient}>
-        <Text style={styles.receiptBoxName}>대파</Text>
-        <EvilIcons name="trash" size={33} color="black" />
+        <ScrollView style={styles.receiptScrollIngredient}>
+          {newIngredient?.map((re, i) => {
+            return (
+              <View style={styles.receiptBoxNameIngredient} key={i}>
+                <Text style={styles.receiptScrollIngredient}>{re}</Text>
+                <Pressable
+                  onPress={() => {
+                    onDelete(i);
+                    console.log(i);
+                    reload();
+                  }}
+                >
+                  <Text>
+                    <EvilIcons name="trash" size={33} color="black" />
+                  </Text>
+                </Pressable>
+              </View>
+            );
+          })}
+        </ScrollView>
       </View>
       <DottedLine />
       <View style={styles.receiptTotal}>
-        <Text style={styles.receiptTotalName}>Total: 4</Text>
+        <Text style={styles.receiptTotalName}>Total: {newIngredient?.length}</Text>
         <Button size="small" color="BoldColor" variant="white" onPress={() => setModalVisible(true)}>
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>재료 추가</Text>
+        </Button>
+      </View>
+      <DottedLine />
+      {/* 영수증 하단 레시피 이동 부분 */}
+      <Text style={{ flex: 2 }}>원하는 재료를 추가해서 다양한 레시피를 제공 받아 보세요.</Text>
+      <View style={{ flex: 3 }}>
+        <Button
+          color="white"
+          variant="BoldColor"
+          size="mediumer"
+          onPress={() => {
+            goReceiptRecommendPage();
+          }}
+        >
+          추천 레시피 확인하러 가기
         </Button>
       </View>
     </View>
@@ -65,7 +164,7 @@ export default function Receipt() {
 const styles = StyleSheet.create({
   receipt: {
     width: 350,
-    height: 480,
+    height: 620,
     alignItems: "center",
     justifyContent: "space-evenly",
     elevation: 4,
@@ -77,6 +176,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "800",
+    flex: 2,
   },
   receiptName: {
     flex: 1,
@@ -96,12 +196,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
   },
+  receiptBoxNameIngredient: {
+    width: 300,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
   receiptBoxNameDelete: {
     fontSize: 18,
   },
+  receiptScrollIngredient: {
+    fontSize: 18,
+  },
   receiptIngredient: {
+    fontSize: 18,
     flex: 10,
-    flexDirection: "row",
+    justifyContent: "space-between",
     paddingRight: 15,
     paddingLeft: 15,
   },

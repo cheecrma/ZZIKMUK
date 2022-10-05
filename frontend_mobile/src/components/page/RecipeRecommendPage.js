@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import Card from "../organism/Card";
 import TopNav from "../organism/TopNav";
 import { fetchRecommendRecipeList } from "../../apis/recipes";
+import Loading from "../atom/Loading";
 
 export default function RecipeRecommendPage({ route, navigation }) {
   const [recommendList, setRecommendList] = useState([]);
@@ -20,28 +21,27 @@ export default function RecipeRecommendPage({ route, navigation }) {
   }
 
   useEffect(() => {
-    fetchRecommendRecipeList(route.params.number, requestRecommendRecipeListSuccess, requestRecommendRecipeListFail);
+    fetchRecommendRecipeList(
+      route.params.newIngredient,
+      requestRecommendRecipeListSuccess,
+      requestRecommendRecipeListFail,
+    );
   }, []);
 
   function goToRecipe(id) {
     navigation.push("Recipe", { id });
   }
 
-  return (
+  return recommendList.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
       <TopNav title="추천 레시피" />
       <View style={styles.content}>
         <ScrollView ref={scrollView} showsVerticalScrollIndicator={false}>
           {recommendList.map((recipe, index) => (
-            <Pressable onPress={() => goToRecipe(recipe[0])}>
-              <Card
-                name={recipe[1]}
-                thumbnail={recipe[5]}
-                difficulty={recipe[2]}
-                amount={recipe[3]}
-                time={recipe[4]}
-                key={index}
-              />
+            <Pressable onPress={() => goToRecipe(recipe[0])} key={index}>
+              <Card name={recipe[1]} thumbnail={recipe[2]} difficulty={recipe[3]} amount={recipe[4]} time={recipe[5]} />
             </Pressable>
           ))}
         </ScrollView>
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   },
   topBtn: {
     position: "absolute",
-    width: 40,
-    height: 40,
+    width: 45,
+    height: 45,
     backgroundColor: "#ADADAD",
-    bottom: 10,
-    right: 10,
+    bottom: 20,
+    right: 20,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,

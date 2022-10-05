@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
@@ -8,6 +8,7 @@ import Button from "../atom/Button";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import Loading from "../atom/Loading";
 
 export default function CameraReceipt() {
   let cameraRef = useRef();
@@ -15,6 +16,7 @@ export default function CameraReceipt() {
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
   const navigation = useNavigation();
+  const [receipt, setReceipt] = React.useState([]);
 
   useEffect(() => {
     (async () => {
@@ -26,7 +28,7 @@ export default function CameraReceipt() {
   }, []);
 
   function goReceiptPage() {
-    navigation.navigate("Receipt");
+    navigation.navigate("Receipt", { receipt });
   }
 
   if (hasCameraPermission === undefined) {
@@ -67,45 +69,68 @@ export default function CameraReceipt() {
         )
 
         .then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
+          setReceipt([response.data]);
         })
         .catch(function (error) {
-          console.log(error.response.headers);
-          console.log(error);
+          // console.log(error.response.headers);
+          // console.log(error);
+          setReceipt([[]]);
         });
     }
 
-    let savePhoto = () => {
-      MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
+    // let savePhoto = () => {
+    //   MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+    //     setPhoto(undefined);
+    //   });
+    // };
 
-    return (
+    return receipt.length === 0 ? (
+      <Loading />
+    ) : (
       <SafeAreaView style={styles.container}>
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        <View style={styles.logoBoxText}>
+          <Text style={styles.logoText} onPress={() => navigation.navigate("Main")}>
+            ZZIKMUK
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}></View>
+        <View style={styles.previewBox}>
+          <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        </View>
         {/* <Button title="Share" onPress={sharePic} color="white" variant="BoldColor">
           공유하기
         </Button> */}
         {/* {console.log(photo.base64)} */}
 
         <View style={styles.containerCheck}>
-          {hasMediaLibraryPermission ? (
-            <Button
-              onPress={() => {
-                savePhoto;
-                goReceiptPage();
-              }}
-              color="white"
-              variant="BoldColor"
-            >
-              재료인식
+          <View style={{ flex: 1 }}>
+            <Button onPress={() => setPhoto(undefined)} color="BoldColor" variant="white" size="mediumer">
+              다시찍기
             </Button>
+          </View>
+          {hasMediaLibraryPermission ? (
+            <View style={{ flex: 1 }}>
+              <Button
+                onPress={() => {
+                  // savePhoto;
+                  goReceiptPage();
+                  // setTimeout(() => {
+                  //   goReceiptPage(), 5000;
+                  // });
+                  // 시간 설정하기 3초후 넘어가도록
+                  // 3초 동안 splash 화면 보여주기!
+                }}
+                color="white"
+                variant="BoldColor"
+                size="mediumer"
+              >
+                재료인식
+              </Button>
+            </View>
           ) : undefined}
-          <Button onPress={() => setPhoto(undefined)} color="white" variant="BoldColor">
-            다시찍기
-          </Button>
         </View>
+        <View style={{ flex: 1 }}></View>
       </SafeAreaView>
     );
   }
@@ -132,7 +157,7 @@ const styles = StyleSheet.create({
   containerCheck: {
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row",
+    flex: 2,
   },
   buttonContainer: {
     flex: 2,
@@ -143,7 +168,23 @@ const styles = StyleSheet.create({
     // alignSelf: "stretch",
     alignItems: "center",
     // flex: 1,
-    width: "90%",
-    height: "90%",
+    width: 330,
+    height: 330,
+  },
+  previewBox: {
+    flex: 5,
+  },
+  logoBoxText: {
+    backgroundColor: "#FFFFFF",
+    alignSelf: "stretch",
+    height: 60,
+    justifyContent: "center",
+    elevation: 5,
+  },
+  logoText: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#FDB954",
+    textAlign: "center",
   },
 });

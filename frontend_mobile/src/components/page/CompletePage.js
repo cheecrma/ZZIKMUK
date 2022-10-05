@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } fro
 import Button from "../atom/Button";
 import { fetchRecipeComplete } from "../../apis/recipes";
 import TopNav from "../organism/TopNav";
+import Loading from "../atom/Loading";
 
 export default function CompletePage({ route, navigation }) {
   const [food, setFood] = useState([]);
@@ -29,20 +30,32 @@ export default function CompletePage({ route, navigation }) {
     navigation.push("RecipeStep", { id: route.params.id, step: route.params.totalSteps });
   }
 
-  return (
+  return food.length === 0 ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
-      <TopNav title={food[0]} />
+      {/* <TopNav title={food[0]} /> */}
+      <View style={styles.logoBoxText}>
+        <Text style={styles.logoText} onPress={() => navigation.navigate("Main")}>
+          ZZIKMUK
+        </Text>
+      </View>
       <View style={styles.content}>
-        <View style={styles.imageContainer}>
-          <ImageBackground
-            style={styles.image}
-            source={{ uri: food[1] }}
-            imageStyle={{ borderRadius: 10 }}
-          ></ImageBackground>
+        <Text style={styles.contentText}>🎉 수고하셨습니다 🎉</Text>
+        <View style={styles.imageBox}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              style={styles.image}
+              source={{ uri: food[1] }}
+              imageStyle={{ borderRadius: 10 }}
+            ></ImageBackground>
+          </View>
         </View>
-        <Text style={styles.contentText}>완성!</Text>
-        <Button onPress={() => goToPrevStpe()} variant="white" color="black" children="이전 단계" size="midium" />
-        <Button onPress={() => goToMain()} variant="MainColor" color="white" children="메인으로" size="midium" />
+        <View style={styles.contentView}>{/* <Text style={styles.contentTextInformation}>{food[0]}</Text> */}</View>
+        <View style={styles.buttonStyle}>
+          <Button onPress={() => goToPrevStpe()} variant="white" color="black" children="이전 단계" size="mediumer" />
+          <Button onPress={() => goToMain()} variant="MainColor" color="white" children="메인으로" size="mediumer" />
+        </View>
       </View>
     </View>
   );
@@ -51,33 +64,63 @@ export default function CompletePage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFE48E",
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-    margin: 15,
-    flex: 1,
+  logoBoxText: {
+    backgroundColor: "#fff",
+    alignSelf: "stretch",
+    height: 60,
+    justifyContent: "center",
+    elevation: 5,
+  },
+  logoText: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#FDB954",
+    textAlign: "center",
   },
   title: {
     fontSize: 20,
     fontWeight: "800",
   },
   content: {
-    flex: 24,
+    flex: 1,
     alignItems: "center",
     justifyContent: "space-evenly",
   },
+  buttonStyle: {
+    flex: 3,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    alignSelf: "stretch",
+    backgroundColor: "#fff",
+  },
+  contentView: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contentTextInformation: {
+    fontSize: 26,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   contentText: {
     fontSize: 26,
+    flex: 1.5,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  imageBox: {
+    flex: 5,
   },
   imageContainer: {
     width: 340,
-    height: 200,
+    height: 340,
     borderRadius: 10,
     elevation: 10,
-    backgroundColor: "white",
     shadowColor: "black",
   },
   image: {
