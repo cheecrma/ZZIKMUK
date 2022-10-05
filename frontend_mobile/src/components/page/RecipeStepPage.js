@@ -38,18 +38,23 @@ export default function RecipeStepPage({ route, navigation }) {
     }
   }, [stepInfo]);
 
+  function stopSpeech() {
+    if (isPlayed) {
+      Speech.stop();
+    }
+  }
+
   function changeStep(newStep) {
     if (recording) {
       setRecording(undefined);
       recording.stopAndUnloadAsync();
     }
-    if (isPlayed) {
-      Speech.stop();
-    }
+    stopSpeech();
     navigation.push("RecipeStep", { id: route.params.id, step: newStep });
   }
 
   function finish() {
+    stopSpeech();
     navigation.push("Complete", { id: stepInfo[0], totalSteps: stepInfo[5] });
   }
 
@@ -130,7 +135,7 @@ export default function RecipeStepPage({ route, navigation }) {
     <Loading />
   ) : (
     <View style={styles.container}>
-      <TopNav title={stepInfo[1]} />
+      <TopNav title={stepInfo[1]} page="recipeStep" stopSpeech={stopSpeech} />
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <ImageBackground

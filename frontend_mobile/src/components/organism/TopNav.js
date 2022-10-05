@@ -9,16 +9,30 @@ import { useNavigation } from "@react-navigation/native";
 title: 가운데 들어갈 화면 이름
 */
 
-export default function TopNav({ title }) {
+export default function TopNav({ title, page, stopSpeech }) {
   const navigation = useNavigation();
 
   return (
     <View style={styles.header}>
-      <TouchableWithoutFeedback onPress={() => navigation.pop()}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          if (page === "recipeStep") {
+            stopSpeech();
+          }
+          navigation.pop();
+        }}
+      >
         <AntDesign name="arrowleft" size={24} color="black" />
       </TouchableWithoutFeedback>
       <Text style={styles.title}>{title}</Text>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate("Main")}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          if (page === "recipeStep") {
+            stopSpeech();
+          }
+          navigation.navigate("Main");
+        }}
+      >
         <Entypo name="home" size={24} color="black" />
       </TouchableWithoutFeedback>
     </View>
