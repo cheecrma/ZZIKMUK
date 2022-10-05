@@ -16,7 +16,7 @@ export default function Tabs() {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 80,
+          height: 60,
           backgroundColor: "#F4F4F4",
         },
       }}
@@ -29,8 +29,8 @@ export default function Tabs() {
           headerShown: false,
           tabBarIcon: () => (
             <View style={{ alignItems: "center", justifyContent: "center", top: 5, left: 5 }}>
-              <Ionicons name="fast-food-outline" size={30} style={{ color: "#000000" }} />
-              <Text style={{ color: "#000000", fontSize: 18, fontWeight: "bold" }}>메인</Text>
+              <Ionicons name="fast-food-outline" size={25} style={{ color: "#000000" }} />
+              <Text style={{ color: "#000000", fontSize: 16, fontWeight: "bold" }}>메인</Text>
             </View>
           ),
         }}
@@ -48,8 +48,8 @@ export default function Tabs() {
                 source={require("../../../static/LogoButton.png")}
                 resizeMode="contain"
                 style={{
-                  width: 110,
-                  height: 110,
+                  width: 100,
+                  height: 100,
                 }}
               />
             </View>
@@ -64,8 +64,8 @@ export default function Tabs() {
           tabBarStyle: { display: "none" },
           tabBarIcon: () => (
             <View style={{ alignItems: "center", justifyContent: "center", top: 5, right: 5 }}>
-              <Ionicons name="search" size={30} style={{ color: "#000000" }} />
-              <Text style={{ color: "#000000", fontSize: 18, fontWeight: "bold" }}>검색</Text>
+              <Ionicons name="search" size={25} style={{ color: "#000000" }} />
+              <Text style={{ color: "#000000", fontSize: 16, fontWeight: "bold" }}>검색</Text>
             </View>
           ),
         }}

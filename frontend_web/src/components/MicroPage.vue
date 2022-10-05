@@ -18,100 +18,102 @@
         <li></li>
       </ul>
     </div>
-    <div class="phone">
-      <button class="camera-btn" @click="picture"></button>
+    <div class="container">
+      <div class="phone">
+        <button class="camera-btn" @click="picture"></button>
+      </div>
+      <swiper
+        :pagination="true"
+        :navigation="true"
+        :modules="modules"
+        :swiper-per-view="auto"
+        :space-between="50"
+        class="swiper-wrapper"
+        :speed="1000"
+        @slide-change="turnToReciept"
+      >
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img
+              class="reciept-img"
+              v-if="!pictured"
+              src="../assets/reciept.svg"
+              alt=""
+            />
+            <img class="food-img" v-else src="../assets/pasta2.jpg" alt="" />
+          </div>
+        </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img
+              v-if="!pictured"
+              class="explain-img"
+              src="../assets/first.svg"
+              alt=""
+            />
+            <img
+              v-if="!pictured"
+              class="gif-img"
+              src="../assets/simpson.gif"
+              alt=""
+            />
+            <img v-else class="explain-img" src="../assets/back.svg" alt="" />
+          </div>
+        </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img
+              v-if="!pictured"
+              class="explain-img"
+              src="../assets/second.svg"
+              alt=""
+            />
+            <img
+              v-if="!pictured"
+              class="gif-img"
+              src="../assets/cooking.gif"
+              alt=""
+            />
+            <img v-else class="explain-img" src="../assets/back.svg" alt="" />
+          </div>
+        </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img
+              v-if="!pictured"
+              class="explain-img"
+              src="../assets/third.svg"
+              alt=""
+            />
+            <img
+              v-if="!pictured"
+              class="gif-img"
+              src="../assets/baking.gif"
+              alt=""
+            />
+            <img v-else class="explain-img" src="../assets/back.svg" alt="" />
+          </div>
+        </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img
+              v-if="!pictured"
+              class="explain-img"
+              src="../assets/last.svg"
+              alt=""
+            />
+            <a
+              v-if="!pictured"
+              class="gif-img"
+              href="http://m.site.naver.com/11FFk"
+              ><img
+                src="https://qrcodethumb-phinf.pstatic.net/20220928_39/1664343109237OHhd4_PNG/11FFk.png"
+            /></a>
+            <img v-else class="explain-img" src="../assets/back.svg" alt="" />
+          </div>
+        </swiper-slide>
+      </swiper>
     </div>
-    <swiper
-      :pagination="true"
-      :navigation="true"
-      :modules="modules"
-      :swiper-per-view="auto"
-      :space-between="50"
-      class="swiper-wrapper"
-      :speed="1000"
-      @slide-change="turnToReciept"
-    >
-      <swiper-slide class="swiper-slide">
-        <div class="inner">
-          <img
-            class="reciept-img"
-            v-if="!pictured"
-            src="../assets/reciept.svg"
-            alt=""
-          />
-          <img class="food-img" v-else src="../assets/pasta2.jpg" alt="" />
-        </div>
-      </swiper-slide>
-      <swiper-slide class="swiper-slide">
-        <div class="inner">
-          <img
-            v-if="!pictured"
-            class="explain-img"
-            src="../assets/first.svg"
-            alt=""
-          />
-          <img
-            v-if="!pictured"
-            class="gif-img"
-            src="../assets/simpson.gif"
-            alt=""
-          />
-          <img v-else class="explain-img" src="../assets/back.svg" alt="" />
-        </div>
-      </swiper-slide>
-      <swiper-slide class="swiper-slide">
-        <div class="inner">
-          <img
-            v-if="!pictured"
-            class="explain-img"
-            src="../assets/second.svg"
-            alt=""
-          />
-          <img
-            v-if="!pictured"
-            class="gif-img"
-            src="../assets/cooking.gif"
-            alt=""
-          />
-          <img v-else class="explain-img" src="../assets/back.svg" alt="" />
-        </div>
-      </swiper-slide>
-      <swiper-slide class="swiper-slide">
-        <div class="inner">
-          <img
-            v-if="!pictured"
-            class="explain-img"
-            src="../assets/third.svg"
-            alt=""
-          />
-          <img
-            v-if="!pictured"
-            class="gif-img"
-            src="../assets/baking.gif"
-            alt=""
-          />
-          <img v-else class="explain-img" src="../assets/back.svg" alt="" />
-        </div>
-      </swiper-slide>
-      <swiper-slide class="swiper-slide">
-        <div class="inner">
-          <img
-            v-if="!pictured"
-            class="explain-img"
-            src="../assets/last.svg"
-            alt=""
-          />
-          <a
-            v-if="!pictured"
-            class="gif-img"
-            href="http://m.site.naver.com/11FFk"
-            ><img
-              src="https://qrcodethumb-phinf.pstatic.net/20220928_39/1664343109237OHhd4_PNG/11FFk.png"
-          /></a>
-          <img v-else class="explain-img" src="../assets/back.svg" alt="" />
-        </div>
-      </swiper-slide>
-    </swiper>
   </div>
 </template>
 
@@ -219,11 +221,11 @@ export default {
 }
 
 .swiper-wrapper {
-  width: 300px;
+  width: 280px;
   height: 600px;
   position: absolute;
   top: 5%;
-  left: 40%;
+  left: 40.5%;
 }
 
 .swiper-wrapper .swiper-slide {
@@ -288,10 +290,8 @@ export default {
 }
 
 .swiper-wrapper .swiper-slide-active .inner::before {
-  animation: ani 1s ease 1;
 }
 .swiper-wrapper .swiper-slide-active .inner::after {
-  animation: ani 1s ease 0.3s 1;
 }
 
 @keyframes flash {
