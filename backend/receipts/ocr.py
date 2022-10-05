@@ -14,24 +14,22 @@ from google.cloud import vision
 service.connect() # sservice key 연결
 
 
-# image_path = 'img/test2.jpg' # TEST용
-
 def receipt_ocr(path): # ocr api로 영수증 인식해서 구매내역 리스트 return
 
     client = vision.ImageAnnotatorClient()
     
-    
+    '''
     # 파일 받아올 때는 이걸로 사용
     with io.open(path, 'rb') as f:
         content = f.read()
-    
-    #content = path # 실제 사용(request(base64 인코딩된 사진 정보)로 받아올때)
+    '''
+    content = path # 실제 사용(request(base64 인코딩된 사진 정보)로 받아올때)
 
     image = vision.Image(content=content)
 
     response = client.text_detection(image=image)
     texts = response.text_annotations
-    print('Receipt List:')
+    #print('Receipt List:')
 
     # 데이터 처리(엔터->sss로 대체, 문자만 남기고 제거, ss 기준으로 나눈 후 공백 제거)
     if len(texts) == 0:
@@ -61,10 +59,12 @@ def receipt_ocr(path): # ocr api로 영수증 인식해서 구매내역 리스�
                 response.error.message))
 
 def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
-    #ocr_list = receipt_ocr(path) # 임시 재료리스트(구매내역)
+    ocr_list = receipt_ocr(path) # 임시 재료리스트(구매내역)
+    '''
     # 테스트용 데이터
     ocr_list = ['면세', '강릉심층수', '하선정까나리액젓G', '매일저지방우유기획ml', '오뚜기델리케찹g', '코드다발무우다발', '새우깡',
     '코드대파단', '세척당근', '동원참치마일드', '미나리', '허니버터칩', '히말라야소금', '할인액']
+    '''
     print("ocr_list:", ocr_list)
     if ocr_list==-1: # 분석된 글자 없으면 에러
         return -1
@@ -116,6 +116,6 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     ex) 참치캔 -> 참치, 참치캔 모두 데이터에 들어감
     추가로 해야할 것: 예외처리 디테일, 리드미에 재료 추출방법 작성
     '''
-
-path = os.path.join(now, 'img/test2.jpg')
-ing_list(path) # TEST용
+# TEST용
+#path = os.path.join(now, 'img/test2.jpg')
+#ing_list(path)
