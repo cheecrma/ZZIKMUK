@@ -62,9 +62,10 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     ocr_list = receipt_ocr(path) # 임시 재료리스트(구매내역)
     '''
     # 테스트용 데이터
-    ocr_list = ['면세', '강릉심층수', '하선정까나리액젓G', '매일저지방우유기획ml', '오뚜기델리케찹g', '미니파프리카', '새우깡',
-    '코드대파단', '세척당근', '동원참치마일드', '세척당근', '허니버터칩', '히말라야소금', '할인액']
+    ocr_list = ['동원DHA참치g', 'CJ스팸클래식', '재사용봉투L', '오뚜기옛날소', '미니파프리카통', '양상추', '깐양파g',
+    '오뚜기참깨라면', '인큐애호박기', '순두부g']
     '''
+    
     print("ocr_list:", ocr_list)
     if ocr_list==-1: # 분석된 글자 없으면 에러
         return -1
@@ -80,7 +81,7 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
                 if line in ocr_list[i]:
                     #print("line과 temp: ", ocr_list[i])
                     ocr_list[i] = ''
-    ocr_list = list(filter(lambda ing: ing is not '', ocr_list))
+    ocr_list = list(filter(lambda ing: ing != '', ocr_list))
     print("remove: ", ocr_list)
 
     # 상품명사전(changeIng.txt)을 돌며 상품명을 재료명(DB)으로 바꿔줌
@@ -103,13 +104,20 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     for ing in ing_all:
         for o in range(len(ocr_list)):
             if ing.name in ocr_list[o]:
-                if checks[o] != 0: # 한 글자인 경우 checks[위치]=1 -> 더 많이 겹치는 재료가 있으면 해당 재료로 변경
-                    ings[o] = ing.name
+                if checks[o] > 0: # 한 글자인 경우 checks[위치]=위치 -> 더 많이 겹치는 재료가 있으면 해당 재료로 변경
+                    #print("이전 ings: ", ings)
+                    #print("현재 위치: ", checks[o], ", 기존 재료: ", ings[o], ", 새로운 재료: ", ing.name)
+                    ings[checks[o]] = ing.name
                     checks[o] = 0 # 한 글자 이상의 재료로 바꿨으니 다시 0으로 변경
-                else:
-                    if len(ing.name) == 1: # 재료명이 한 글자면 check++
-                        checks[o] = 1
+                    #print("현재 ings: ", ings)
+                    #print("-----")
+                elif checks[o] < 0:
+                    if len(ing.name) != 1: # 1글자 이상의 유사한 재료일 경우 추가
+                        ings.append(ing.name)
+                else: # checks[0] == 0
                     ings.append(ing.name)
+                    if len(ing.name) == 1: # 재료명이 한 글자면 check++
+                        checks[o] = ings.index(ing.name)
 
     if len(ings) < 1: # 재료 리스트에 들어간 재료 없을 때 에러
         return -1
