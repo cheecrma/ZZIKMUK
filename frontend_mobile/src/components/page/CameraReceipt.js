@@ -9,6 +9,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../atom/Loading";
+import { fetchOcrReceipts } from "../../apis/receipts";
 
 export default function CameraReceipt() {
   let cameraRef = useRef();
@@ -18,28 +19,11 @@ export default function CameraReceipt() {
   const navigation = useNavigation();
   const [receipt, setReceipt] = React.useState([]);
 
-  function ocrRequest(photo) {
-    axios
-      .post(
-        "https://j7a102.p.ssafy.io/api/receipts/ocr/",
-        {
-          //보내고자 하는 데이터
-          path: photo.base64,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        },
-      )
-
-      .then(function (response) {
-        console.log(response.data);
-        setReceipt([response.data]);
-      })
-      .catch(function (error) {
-        // console.log(error.response.headers);
-        console.log(error);
-        setReceipt([[]]);
-      });
+  function requestOcrSuccess(response) {
+    setReceipt([response.data]);
+  }
+  function requestOcrFail(error) {
+    setReceipt([[]]);
   }
 
   useEffect(() => {
@@ -53,7 +37,7 @@ export default function CameraReceipt() {
 
   useEffect(() => {
     if (photo) {
-      ocrRequest(photo);
+      fetchOcrReceipts(photo.base64, requestOcrSuccess, requestOcrFail);
     }
   }, [photo]);
 
@@ -90,10 +74,6 @@ export default function CameraReceipt() {
     //     setPhoto(undefined);
     //   });
     // };
-
-    // console.log("receipt확인");
-    // console.log(receipt);
-    // 아래 return을 receipt[0] === "undefined" 로 하면 될 거 같은데..
 
     return receipt.length === 0 ? (
       <Loading />
