@@ -16,12 +16,12 @@ from . import STT
 from .key import service
 
 class sound_to_text(APIView):
-    def decode_64(self, data_64):
-        decoded_data = base64.b64decode(data_64)
-        video_result = open('./languages/tts.mp3', 'wb')
-        video_result.write(decoded_data)
-        video_result.close()
-        return
+    # def decode_64(self, data_64):
+    #     decoded_data = base64.b64decode(data_64)
+    #     video_result = open('./languages/tts.mp3', 'wb')
+    #     video_result.write(decoded_data)
+    #     video_result.close()
+    #     return
 
     def post(self, request, format=None):
         data_64 = request.data['base_64']
