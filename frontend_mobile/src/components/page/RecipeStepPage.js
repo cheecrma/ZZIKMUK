@@ -72,6 +72,14 @@ export default function RecipeStepPage({ route, navigation }) {
     }
   }
 
+  async function startRecordingTest() {
+    setRecording(1);
+
+    await wait(3000);
+
+    setRecording(undefined);
+  }
+
   // 음성 녹음 시작
   async function startRecording() {
     try {
@@ -159,7 +167,7 @@ export default function RecipeStepPage({ route, navigation }) {
               )}
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={recording ? null : startRecording}>
+          <TouchableWithoutFeedback onPress={recording ? null : startRecordingTest}>
             {recording ? (
               <View style={{ ...styles.soundBtn, backgroundColor: "#FFE48E" }}>
                 <MaterialIcons name="hearing" size={20} color="black" />

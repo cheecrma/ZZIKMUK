@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, Text, View, Pressable, Alert, Modal, TouchableWithoutFeedback, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Alert,
+  Modal,
+  TouchableWithoutFeedback,
+  ScrollView,
+  Keyboard,
+} from "react-native";
 import Button from "../atom/Button";
 import DottedLine from "../atom/DottedLine";
 import { EvilIcons } from "@expo/vector-icons";
@@ -50,6 +60,7 @@ export default function Receipt({ receipt, navigation }) {
     newIngredient.push(element);
     // console.log("<<<<<<<<추가된 newIngredient");
     // console.log(newIngredient);
+    Keyboard.dismiss(); // 키보드 닫기
   }
 
   return (

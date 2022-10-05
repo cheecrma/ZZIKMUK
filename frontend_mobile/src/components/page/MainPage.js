@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import CarouselOrganism from "../organism/CarouselOrganism";
 import { fetchRecipesTips } from "../../apis/recipes";
 import axios from "axios";
@@ -8,7 +8,7 @@ import Loading from "../atom/Loading";
 export default function MainPage({ navigation }) {
   /// 랜덤 꿀팁 추천 /////
   const [tip, setTip] = React.useState([]);
-  const randomTip = Math.floor(Math.random() * 5 + 1);
+  const randomTip = Math.floor(Math.random() * 25 + 1);
 
   function requestTipSuccess(res) {
     // console.log(res.data);
@@ -23,6 +23,11 @@ export default function MainPage({ navigation }) {
   useEffect(() => {
     fetchRecipesTips(randomTip, requestTipSuccess, requestTipFail);
   }, []);
+
+  function reloadTips() {
+    const randomTip = Math.floor(Math.random() * 25 + 1);
+    fetchRecipesTips(randomTip, requestTipSuccess, requestTipFail);
+  }
 
   // const [ready, setReady] = useState(true);
   // useEffect(() => {
@@ -47,10 +52,12 @@ export default function MainPage({ navigation }) {
       <View style={styles.carousel}>
         <CarouselOrganism />
       </View>
-      <Text style={styles.tipText}>🍯 요리 꿀팁 🍯</Text>
-      <View style={styles.tipRandom}>
-        <Text style={styles.tipContent}>{tip}</Text>
-      </View>
+      <Pressable onPress={() => reloadTips()} style={{ flex: 4 }}>
+        <Text style={styles.tipText}>🍯 요리 꿀팁 🍯</Text>
+        <View style={styles.tipRandom}>
+          <Text style={styles.tipContent}>{tip}</Text>
+        </View>
+      </Pressable>
       <View style={styles.empty}></View>
     </View>
   );
@@ -94,6 +101,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 22,
     fontWeight: "bold",
+    alignSelf: "center",
   },
   tipRandom: {
     flex: 3,
