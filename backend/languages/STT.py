@@ -2,13 +2,14 @@ from google.cloud import speech
 import io
 
 
-def speech_to_text(audio_path):
+def speech_to_text(audio_path, base64_data):
     client = speech.SpeechClient()
 
-    with io.open(audio_path, "rb") as audio_file:
-        content = audio_file.read()
-    print(f'content:{content}')
+    # with io.open(audio_path, "rb") as audio_file:
+    #     content = audio_file.read()
+
     # stream = [content]
+    content = base64_data
     audio = speech.RecognitionAudio(content=content)
 
     # requests = (
