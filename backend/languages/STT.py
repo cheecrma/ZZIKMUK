@@ -1,15 +1,13 @@
-from .key import service
 from google.cloud import speech
 import io
 
 
 def speech_to_text(audio_path):
-
     client = speech.SpeechClient()
 
     with io.open(audio_path, "rb") as audio_file:
         content = audio_file.read()
-
+    print(f'content:{content}')
     # stream = [content]
     audio = speech.RecognitionAudio(content=content)
 
@@ -51,7 +49,7 @@ def speech_to_text(audio_path):
     #     config=streaming_config,
     #     requests=requests,
     # )
-    print(response)
+    print(f'response:{response}')
 
     try:
         for result in response.results:

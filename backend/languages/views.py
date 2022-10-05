@@ -24,7 +24,7 @@ class sound_to_text(APIView):
         return
 
     def post(self, request, format=None):
-
+        print(f'request:{request}')
         data_64 = request.data['base_64']
         print(data_64)
         self.decode_64(data_64)
