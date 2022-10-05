@@ -38,18 +38,23 @@ export default function RecipeStepPage({ route, navigation }) {
     }
   }, [stepInfo]);
 
+  function stopSpeech() {
+    if (isPlayed) {
+      Speech.stop();
+    }
+  }
+
   function changeStep(newStep) {
     if (recording) {
       setRecording(undefined);
       recording.stopAndUnloadAsync();
     }
-    if (isPlayed) {
-      Speech.stop();
-    }
+    stopSpeech();
     navigation.push("RecipeStep", { id: route.params.id, step: newStep });
   }
 
   function finish() {
+    stopSpeech();
     navigation.push("Complete", { id: stepInfo[0], totalSteps: stepInfo[5] });
   }
 
@@ -65,6 +70,14 @@ export default function RecipeStepPage({ route, navigation }) {
     } else {
       Speech.stop();
     }
+  }
+
+  async function startRecordingTest() {
+    setRecording(1);
+
+    await wait(3000);
+
+    setRecording(undefined);
   }
 
   // 음성 녹음 시작
@@ -130,7 +143,7 @@ export default function RecipeStepPage({ route, navigation }) {
     <Loading />
   ) : (
     <View style={styles.container}>
-      <TopNav title={stepInfo[1]} />
+      <TopNav title={stepInfo[1]} page="recipeStep" stopSpeech={stopSpeech} />
       <View style={styles.content}>
         <View style={styles.imageContainer}>
           <ImageBackground
@@ -154,7 +167,7 @@ export default function RecipeStepPage({ route, navigation }) {
               )}
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={recording ? null : startRecording}>
+          <TouchableWithoutFeedback onPress={recording ? null : startRecordingTest}>
             {recording ? (
               <View style={{ ...styles.soundBtn, backgroundColor: "#FFE48E" }}>
                 <MaterialIcons name="hearing" size={20} color="black" />
