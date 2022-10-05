@@ -239,6 +239,10 @@ class TipsInfo(APIView):
         tip = Tips.objects.get(pk=id)
         return Response(tip.tip_content)
 
+from numpy import dot
+from numpy.linalg import norm
+import numpy as np
+from operator import itemgetter
 
 # 레시피 추천 POST
 class RecipeSuggestion(APIView):
@@ -292,7 +296,9 @@ class RecipeSuggestion(APIView):
             for rlt in sorted_list[:10]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기
                 recipe = Recipe.objects.get(pk=rlt[0])
                 rlt_list.append([recipe.id, recipe.food_name, recipe.title_img_url, recipe.level, recipe.servings, recipe.time, recipe.view_count])
-            # print("----- %s 초 -----" %(time.time() - start_t))   # 시간 측정 코드
+            
+            for sl in sorted_list:
+                print(sl)
 
             return(rlt_list)
 
