@@ -18,7 +18,7 @@ export default function CameraReceipt() {
   const navigation = useNavigation();
   const [receipt, setReceipt] = React.useState([]);
 
-  function test(photo) {
+  function ocrRequest(photo) {
     axios
       .post(
         "https://j7a102.p.ssafy.io/api/receipts/ocr/",
@@ -53,7 +53,7 @@ export default function CameraReceipt() {
 
   useEffect(() => {
     if (photo) {
-      test(photo);
+      ocrRequest(photo);
     }
   }, [photo]);
 
