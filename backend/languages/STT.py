@@ -34,8 +34,8 @@ def speech_to_text(audio_path, base64_data):
 
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
-        sample_rate_hertz=16000,
-        language_code="en-US",
+        sample_rate_hertz=8000,
+        language_code="ko-KR",
         speech_contexts=[speech_context],
     )
     # streaming_config = speech.StreamingRecognitionConfig(config=config)
