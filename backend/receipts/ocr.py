@@ -59,12 +59,12 @@ def receipt_ocr(path): # ocr api로 영수증 인식해서 구매내역 리스�
                 response.error.message))
 
 def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
-    ocr_list = receipt_ocr(path) # 임시 재료리스트(구매내역)
-    '''
+    #ocr_list = receipt_ocr(path) # 임시 재료리스트(구매내역)
+    
     # 테스트용 데이터
-    ocr_list = ['면세', '강릉심층수', '하선정까나리액젓G', '매일저지방우유기획ml', '오뚜기델리케찹g', '코드다발무우다발', '새우깡',
-    '코드대파단', '세척당근', '동원참치마일드', '미나리', '허니버터칩', '히말라야소금', '할인액']
-    '''
+    ocr_list = ['면세', '강릉심층수', '하선정까나리액젓G', '매일저지방우유기획ml', '오뚜기델리케찹g', '미니파프리카', '새우깡',
+    '코드대파단', '세척당근', '동원참치마일드', '세척당근', '허니버터칩', '히말라야소금', '할인액']
+    
     print("ocr_list:", ocr_list)
     if ocr_list==-1: # 분석된 글자 없으면 에러
         return -1
@@ -99,23 +99,33 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     # Ingredient를 돌며 ocr_list에 재료가 있으면 해당 재료의 id와 재료를 리스트에 저장[id, name]
     ing_all = Ingredient.objects.all()
     ings = []
+    checks = [0 for i in range(len(ocr_list))]
     for ing in ing_all:
-        for x in ocr_list:
-            if ing.name in x:
-                ings.append(ing.name)
+        for o in range(len(ocr_list)):
+            if ing.name in ocr_list[o]:
+                if checks[o] != 0: # 한 글자인 경우 checks[위치]=1 -> 더 많이 겹치는 재료가 있으면 해당 재료로 변경
+                    ings[o] = ing.name
+                    checks[o] = 0 # 한 글자 이상의 재료로 바꿨으니 다시 0으로 변경
+                else:
+                    if len(ing.name) == 1: # 재료명이 한 글자면 check++
+                        checks[o] = 1
+                    ings.append(ing.name)
 
     if len(ings) < 1: # 재료 리스트에 들어간 재료 없을 때 에러
         return -1
-    
+    ings = set(ings)
     print("재료 리스트 출력")
-    print("ings: ", ings)
-    return ings
+    print("ings: ", list(ings))
+    return list(ings)
     
     '''
     현재 문제점: 포함관계인 DB도 같이 나옴
-    ex) 참치캔 -> 참치, 참치캔 모두 데이터에 들어감
+    ex) 참치캔 -> 참치, 참치캔 모두 데이터에 들어감 -> 비슷한 재료는 둘 다 넣을 수 있게 놔두기
+    문제: 파프리카, 양파에도 파가 들어가서 파가 계속 나옴
+    -> boolean[] 만들어서 이미 검색해서 나온 결과 있을 경우 더 긴 쪽을 넣어줌
+        -> 여러글자가 겹치면 상관없는데 한 글자가 겹치면 아예 다른 경우도 있으므로 한 글자일때만 체크해서 넣어줌 
     추가로 해야할 것: 예외처리 디테일, 리드미에 재료 추출방법 작성
     '''
 # TEST용
-#path = os.path.join(now, 'img/test2.jpg')
-#ing_list(path)
+path = os.path.join(now, 'img/test2.jpg')
+ing_list(path)
