@@ -49,6 +49,24 @@ function fetchRecipesPopular(success, fail) {
   api.post(`recipes/popular/`).then(success).catch(fail);
 }
 
+function searchRecipesByName(text, success, fail) {
+  api
+    .post(`recipes/search/r_name/`, {
+      text,
+    })
+    .then(success)
+    .catch(fail);
+}
+
+function searchRecipesByIngredient(text, success, fail) {
+  api
+    .post(`recipes/search/r_ingr/`, {
+      text,
+    })
+    .then(success)
+    .catch(fail);
+}
+
 export {
   fetchRecipes,
   fetchRecipesTips,
@@ -57,4 +75,6 @@ export {
   fetchRecipeStep,
   fetchRecipeComplete,
   fetchRecipesPopular,
+  searchRecipesByIngredient,
+  searchRecipesByName,
 };

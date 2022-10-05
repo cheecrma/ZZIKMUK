@@ -9,6 +9,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../atom/Loading";
+import { fetchOcrReceipts } from "../../apis/receipts";
 
 export default function CameraReceipt() {
   let cameraRef = useRef();
@@ -18,6 +19,13 @@ export default function CameraReceipt() {
   const navigation = useNavigation();
   const [receipt, setReceipt] = React.useState([]);
 
+  function requestOcrSuccess(response) {
+    setReceipt([response.data]);
+  }
+  function requestOcrFail(error) {
+    setReceipt([[]]);
+  }
+
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
@@ -26,6 +34,12 @@ export default function CameraReceipt() {
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
   }, []);
+
+  useEffect(() => {
+    if (photo) {
+      fetchOcrReceipts(photo.base64, requestOcrSuccess, requestOcrFail);
+    }
+  }, [photo]);
 
   function goReceiptPage() {
     navigation.navigate("Receipt", { receipt });
@@ -54,30 +68,6 @@ export default function CameraReceipt() {
     //     setPhoto(undefined);
     //   });
     // };
-
-    {
-      axios
-        .post(
-          "https://j7a102.p.ssafy.io/api/receipts/ocr/",
-          {
-            //보내고자 하는 데이터
-            path: photo.base64,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-          },
-        )
-
-        .then(function (response) {
-          // console.log(response.data);
-          setReceipt([response.data]);
-        })
-        .catch(function (error) {
-          // console.log(error.response.headers);
-          // console.log(error);
-          setReceipt([[]]);
-        });
-    }
 
     // let savePhoto = () => {
     //   MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
@@ -112,8 +102,9 @@ export default function CameraReceipt() {
           {hasMediaLibraryPermission ? (
             <View style={{ flex: 1 }}>
               <Button
+                disabled={receipt.length === 0 ? true : false}
                 onPress={() => {
-                  // savePhoto;
+                  // savePhoto;a
                   goReceiptPage();
                   // setTimeout(() => {
                   //   goReceiptPage(), 5000;
