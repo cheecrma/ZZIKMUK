@@ -268,7 +268,10 @@ class RecipeSuggestion(APIView):
             # start_t = time.time()     # 시간 측정 코드
 
             ingre_db = Ingredient.objects.all() # DB의 전체 재료 불러오기
-            feats = list(range(1, len(ingre_db)+1))    # 전체 재료 리스트를 feats로 설정
+            ingre_db_list = []
+            for i_db in ingre_db:               # DB에 있는 모든 재료를 리스트로 변환
+                ingre_db_list.append(i_db.name)
+            feats = set(ingre_db_list)    # 사용자가 입력한 재료 리스트와 DB 전체 리스트를 세트로 묶기
 
             cs_list = []        # 모든 레시피와의 코사인 유사도를 담을 cs_list 생성
             recipe = Recipe.objects.all()
@@ -289,7 +292,7 @@ class RecipeSuggestion(APIView):
             for rlt in sorted_list[:10]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기
                 recipe = Recipe.objects.get(pk=rlt[0])
                 rlt_list.append([recipe.id, recipe.food_name, recipe.title_img_url, recipe.level, recipe.servings, recipe.time, recipe.view_count])
-            
+            print(sorted_list)
             # print("----- %s 초 -----" %(time.time() - start_t))   # 시간 측정 코드
 
             return(rlt_list)
