@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  ImageBackground,
+  ScrollView,
+  BackHandler,
+} from "react-native";
 import { AntDesign, FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 import RecipePagination from "../organism/RecipePagination";
 import Button from "../atom/Button";
@@ -45,18 +53,27 @@ export default function RecipeStepPage({ route, navigation }) {
   }
 
   function changeStep(newStep) {
-    if (recording) {
-      setRecording(undefined);
-      recording.stopAndUnloadAsync();
+    if (newStep !== route.params.step) {
+      if (recording) {
+        setRecording(undefined);
+        recording.stopAndUnloadAsync();
+      }
+      stopSpeech();
+      navigation.replace("RecipeStep", { id: route.params.id, step: newStep });
     }
-    stopSpeech();
-    navigation.push("RecipeStep", { id: route.params.id, step: newStep });
   }
 
   function finish() {
     stopSpeech();
-    navigation.push("Complete", { id: stepInfo[0], totalSteps: stepInfo[5] });
+    navigation.navigate("Complete", { id: stepInfo[0], totalSteps: stepInfo[5] });
   }
+
+  function backAction() {
+    stopSpeech();
+  }
+
+  // 기기에서 뒤로가기 버튼을 눌렀을 때
+  BackHandler.addEventListener("hardwareBackPress", backAction);
 
   // expo tts
   function playPauseToggle() {
@@ -253,8 +270,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   imageContainer: {
-    width: 300,
-    height: 160,
+    width: 330,
+    height: 200,
     borderRadius: 10,
     elevation: 10,
     backgroundColor: "white",
