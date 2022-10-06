@@ -18,6 +18,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import Input from "../atom/input";
 import axios from "axios";
 import TopNav from "./TopNav";
+import { useEffect } from "react";
 
 export default function Receipt({ receipt, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -26,11 +27,22 @@ export default function Receipt({ receipt, navigation }) {
     ToastAndroid.showWithGravity("재료가 추가되었습니다.", ToastAndroid.SHORT, ToastAndroid.CENTER);
   }
 
+  const ingAlert = () =>
+    Alert.alert("인식된 재료가 없습니다.", "재료 추가 혹은 다시 촬영해 주세요.", [
+      { text: "OK", onPress: () => console.log("OK Pressed") },
+    ]);
+
+  useEffect(() => {
+    if (receipt[0].length === 0) {
+      ingAlert();
+    }
+  }, [receipt]);
+
   const newIngredient = receipt[0];
   const [key, setKey] = React.useState(0);
   const reload = React.useCallback(() => setKey(prevKey => prevKey + 1), []);
 
-  const [ing, setIng] = useState([]);
+  const [ing, setIng] = useState("");
 
   function goReceiptRecommendPage() {
     navigation.navigate("Recommend", { newIngredient });
@@ -154,7 +166,14 @@ export default function Receipt({ receipt, navigation }) {
       <DottedLine />
       <View style={styles.receiptTotal}>
         <Text style={styles.receiptTotalName}>Total: {newIngredient?.length}</Text>
-        <Button size="small" color="BoldColor" variant="white" onPress={() => setModalVisible(true)}>
+        <Button
+          size="small"
+          color="BoldColor"
+          variant="white"
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        >
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>재료 추가</Text>
         </Button>
       </View>
@@ -167,7 +186,11 @@ export default function Receipt({ receipt, navigation }) {
           variant="BoldColor"
           size="mediumer"
           onPress={() => {
-            goReceiptRecommendPage();
+            if (newIngredient.length > 0) {
+              goReceiptRecommendPage();
+            } else {
+              ingAlert();
+            }
           }}
         >
           추천 레시피 확인하러 가기
