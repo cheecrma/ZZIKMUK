@@ -225,7 +225,7 @@ export default function RecipeStepPage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff9f9",
   },
   content: {
     flex: 24,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   step: {
-    backgroundColor: "white",
+    backgroundColor: "#fff9f9",
     width: "90%",
     height: "28%",
     borderRadius: 15,

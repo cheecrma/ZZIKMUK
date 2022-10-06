@@ -17,7 +17,6 @@ import DottedLine from "../atom/DottedLine";
 import { EvilIcons } from "@expo/vector-icons";
 import Input from "../atom/input";
 import axios from "axios";
-import TopNav from "./TopNav";
 import { useEffect } from "react";
 
 export default function Receipt({ receipt, navigation }) {
@@ -28,9 +27,7 @@ export default function Receipt({ receipt, navigation }) {
   }
 
   const ingAlert = () =>
-    Alert.alert("인식된 재료가 없습니다.", "재료 추가 혹은 다시 촬영해 주세요.", [
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
+    Alert.alert("인식된 재료가 없습니다.", "재료 추가 혹은 다시 촬영해 주세요.", [{ text: "OK", onPress: () => {} }]);
 
   useEffect(() => {
     if (receipt[0].length === 0) {
@@ -54,29 +51,17 @@ export default function Receipt({ receipt, navigation }) {
         text: data,
       })
       .then(function (res) {
-        // console.log(res);
-        console.log(res.data);
         setIng(res.data);
       })
-      .catch(function (err) {
-        console.log(err.data);
-      });
+      .catch(function (err) {});
   }
 
   function onDelete(i) {
     newIngredient.splice(i, 1);
-
-    // console.log("<<<<<<<<삭제된 newIngredient");
-    // console.log(newIngredient);
   }
-
-  // console.log("<<<<<<<<기존&바뀐최종 newIngredient");
-  console.log(newIngredient);
 
   function onAdd(element) {
     newIngredient.push(element);
-    // console.log("<<<<<<<<추가된 newIngredient");
-    // console.log(newIngredient);
     Keyboard.dismiss(); // 키보드 닫기
   }
 

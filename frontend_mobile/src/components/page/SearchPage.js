@@ -3,7 +3,6 @@ import Input from "../atom/input";
 import { Keyboard, StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../organism/Card";
-import axios from "axios";
 import { searchRecipesByName, searchRecipesByIngredient } from "../../apis/recipes";
 
 export default function SearchPage({ navigation }) {
@@ -76,7 +75,7 @@ export default function SearchPage({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={{ backgroundColor: "#fff9f9" }}>
       <View style={{ marginTop: 10, marginBottom: 10 }}>
         <View style={styles.container}>
           <View style={styles.header}>
