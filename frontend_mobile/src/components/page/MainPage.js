@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import CarouselOrganism from "../organism/CarouselOrganism";
 import { fetchRecipesTips } from "../../apis/recipes";
-import axios from "axios";
 import Loading from "../atom/Loading";
 
 export default function MainPage({ navigation }) {
@@ -11,12 +10,10 @@ export default function MainPage({ navigation }) {
   const randomTip = Math.floor(Math.random() * 25 + 1);
 
   function requestTipSuccess(res) {
-    // console.log(res.data);
     setTip(res.data);
   }
 
   function requestTipFail(err) {
-    console.log(err);
     setTip([]);
   }
 
@@ -28,14 +25,6 @@ export default function MainPage({ navigation }) {
     const randomTip = Math.floor(Math.random() * 25 + 1);
     fetchRecipesTips(randomTip, requestTipSuccess, requestTipFail);
   }
-
-  // const [ready, setReady] = useState(true);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setReady(false);
-  //   }, 3000);
-  // }, []);
-  // return ready ? (
 
   return tip.length === 0 ? (
     <Loading />
@@ -66,7 +55,7 @@ export default function MainPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff9f9",
     alignItems: "center",
     justifyContent: "center",
   },
