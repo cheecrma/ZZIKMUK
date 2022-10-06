@@ -1,4 +1,5 @@
 from ast import And
+from cmath import nan
 from http.client import responses
 from django.shortcuts import render
 from rest_framework import status
@@ -285,14 +286,17 @@ class RecipeSuggestion(APIView):
                 rec_arr = np.array(make_matrix(feats, ing_list))        # 해당 레시피 재료
 
                 cs = cos_sim(ing_arr, rec_arr)          # 코사인 유사도 값 구하기
-                cs_list.append([recipe[i].id, cs])      # cs_list에 [레시피 번호, 코사인 유사도 값] 누적하기
+                if cs > 0:
+                    cs_list.append([recipe[i].id, cs, recipe[i].view_count])      # cs_list에 [레시피 번호, 코사인 유사도 값] 누적하기
+                else:
+                    cs_list.append([recipe[i].id, 0.0, recipe[i].view_count])     # cs값이 nan으로 나오는 경우 임의로 0.0을 삽입
             
-            sorted_list = sorted(cs_list, key=itemgetter(1), reverse=True)  # 전체 코사인 유사도를 내림차순으로 정렬
+            sorted_list = sorted(cs_list, key=itemgetter(1, 2), reverse=True)  # 전체 코사인 유사도를 내림차순으로 정렬
             rlt_list = []       # 코사인 유사도가 높은순으로 레시피 번호를 담을 rlt_list 생성
             for rlt in sorted_list[:10]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기
                 recipe = Recipe.objects.get(pk=rlt[0])
                 rlt_list.append([recipe.id, recipe.food_name, recipe.title_img_url, recipe.level, recipe.servings, recipe.time, recipe.view_count])
-            print(sorted_list)
+
             # print("----- %s 초 -----" %(time.time() - start_t))   # 시간 측정 코드
 
             return(rlt_list)
