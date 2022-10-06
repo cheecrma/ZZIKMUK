@@ -20,11 +20,9 @@ export default function CameraReceipt() {
 
   function requestOcrSuccess(response) {
     setReceipt([response.data]);
-    console.log(response.data);
   }
   function requestOcrFail(error) {
     setReceipt([[]]);
-    console.log(error);
   }
 
   useEffect(() => {
@@ -140,7 +138,7 @@ export default function CameraReceipt() {
     <View style={{ flex: 1 }}>
       <Camera style={styles.container} ref={cameraRef}>
         <View style={{ flex: 2 }}></View>
-        <View style={{ flex: 15 }}>
+        <View style={{ flex: 18 }}>
           <Text style={{ color: "white" }}>
             Zzikmuk_Filter_{time.year}/{time.month > 9 ? time.month : "0" + String(time.month)}/
             {time.date > 9 ? time.date : "0" + String(time.date)}
@@ -151,7 +149,7 @@ export default function CameraReceipt() {
         <View style={{ flex: 1 }}></View>
         <StatusBar style="auto" />
       </Camera>
-      <View style={{ flex: 5 }}>
+      <View style={{ flex: 4 }}>
         <View style={{ ...styles.buttonContainer, backgroundColor: "black" }}>
           <View style={{ flex: 1 }}></View>
           <Text style={{ color: "white", fontSize: 18, borderColor: "black", margin: 3 }}>영수증을 촬영해 주세요.</Text>

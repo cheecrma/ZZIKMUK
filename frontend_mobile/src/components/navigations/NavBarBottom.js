@@ -60,6 +60,7 @@ export default function Tabs() {
         name="Search"
         component={SearchPage}
         options={{
+          unmountOnBlur: true,
           headerShown: false,
           tabBarStyle: { display: "none" },
           tabBarIcon: () => (

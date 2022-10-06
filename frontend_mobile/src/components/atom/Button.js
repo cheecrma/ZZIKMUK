@@ -93,6 +93,9 @@ function getSizeWidth(size) {
       return "200px";
     case "small":
       return "100px";
+    case "smaller":
+      return "150px";
+
     default:
       return "180px";
   }
@@ -108,6 +111,8 @@ function getSizeHeight(size) {
       return "70px";
     case "small":
       return "50px";
+    case "smaller":
+      return "60px";
     default:
       return "70px";
   }

@@ -135,7 +135,6 @@ export default function Receipt({ receipt, navigation }) {
                 <Pressable
                   onPress={() => {
                     onDelete(i);
-                    console.log(i);
                     reload();
                   }}
                 >

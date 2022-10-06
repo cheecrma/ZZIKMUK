@@ -27,12 +27,10 @@ export default function RecipeStepPage({ route, navigation }) {
   const [can, setCan] = useState("");
 
   async function requestRecipeStepSuccess(res) {
-    console.log(res.data);
     setStepInfo(res.data);
   }
 
   function requestRecipeStepFail(err) {
-    console.log(err);
     setStepInfo([]);
   }
 
@@ -100,22 +98,18 @@ export default function RecipeStepPage({ route, navigation }) {
   // 음성 녹음 시작
   async function startRecording() {
     try {
-      console.log("Requesting permissions..");
       await Audio.requestPermissionsAsync();
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
       });
 
-      console.log("Starting recording..");
       const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
       setRecording(recording);
-      console.log("Recording started");
 
       await wait(4000);
 
       // 음성녹음 정지
-      console.log("Stopping recording..");
       setRecording(undefined);
       await recording.stopAndUnloadAsync();
       const uri = recording.getURI();
@@ -139,17 +133,13 @@ export default function RecipeStepPage({ route, navigation }) {
           } else if (rlt == 2) {
             playPauseToggle();
           } else {
-            console.log(rlt);
             setCan("없음");
           }
         })
         .catch(err => {
-          console.log(err);
           setCan(err);
         });
-    } catch (err) {
-      console.error("Failed to start recording", err);
-    }
+    } catch (err) {}
   }
 
   function wait(delay) {
@@ -162,29 +152,38 @@ export default function RecipeStepPage({ route, navigation }) {
     <View style={styles.container}>
       <TopNav title={stepInfo[1]} page="recipeStep" stopSpeech={stopSpeech} />
       <View style={styles.content}>
-        <View style={styles.imageContainer}>
+        <View style={{ flex: 1 }} />
+        <View style={{ flex: 1 }}>
+          <Text style={{ fontSize: 20 }}>
+            <Text style={{ color: "#FF8B34" }}>{route.params.step} </Text>/ {stepInfo[5]}
+          </Text>
+        </View>
+        <View style={{ flex: 1 }} />
+        <View style={{ ...styles.imageContainer, flex: 9 }}>
           <ImageBackground
             style={styles.image}
             source={{ uri: stepInfo[3] }}
             imageStyle={{ borderRadius: 10 }}
           ></ImageBackground>
         </View>
-        <View style={styles.step}>
+        <View style={{ flex: 1 }} />
+        <View style={{ ...styles.step, flex: 4 }}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text style={styles.stepText}>{stepInfo[4]}</Text>
           </ScrollView>
         </View>
-        <View style={styles.soundBtnContainer}>
+        <View style={{ flex: 1 }} />
+        <View style={{ ...styles.soundBtnContainer, flex: 2 }}>
           <TouchableWithoutFeedback onPress={playPauseToggle}>
             <View style={styles.soundBtn}>
               {isPlayed ? (
-                <Entypo name="controller-stop" size={24} color="white" />
+                <Entypo name="controller-stop" size={34} color="white" />
               ) : (
-                <AntDesign name="caretright" size={20} color="white" />
+                <AntDesign name="caretright" size={28} color="white" />
               )}
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={recording ? null : startRecordingTest}>
+          {/* <TouchableWithoutFeedback onPress={recording ? null : startRecordingTest}>
             {recording ? (
               <View style={{ ...styles.soundBtn, backgroundColor: "#FFE48E" }}>
                 <MaterialIcons name="hearing" size={20} color="black" />
@@ -194,29 +193,33 @@ export default function RecipeStepPage({ route, navigation }) {
                 <FontAwesome name="microphone" size={20} color="white" />
               </View>
             )}
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
         </View>
-        <View style={styles.explain}>
+        <View style={{ flex: 1 }} />
+        {/* <View style={styles.explain}>
           <Text>마이크 버튼을 누르고 말해보세요</Text>
           <Text>다음으로 넘겨줘, 이전으로 이동해줘, 다시 읽어줘</Text>
-        </View>
+        </View> */}
         <RecipePagination totalSteps={stepInfo[5]} checkedIndex={route.params.step} check={changeStep} />
-        <View style={styles.stepBtn}>
+
+        <View style={{ flex: 1 }} />
+        <View style={{ ...styles.stepBtn, flex: 2 }}>
           {stepInfo[2] > 1 ? (
-            <Button variant="white" color="black" size="small" onPress={() => changeStep(stepInfo[2] - 1)}>
+            <Button variant="white" color="black" size="smaller" onPress={() => changeStep(stepInfo[2] - 1)}>
               <Text style={styles.btnText}>이전 단계</Text>
             </Button>
           ) : null}
           {stepInfo[2] === stepInfo[5] ? (
-            <Button variant="MainColor" color="white" size="small" onPress={() => finish()}>
+            <Button variant="MainColor" color="white" size="smaller" onPress={() => finish()}>
               <Text style={styles.btnText}>요리 끝</Text>
             </Button>
           ) : (
-            <Button variant="MainColor" color="white" size="small" onPress={() => changeStep(stepInfo[2] + 1)}>
+            <Button variant="MainColor" color="white" size="smaller" onPress={() => changeStep(stepInfo[2] + 1)}>
               <Text style={styles.btnText}>다음 단계</Text>
             </Button>
           )}
         </View>
+        <View style={{ flex: 1 }} />
       </View>
     </View>
   );
@@ -250,8 +253,8 @@ const styles = StyleSheet.create({
   },
   soundBtn: {
     backgroundColor: "#FF8B34",
-    width: 40,
-    height: 40,
+    width: 55,
+    height: 55,
     borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
@@ -270,8 +273,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   imageContainer: {
-    width: 330,
-    height: 200,
+    width: "100%",
+    height: 300,
     borderRadius: 10,
     elevation: 10,
     backgroundColor: "white",

@@ -25,8 +25,8 @@ export default function RecipeImage({ thumbnail, difficulty, amount, time }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 320,
-    height: 180,
+    width: 360,
+    height: 220,
     borderRadius: 10,
     elevation: 10,
     backgroundColor: "white",

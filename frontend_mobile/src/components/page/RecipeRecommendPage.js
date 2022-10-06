@@ -11,12 +11,10 @@ export default function RecipeRecommendPage({ route, navigation }) {
   const scrollView = useRef();
 
   function requestRecommendRecipeListSuccess(res) {
-    console.log(res.data);
     setRecommendList(res.data);
   }
 
   function requestRecommendRecipeListFail(err) {
-    console.log(err);
     setRecommendList([]);
   }
 
@@ -68,11 +66,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 45,
     height: 45,
-    backgroundColor: "#ADADAD",
+    backgroundColor: "#FFE48E",
     bottom: 20,
     right: 20,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,
+    opacity: 0.8,
   },
 });
