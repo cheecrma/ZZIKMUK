@@ -30,8 +30,32 @@
         :space-between="50"
         class="swiper-wrapper"
         :speed="1000"
+        :autoplay="true"
         @slide-change="turnToReciept"
       >
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img class="explain-img" src="../assets/main.svg" alt="" />
+          </div>
+        </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img class="explain-img" src="../assets/first.svg" alt="" />
+            <img class="gif-img" src="../assets/simpson.gif" alt="" />
+          </div>
+        </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img class="explain-img" src="../assets/second.svg" alt="" />
+            <img class="gif-img" src="../assets/cooking.gif" alt="" />
+          </div>
+        </swiper-slide>
+        <swiper-slide class="swiper-slide">
+          <div class="inner">
+            <img class="explain-img" src="../assets/third.svg" alt="" />
+            <img class="gif-img" src="../assets/baking.gif" alt="" />
+          </div>
+        </swiper-slide>
         <swiper-slide class="swiper-slide">
           <div class="inner">
             <img
@@ -40,58 +64,7 @@
               src="../assets/reciept.svg"
               alt=""
             />
-            <img class="food-img" v-else src="../assets/pasta2.jpg" alt="" />
-          </div>
-        </swiper-slide>
-        <swiper-slide class="swiper-slide">
-          <div class="inner">
-            <img
-              v-if="!pictured"
-              class="explain-img"
-              src="../assets/first.svg"
-              alt=""
-            />
-            <img
-              v-if="!pictured"
-              class="gif-img"
-              src="../assets/simpson.gif"
-              alt=""
-            />
-            <img v-else class="explain-img" src="../assets/back.svg" alt="" />
-          </div>
-        </swiper-slide>
-        <swiper-slide class="swiper-slide">
-          <div class="inner">
-            <img
-              v-if="!pictured"
-              class="explain-img"
-              src="../assets/second.svg"
-              alt=""
-            />
-            <img
-              v-if="!pictured"
-              class="gif-img"
-              src="../assets/cooking.gif"
-              alt=""
-            />
-            <img v-else class="explain-img" src="../assets/back.svg" alt="" />
-          </div>
-        </swiper-slide>
-        <swiper-slide class="swiper-slide">
-          <div class="inner">
-            <img
-              v-if="!pictured"
-              class="explain-img"
-              src="../assets/third.svg"
-              alt=""
-            />
-            <img
-              v-if="!pictured"
-              class="gif-img"
-              src="../assets/baking.gif"
-              alt=""
-            />
-            <img v-else class="explain-img" src="../assets/back.svg" alt="" />
+            <img class="food-img" v-else src="../assets/recommend.svg" alt="" />
           </div>
         </swiper-slide>
         <swiper-slide class="swiper-slide">
@@ -118,7 +91,7 @@
 </template>
 
 <script>
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { ref } from "vue";
 import "swiper/css";
@@ -155,18 +128,23 @@ export default {
       },
     };
 
+    let curIndex = ref(0);
+
     let pictured = ref(false);
 
-    async function picture() {
-      const background = document.querySelector(".background");
-      background.classList.add("flash-active");
-      pictured.value = true;
-      await setTimeout(() => {
-        background.classList.remove("flash-active");
-      }, 1000);
+    function picture() {
+      if (curIndex.value === 4 || curIndex.value === 5) {
+        const background = document.querySelector(".background");
+        background.classList.add("flash-active");
+        pictured.value = true;
+        setTimeout(() => {
+          background.classList.remove("flash-active");
+        }, 1000);
+      }
     }
 
-    function turnToReciept() {
+    function turnToReciept(swiper) {
+      curIndex.value = swiper.activeIndex;
       pictured.value = false;
     }
 
@@ -175,7 +153,7 @@ export default {
       picture,
       pictured,
       turnToReciept,
-      modules: [Navigation, Pagination, Scrollbar, A11y],
+      modules: [Navigation, Pagination, Scrollbar, A11y, Autoplay],
     };
   },
 };
@@ -188,6 +166,16 @@ export default {
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
+}
+
+.container {
+  position: relative;
+  margin-right: auto;
+  margin-left: auto;
+  width: 300px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
 }
 
 .flash-active {
@@ -203,7 +191,6 @@ export default {
   justify-content: center;
   position: absolute;
   top: 10%;
-  left: 40%;
 }
 
 .camera-btn {
@@ -221,11 +208,10 @@ export default {
 }
 
 .swiper-wrapper {
-  width: 280px;
+  width: 260px;
   height: 600px;
   position: absolute;
   top: 5%;
-  left: 40.5%;
 }
 
 .swiper-wrapper .swiper-slide {
@@ -254,7 +240,7 @@ export default {
 
 .swiper-wrapper .swiper-slide-active .inner {
   opacity: 1;
-  box-shadow: 0px 0px 50px rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
 }
 
 .swiper-wrapper .swiper-slide .inner::before,
@@ -289,11 +275,6 @@ export default {
   }
 }
 
-.swiper-wrapper .swiper-slide-active .inner::before {
-}
-.swiper-wrapper .swiper-slide-active .inner::after {
-}
-
 @keyframes flash {
   0%,
   20%,
@@ -310,7 +291,7 @@ export default {
 }
 
 .food-img {
-  height: 400px;
+  width: 240px;
 }
 
 .explain-img {
