@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import Button from "../atom/Button";
 import { fetchRecipeComplete } from "../../apis/recipes";
-import TopNav from "../organism/TopNav";
 import Loading from "../atom/Loading";
 
 export default function CompletePage({ route, navigation }) {
   const [food, setFood] = useState([]);
 
+  let today = new Date();
+  let time = {
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    date: today.getDate(),
+  };
+
   function requestRecipeCompleteSuccess(res) {
-    console.log(res.data);
     setFood(res.data);
   }
 
   function requestRecipeCompleteFail(err) {
-    console.log(err);
     setFood([]);
   }
 
@@ -34,24 +38,42 @@ export default function CompletePage({ route, navigation }) {
     <Loading />
   ) : (
     <View style={styles.container}>
-      {/* <TopNav title={food[0]} /> */}
       <View style={styles.logoBoxText}>
         <Text style={styles.logoText} onPress={() => navigation.navigate("Main")}>
           ZZIKMUK
         </Text>
       </View>
-      <View style={styles.content}>
-        <Text style={styles.contentText}>🎉 수고하셨습니다 🎉</Text>
-        <View style={styles.imageBox}>
-          <View style={styles.imageContainer}>
-            <ImageBackground
-              style={styles.image}
-              source={{ uri: food[1] }}
-              imageStyle={{ borderRadius: 10 }}
-            ></ImageBackground>
+      <ImageBackground style={{ ...styles.content }} source={{ uri: food[1] }} blurRadius={15}>
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.contentText}></Text>
+          <View style={styles.imageBox}>
+            <View style={styles.imageContainer}>
+              <ImageBackground
+                style={styles.image}
+                source={{ uri: food[1] }}
+                imageStyle={{ borderRadius: 10 }}
+              ></ImageBackground>
+            </View>
+          </View>
+          <View style={{ ...styles.contentView, alignSelf: "flex-end", marginRight: 40 }}>
+            <Text style={{ color: "white", fontSize: 14, alignSelf: "flex-end" }}>
+              {time.year}-{time.month > 9 ? time.month : "0" + String(time.month)}-
+              {time.date > 9 ? time.date : "0" + String(time.date)}
+            </Text>
+            <Text style={{ color: "white", fontSize: 28, alignSelf: "flex-end" }}>{food[0]}</Text>
+            <Text style={{ color: "white", fontSize: 18, alignSelf: "flex-end" }}>완성했습니다!</Text>
           </View>
         </View>
-        <View style={styles.contentView}>{/* <Text style={styles.contentTextInformation}>{food[0]}</Text> */}</View>
+      </ImageBackground>
+      <View style={{ flex: 3 }}>
         <View style={styles.buttonStyle}>
           <Button onPress={() => goToPrevStpe()} variant="white" color="black" children="이전 단계" size="mediumer" />
           <Button onPress={() => goToMain()} variant="MainColor" color="white" children="메인으로" size="mediumer" />
@@ -64,8 +86,10 @@ export default function CompletePage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
   },
   logoBoxText: {
+    flex: 1,
     backgroundColor: "#fff",
     alignSelf: "stretch",
     height: 60,
@@ -83,7 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   content: {
-    flex: 1,
+    flex: 11,
     alignItems: "center",
     justifyContent: "space-evenly",
   },
@@ -92,7 +116,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     alignSelf: "stretch",
-    backgroundColor: "#fff",
+    backgroundColor: "#fff9f9",
   },
   contentView: {
     flex: 2,
