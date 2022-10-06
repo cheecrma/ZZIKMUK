@@ -77,7 +77,7 @@ export default function SearchPage({ navigation }) {
 
   return (
     <View>
-      <View style={{ marginTop: 10, marginBottom: 20 }}>
+      <View style={{ marginTop: 10, marginBottom: 10 }}>
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={{ flex: 1, alignItems: "center" }}>
@@ -244,18 +244,20 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     backgroundColor: "#ADADAD",
-    bottom: 20,
+    bottom: 10,
     right: 20,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,
+    padding: 8,
   },
   sortBar: {
     flexDirection: "row",
     width: "95%",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: 8,
+    marginBottom: 18,
+    marginTop: 6,
   },
   sortBtn: {
     padding: 6,

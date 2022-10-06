@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   carousel: {
-    flex: 10,
+    flex: 9,
   },
 
   RecipeText: {
@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
   },
   tipContent: {
     fontSize: 16,
-    padding: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
     backgroundColor: "#FFE48E",
     borderRadius: 10,
     elevation: 2,

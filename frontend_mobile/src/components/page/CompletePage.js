@@ -64,7 +64,6 @@ export default function CompletePage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFE48E",
   },
   logoBoxText: {
     backgroundColor: "#fff",

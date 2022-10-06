@@ -40,7 +40,7 @@ function Ingredient({ name, amount }) {
 
 const styles = StyleSheet.create({
   ingredientList: {
-    height: "48%",
+    height: "55%",
     width: "85%",
     paddingVertical: 10,
   },

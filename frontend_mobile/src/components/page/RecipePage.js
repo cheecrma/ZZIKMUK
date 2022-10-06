@@ -36,7 +36,7 @@ export default function RecipePage({ route, navigation }) {
 
   // 단계별 레시피 페이지로 가는 함수
   function goToStep() {
-    navigation.push("RecipeStep", { id: route.params.id, step: 1 });
+    navigation.navigate("RecipeStep", { id: route.params.id, step: 1 });
   }
 
   return recipe.length === 0 ? (
@@ -45,12 +45,16 @@ export default function RecipePage({ route, navigation }) {
     <View style={styles.container}>
       <TopNav title={recipe[1]} />
       <View style={styles.content}>
-        <RecipeImage thumbnail={recipe[5]} difficulty={recipe[2]} amount={recipe[3]} time={recipe[4]} />
-        <RecipeIngredientPageBar checkRecipe={changeIndex} checkIngredient={changeIndex} index={index} />
-        {index === 0 ? <IngredientList ingredients={recipe[6]} /> : <RecipeDetail recipe={recipe[7]} />}
-        <Button color="white" variant="MainColor" size="medium" onPress={() => goToStep()}>
-          <Text>요리 시작</Text>
-        </Button>
+        <View style={{ flex: 5, alignItems: "center" }}>
+          <RecipeImage thumbnail={recipe[5]} difficulty={recipe[2]} amount={recipe[3]} time={recipe[4]} />
+          <RecipeIngredientPageBar checkRecipe={changeIndex} checkIngredient={changeIndex} index={index} />
+          {index === 0 ? <IngredientList ingredients={recipe[6]} /> : <RecipeDetail recipe={recipe[7]} />}
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button color="white" variant="MainColor" size="medium" onPress={() => goToStep()}>
+            <Text>요리 시작</Text>
+          </Button>
+        </View>
       </View>
     </View>
   );
