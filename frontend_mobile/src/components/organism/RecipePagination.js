@@ -28,6 +28,15 @@ export default function RecipePagination({ totalSteps, checkedIndex, check }) {
     <View style={styles.container}>
       {curX >= 40 ? <HiddenPage /> : null}
       <View style={styles.pageContainer}>
+        {totalSteps === 1 ? (
+          <View style={{ marginRight: "40%" }}></View>
+        ) : totalSteps === 2 ? (
+          <View style={{ marginRight: "30%" }}></View>
+        ) : totalSteps === 3 ? (
+          <View style={{ marginRight: "20%" }}></View>
+        ) : totalSteps === 4 ? (
+          <View style={{ marginRight: "10%" }}></View>
+        ) : null}
         <ScrollView
           ref={scrollView}
           horizontal
@@ -91,7 +100,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "#FFE48E",
     borderColor: "#FF8B34",
-    marginHorizontal: 7,
+    marginRight: 14,
   },
   uncheckedPage: {
     justifyContent: "center",
@@ -102,7 +111,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "white",
     borderColor: "#BABABA",
-    marginHorizontal: 7,
+    marginRight: 14,
   },
   hiddenPage: {
     backgroundColor: "#BABABA",

@@ -14,12 +14,10 @@ export default function RecipePage({ route, navigation }) {
   const [recipe, setRecipe] = useState([]);
 
   function requestRecipeDetailSuccess(res) {
-    console.log(res.data);
     setRecipe(res.data);
   }
 
   function requestRecipeDetailFail(err) {
-    console.log(err);
     setRecipe([]);
   }
 
@@ -45,12 +43,19 @@ export default function RecipePage({ route, navigation }) {
     <View style={styles.container}>
       <TopNav title={recipe[1]} />
       <View style={styles.content}>
-        <View style={{ flex: 5, alignItems: "center" }}>
-          <RecipeImage thumbnail={recipe[5]} difficulty={recipe[2]} amount={recipe[3]} time={recipe[4]} />
-          <RecipeIngredientPageBar checkRecipe={changeIndex} checkIngredient={changeIndex} index={index} />
-          {index === 0 ? <IngredientList ingredients={recipe[6]} /> : <RecipeDetail recipe={recipe[7]} />}
+        <View style={{ flex: 11, alignItems: "center" }}>
+          <View style={{ flex: 3.5, alignItems: "center" }}>
+            <View>
+              <RecipeImage thumbnail={recipe[5]} difficulty={recipe[2]} amount={recipe[3]} time={recipe[4]} />
+            </View>
+          </View>
+          <View style={{ flex: 2 }} />
+          <View style={{ flex: 9, alignItems: "center" }}>
+            <RecipeIngredientPageBar checkRecipe={changeIndex} checkIngredient={changeIndex} index={index} />
+            {index === 0 ? <IngredientList ingredients={recipe[6]} /> : <RecipeDetail recipe={recipe[7]} />}
+          </View>
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 2 }}>
           <Button color="white" variant="MainColor" size="medium" onPress={() => goToStep()}>
             <Text>요리 시작</Text>
           </Button>
@@ -77,7 +82,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   content: {
-    flex: 18,
+    flex: 15,
     alignItems: "center",
   },
 });

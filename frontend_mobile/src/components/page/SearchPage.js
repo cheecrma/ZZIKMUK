@@ -17,22 +17,16 @@ export default function SearchPage({ navigation }) {
   }
 
   function searchByNameSuccess(res) {
-    console.log(res.data);
     setFoodList(res.data);
   }
 
-  function searchByNameFail(err) {
-    console.log(err);
-  }
+  function searchByNameFail(err) {}
 
   function searchByIngredientSuccess(res) {
-    console.log(res.data);
     setFoodList(res.data);
   }
 
-  function searchByIngredientFail(err) {
-    console.log(err);
-  }
+  function searchByIngredientFail(err) {}
 
   function search() {
     if (tag === 0) {
@@ -46,8 +40,6 @@ export default function SearchPage({ navigation }) {
 
   useEffect(() => {
     if (searchText) {
-      console.log(searchText);
-      console.log(tag);
       search();
       scrollView.current.scrollTo({ y: 0 });
     }
@@ -75,7 +67,7 @@ export default function SearchPage({ navigation }) {
   }
 
   return (
-    <View style={{ backgroundColor: "#fff9f9" }}>
+    <View style={{ backgroundColor: "#fff9f9", height: "100%" }}>
       <View style={{ marginTop: 10, marginBottom: 10 }}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -242,13 +234,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 45,
     height: 45,
-    backgroundColor: "#ADADAD",
+    backgroundColor: "#FFE48E",
     bottom: 10,
     right: 20,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 40,
     padding: 8,
+    opacity: 0.8,
   },
   sortBar: {
     flexDirection: "row",

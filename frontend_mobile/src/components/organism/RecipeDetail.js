@@ -31,7 +31,7 @@ function RecipeStep({ number, detail }) {
 
 const styles = StyleSheet.create({
   recipe: {
-    height: "55%",
+    height: "75%",
     width: "85%",
     paddingVertical: 10,
   },

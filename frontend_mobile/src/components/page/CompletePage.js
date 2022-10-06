@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Image } from "react-native";
 import Button from "../atom/Button";
 import { fetchRecipeComplete } from "../../apis/recipes";
 import Loading from "../atom/Loading";
@@ -56,11 +56,19 @@ export default function CompletePage({ route, navigation }) {
           <Text style={styles.contentText}></Text>
           <View style={styles.imageBox}>
             <View style={styles.imageContainer}>
-              <ImageBackground
-                style={styles.image}
-                source={{ uri: food[1] }}
-                imageStyle={{ borderRadius: 10 }}
-              ></ImageBackground>
+              <ImageBackground style={styles.image} source={{ uri: food[1] }} imageStyle={{ borderRadius: 10 }}>
+                <View style={{ flex: 7 }}></View>
+                <View style={{ flex: 1, alignSelf: "flex-end", marginRight: 10, marginBottom: 10 }}>
+                  <Image
+                    source={require("../../../static/LogoBlack.png")}
+                    resizeMode="contain"
+                    style={{
+                      width: 50,
+                      height: 50,
+                    }}
+                  />
+                </View>
+              </ImageBackground>
             </View>
           </View>
           <View style={{ ...styles.contentView, alignSelf: "flex-end", marginRight: 40 }}>
@@ -119,7 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff9f9",
   },
   contentView: {
-    flex: 2,
+    flex: 3,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -131,13 +139,13 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 26,
-    flex: 1.5,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
   },
   imageBox: {
-    flex: 5,
+    flex: 6,
   },
   imageContainer: {
     width: 340,
