@@ -64,11 +64,11 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     # 테스트용 데이터
     ocr_list = ['동원DHA참치g', 'CJ스팸클래식', '재사용봉투L', '오뚜기옛날소', '미니파프리카통', '양상추', '깐양파g',
     '오뚜기참깨라면', '인큐애호박기', '순두부g']
-    
-    ocr_list = list(map(lambda ing: re.sub('[^가-힣]', "", ing), ocr_list))
-    print("ocr_list:", ocr_list)
     if ocr_list==-1: # 분석된 글자 없으면 에러
         return -1
+
+    ocr_list = list(map(lambda ing: re.sub('[^가-힣]', "", ing), ocr_list))
+    print("ocr_list:", ocr_list)
     
     remove = os.path.join(now, 'check/notIng.txt')
     change = os.path.join(now, 'check/changeIng.txt')
