@@ -1,8 +1,3 @@
-from ast import And
-from cmath import nan
-from http.client import responses
-from django.shortcuts import render
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg import openapi
@@ -14,23 +9,9 @@ import numpy as np
 from operator import itemgetter
 
 
-from .serializers import IngredientSerializer, RecipeSerializer, RecipeDetailSerializer, RecipeIngredientSerializer, TipsSerializer
 from .models import Ingredient, Recipe, RecipeDetail, RecipeIngredient, Tips
-from recipes import serializers
 
 # Create your views here.
-
-# index.html (테스트용)
-def index(request):
-    ingre = Ingredient.objects.get(id=100)
-    print(ingre.id)
-    context = {
-        'id': ingre.id,
-        'name': ingre.name,
-        'score':ingre.score
-        }
-    return render(request, 'recipes/index.html', context)
-
 
 # 레시피 리스트 GET
 class RecipeList(APIView):
@@ -264,9 +245,6 @@ class RecipeSuggestion(APIView):
                             freq += 1
                     freq_list.append(freq)
                 return freq_list
-            
-            # import time
-            # start_t = time.time()     # 시간 측정 코드
 
             ingre_db = Ingredient.objects.all() # DB의 전체 재료 불러오기
             ingre_db_list = []
@@ -296,9 +274,7 @@ class RecipeSuggestion(APIView):
             for rlt in sorted_list[:10]:        # 코사인 유사도 순위대로 n개의 레시피 번호 담기
                 recipe = Recipe.objects.get(pk=rlt[0])
                 rlt_list.append([recipe.id, recipe.food_name, recipe.title_img_url, recipe.level, recipe.servings, recipe.time, recipe.view_count])
-
-            # print("----- %s 초 -----" %(time.time() - start_t))   # 시간 측정 코드
-
+            
             return(rlt_list)
 
         except Ingredient.DoesNotExist:

@@ -1,11 +1,9 @@
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 app_name = 'recipes'
 
 urlpatterns = [
-    #path('', views.index, name='index'),
     path('list/<int:id>/', views.RecipeList.as_view()),
     path('detail/', views.RecipeDetailList.as_view()),
     path('step/', views.RecipeStepList.as_view()),
