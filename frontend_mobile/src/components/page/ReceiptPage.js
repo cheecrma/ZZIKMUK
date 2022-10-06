@@ -1,23 +1,11 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 import ReceiptCheck from "../organism/ReceiptCheck";
-import Button from "../atom/Button";
-import CameraReceipt from "./CameraReceipt";
 import TopNav from "../organism/TopNav";
 
 export default function ReceiptPage({ navigation, route }) {
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <TouchableWithoutFeedback onPress={() => navigation.pop()}>
-          <AntDesign name="arrowleft" size={24} color="black" />
-        </TouchableWithoutFeedback>
-        <Text style={styles.title}>
-          📷 영수증 <Text style={{ color: "#FF8B34" }}>인식</Text> 📷
-        </Text>
-        <View></View>
-      </View> */}
       <TopNav title={"📷 영수증 인식 📷"} />
       <View style={styles.receipt}>
         <ReceiptCheck receipt={route.params.receipt} navigation={navigation} />
@@ -29,7 +17,7 @@ export default function ReceiptPage({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff9f9",
     alignItems: "center",
   },
   header: {

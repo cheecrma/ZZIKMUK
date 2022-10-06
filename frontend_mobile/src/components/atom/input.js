@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput, View } from "react-native";
+import { TextInput } from "react-native";
 import styled from "styled-components/native";
 
 /*
@@ -11,7 +11,7 @@ export default function Input({ status, onChangeText }) {
   return (
     <StyledInput
       status={status}
-      placeholder={status === "modal" ? " 검색" : "재료, 음식 검색 "}
+      placeholder={status === "modal" ? "검색" : "재료, 음식 검색 "}
       onChangeText={onChangeText}
     />
   );

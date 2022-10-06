@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import RecipeImage from "../organism/RecipeImage";
 import IngredientList from "../organism/IngredientDetail";
 import RecipeIngredientPageBar from "../organism/RecipeIngredientPageBar";
@@ -63,7 +63,7 @@ export default function RecipePage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: "#fff9f9",
   },
   header: {
     flexDirection: "row",

@@ -1,12 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, ImageBackground } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import Button from "../atom/Button";
 import { FontAwesome } from "@expo/vector-icons";
-import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "../atom/Loading";
 import { fetchOcrReceipts } from "../../apis/receipts";
@@ -21,9 +20,11 @@ export default function CameraReceipt() {
 
   function requestOcrSuccess(response) {
     setReceipt([response.data]);
+    console.log(response.data);
   }
   function requestOcrFail(error) {
     setReceipt([[]]);
+    console.log(error);
   }
 
   useEffect(() => {
@@ -53,13 +54,20 @@ export default function CameraReceipt() {
 
   let takePic = async () => {
     let options = {
-      quality: 0.1,
+      quality: 0.3,
       base64: true,
       exif: false,
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+  };
+
+  let today = new Date();
+  let time = {
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    date: today.getDate(),
   };
 
   if (photo) {
@@ -84,14 +92,22 @@ export default function CameraReceipt() {
             ZZIKMUK
           </Text>
         </View>
-        <View style={{ flex: 1 }}></View>
+        <View style={{ flex: 0.8 }}></View>
         <View style={styles.previewBox}>
-          <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+          <ImageBackground style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }}>
+            <View style={{ flex: 7 }}></View>
+            <View style={{ flex: 1, alignSelf: "flex-end", marginRight: 10 }}>
+              <Image
+                source={require("../../../static/LogoBlack.png")}
+                resizeMode="contain"
+                style={{
+                  width: 50,
+                  height: 50,
+                }}
+              />
+            </View>
+          </ImageBackground>
         </View>
-        {/* <Button title="Share" onPress={sharePic} color="white" variant="BoldColor">
-          공유하기
-        </Button> */}
-        {/* {console.log(photo.base64)} */}
 
         <View style={styles.containerCheck}>
           <View style={{ flex: 1 }}>
@@ -104,13 +120,7 @@ export default function CameraReceipt() {
               <Button
                 disabled={receipt.length === 0 ? true : false}
                 onPress={() => {
-                  // savePhoto;a
                   goReceiptPage();
-                  // setTimeout(() => {
-                  //   goReceiptPage(), 5000;
-                  // });
-                  // 시간 설정하기 3초후 넘어가도록
-                  // 3초 동안 splash 화면 보여주기!
                 }}
                 color="white"
                 variant="BoldColor"
@@ -127,23 +137,38 @@ export default function CameraReceipt() {
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef}>
-      <View style={styles.buttonContainer}>
-        <Text style={{ color: "white", fontSize: 18, borderColor: "black", margin: 3 }}>
-          영수증 전체를 촬영해 주세요.
-        </Text>
-        <FontAwesome name="circle" size={80} color="white" onPress={takePic} />
+    <View style={{ flex: 1 }}>
+      <Camera style={styles.container} ref={cameraRef}>
+        <View style={{ flex: 2 }}></View>
+        <View style={{ flex: 15 }}>
+          <Text style={{ color: "white" }}>
+            Zzikmuk_Filter_{time.year}/{time.month > 9 ? time.month : "0" + String(time.month)}/
+            {time.date > 9 ? time.date : "0" + String(time.date)}
+          </Text>
+          <View style={{ borderColor: "white", width: 330, height: 500, borderWidth: 2 }}></View>
+        </View>
+
+        <View style={{ flex: 1 }}></View>
+        <StatusBar style="auto" />
+      </Camera>
+      <View style={{ flex: 5 }}>
+        <View style={{ ...styles.buttonContainer, backgroundColor: "black" }}>
+          <View style={{ flex: 1 }}></View>
+          <Text style={{ color: "white", fontSize: 18, borderColor: "black", margin: 3 }}>영수증을 촬영해 주세요.</Text>
+          <FontAwesome name="circle" size={80} color="#fff" onPress={takePic} />
+          <View style={{ flex: 1 }}></View>
+        </View>
       </View>
-      <StatusBar style="auto" />
-    </Camera>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 15,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#fff9f9",
   },
   containerCheck: {
     alignItems: "center",
@@ -156,14 +181,12 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   preview: {
-    // alignSelf: "stretch",
     alignItems: "center",
-    // flex: 1,
     width: 330,
-    height: 330,
+    height: 430,
   },
   previewBox: {
-    flex: 5,
+    flex: 7,
   },
   logoBoxText: {
     backgroundColor: "#FFFFFF",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
+import { StyleSheet, View, Pressable, ScrollView } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "../organism/Card";
 import TopNav from "../organism/TopNav";
@@ -58,7 +58,7 @@ export default function RecipeRecommendPage({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff9f9",
   },
   content: {
     flex: 24,

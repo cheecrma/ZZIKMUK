@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ImageBackground, Text, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, View, ImageBackground, Text, TouchableOpacity } from "react-native";
 import ExplainIcon from "../atom/ExplainIcon";
 import { fetchRecipesPopular } from "../../apis/recipes";
 import { useEffect } from "react";
@@ -22,11 +22,9 @@ export default function CarouselCard({ imageIndex }) {
 
   function requestPopularSuccess(res) {
     setPopular(res.data);
-    // console.log(popular);
   }
 
   function requestPopularFail(err) {
-    console.log(err);
     setPopular([]);
   }
 
