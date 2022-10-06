@@ -59,12 +59,12 @@ def receipt_ocr(path): # ocr api로 영수증 인식해서 구매내역 리스�
                 response.error.message))
 
 def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
-    ocr_list = receipt_ocr(path) # 임시 재료리스트(구매내역)
-    '''
+    #ocr_list = receipt_ocr(path) # 임시 재료리스트(구매내역)
+    
     # 테스트용 데이터
     ocr_list = ['동원DHA참치g', 'CJ스팸클래식', '재사용봉투L', '오뚜기옛날소', '미니파프리카통', '양상추', '깐양파g',
     '오뚜기참깨라면', '인큐애호박기', '순두부g']
-    '''
+    
     ocr_list = list(map(lambda ing: re.sub('[^가-힣]', "", ing), ocr_list))
     print("ocr_list:", ocr_list)
     if ocr_list==-1: # 분석된 글자 없으면 에러
@@ -121,8 +121,11 @@ def ing_list(path): # 형태소 분석으로 재료 뽑아내는 함수
     print("ings: ", list(ings))
     return list(ings)
 
-'''    
+   
 # TEST용
 path = os.path.join(now, 'img/test2.jpg')
 ing_list(path)
+
+'''
+디버깅한거 찍어서 발표 및 기술 설명에 활용
 '''
